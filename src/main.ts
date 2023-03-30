@@ -37,7 +37,7 @@ export default class CodeTab extends Plugin {
                     MarkdownRenderer.renderMarkdown(
                         codeText,
                         tabContentTag,
-                        context.sourcePath
+                        context.sourcePath,
                     );
                     if (i === 1) tabContentTag.addClass("tab-content--active");
                     // tabContentTag.appendChild(preTag);
@@ -48,6 +48,7 @@ export default class CodeTab extends Plugin {
                 let tabContentTags =
                     element.getElementsByClassName("tab-content");
                 const handler = (e: MouseEvent) => {
+                    e.stopPropagation()
                     for (let i = 0; i < tabItemTags.length; i++) {
                         if (tabItemTags[i] === e.srcElement) {
                             tabItemTags[i].classList.add("tab-item--active");
