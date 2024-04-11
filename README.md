@@ -2,13 +2,15 @@
 
 Thanks to the [Code Tab](https://github.com/lazyloong/obsidian-code-tab) plugin for the inspiration, but since it had not been updated for a long time and it wasn't support edit content directly, I refactored the plugin and added a lot of features.
 
-Insert a tab component into your markdown file.
-
 ## Feature
+
+Insert a tab component into markdown file.
 
 ![tabs-1](./assets/tabs-1.png)
 
 ![tabs-2](./assets/tabs-2.png)
+
+Edit tab content directly. (double click the content)
 
 ![tabs-editing](./assets/editing.png)
 
