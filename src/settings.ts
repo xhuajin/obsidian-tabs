@@ -22,8 +22,6 @@ export class TabsSettingsTab extends PluginSettingTab {
     let {containerEl} = this;
     containerEl.empty();
     
-    containerEl.createEl('h1', {text: 'Tabs Settings'});
-    
     new Setting(containerEl)
       .setName("Separator")
       .setDesc("The symbols to split each tab")

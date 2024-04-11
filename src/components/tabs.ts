@@ -53,7 +53,7 @@ export class Tabs {
   async registerEventHandlers() {
     // switch tab event
     this.tabnav.tabnavitems.forEach((tab, index) => {
-      tab.tabitemEl.onclick = () => {
+      this.plugin.registerDomEvent(tab.tabitemEl, "click", (e: MouseEvent) => {
         if (this.currentIndex == index) {
           return;
         }
@@ -69,7 +69,7 @@ export class Tabs {
         this.tabContents.refreshActiveTabContent(index);
         this.editorWrapper.refreshActiveTabEditor(index, this.split + " " + this.tabnav.tabnavitems[index].title + "\n" + this.tabContents.tabcontents[index].content);
         this.currentIndex = index;
-      };
+      });
     });
 
     // double click event
@@ -95,7 +95,7 @@ export class Tabs {
     });
 
     // button click event
-    this.tabnav.tabbutton.buttonEl.onclick = () => {
+    this.plugin.registerDomEvent(this.tabnav.tabbutton.buttonEl, "click", (e: MouseEvent) => {
       if (!this.activeView || this.isPreviewMode()) { return; }
 
       if (this.tabnav.tabbutton.type == "add-new-tab") {
@@ -112,7 +112,7 @@ export class Tabs {
         this.saveEditorData();
         this.exitEditingMode();
       }
-    };
+    });
 
     // right click menu event
     this.plugin.registerDomEvent(this.tabnav.tabnavEl, "contextmenu", (e: MouseEvent) => {
