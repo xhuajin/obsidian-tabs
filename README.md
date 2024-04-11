@@ -1,4 +1,4 @@
-# Tabs
+# Obsidian Tabs
 
 Thanks to the [Code Tab](https://github.com/lazyloong/obsidian-code-tab) plugin for the inspiration, but since it had not been updated for a long time and it wasn't support edit content directly, I refactored the plugin and added a lot of features.
 
