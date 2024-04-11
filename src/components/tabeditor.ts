@@ -125,6 +125,4 @@ export class TabEditor {
       this.floatingEditor.style.display = "none";
     }
   }
-
-
 }
