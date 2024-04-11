@@ -9,7 +9,7 @@ export default class TabsPlugin extends Plugin {
   async onload() {
     await this.loadSettings();
     this.addSettingTab(new TabsSettingsTab(this.app, this));
-    await this.registerMarkdownCodeBlockProcessor("tabs", (source, el, ctx) => {
+    this.registerMarkdownCodeBlockProcessor("tabs", (source, el, ctx) => {
       new Tabs(source, el, ctx, this.app, this, this.settings);
     });
   }
