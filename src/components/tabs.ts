@@ -99,9 +99,6 @@ export class Tabs {
       if (!this.activeView || this.isPreviewMode()) { return; }
 
       if (this.tabnav.tabbutton.type == "add-new-tab") {
-        const tabItemTag = document.createElement("div");
-        tabItemTag.className = "tab-item";
-        tabItemTag.innerHTML = "New Tab";
         const newTabItem = new TabNavItem(this.tabnav, this.tabnav.tabnavitems.length, "New Tab");
         this.tabnav.append(newTabItem);
 
@@ -251,7 +248,7 @@ export class Tabs {
   enterEditingMode() {
     this.editorWrapper.isEditing = true;
     this.editorWrapper.tabEditorWrapperEl.classList.remove('tab-editor-wrapper-hidden');
-    this.tabContents.tabcontentsEl.style.display = "none";
+    this.tabContents.tabcontentsEl.addClass('tab-contents-hidden');
     this.tabnav.tabbutton.type = "save";
     setIcon(this.tabnav.tabbutton.buttonEl, "save");
   }
@@ -259,7 +256,7 @@ export class Tabs {
   exitEditingMode() {
     this.editorWrapper.isEditing = false;
     this.editorWrapper.tabEditorWrapperEl.classList.add('tab-editor-wrapper-hidden');
-    this.tabContents.tabcontentsEl.style.display = "block";
+    this.tabContents.tabcontentsEl.removeClass('tab-contents-hidden');
     this.tabnav.tabbutton.type = "add-new-tab";
     setIcon(this.tabnav.tabbutton.buttonEl, "circle-plus");
   }

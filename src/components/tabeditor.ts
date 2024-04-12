@@ -118,11 +118,13 @@ export class TabEditor {
     if (!selection.empty) {
       const p = view.coordsAtPos(0);
       const pos = view.coordsAtPos(selection.from);
-      this.floatingEditor.style.display = "block";
-      this.floatingEditor.style.left = `${pos.left - p.left + 71}px`;
-      this.floatingEditor.style.top = `${pos.top - p.top + 76}px`;
+      this.floatingEditor.setCssStyles({
+        "top": `${pos.top - p.top + 76}px`,
+        "left": `${pos.left - p.left + 71}px`,
+      });
+      this.floatingEditor.classList.add("floating-editor-active");
     } else {
-      this.floatingEditor.style.display = "none";
+      this.floatingEditor.classList.remove("floating-editor-active");
     }
   }
 }

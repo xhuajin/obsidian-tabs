@@ -11,13 +11,7 @@ export class TabNavItem {
     this.index = index;
     this.title = title.trim();
     this.tabnav = tabnav;
-    this.tabitemEl = this.createTabNavItemEl();
-  }
-  
-  createTabNavItemEl(): HTMLElement {
-    const element = document.createElement('div');
-    element.className = "tab-nav-item";
-    element.innerHTML = this.title;
-    return element;
+    this.tabitemEl = createEl("div", { text: this.title });
+    this.tabitemEl.className = "tab-nav-item";
   }
 }

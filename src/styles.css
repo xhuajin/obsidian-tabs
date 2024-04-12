@@ -63,6 +63,10 @@
   padding: 8px 15px;
 }
 
+.tab-container .tab-contents.tab-contents-hidden {
+  display: none;
+}
+
 /* editor */
 
 .tab-editor-wrapper {
@@ -80,6 +84,20 @@
 
 .tab-editor-wrapper .toolbar {
   display: none;
+}
+
+.tab-editor-wrapper .toolbar .toolbar-button {
+  display: inline-block;
+  padding: 7px;
+  cursor: pointer;
+}
+
+.tab-editor-wrapper .toolbar .toolbar-button:hover {
+  background-color: var(--interactive-accent);
+}
+
+.tab-editor-wrapper .toolbar.floating-editor-active {
+  display: block;
   position: absolute;
   width: fit-content;
   height: 30px;
@@ -89,12 +107,6 @@
   transition: opacity 0.3s;
 }
 
-.tab-editor-wrapper .toolbar:hover {
+.tab-editor-wrapper .toolbar.floating-editor-active:hover {
   opacity: 1;
-}
-
-.tab-editor-wrapper .toolbar .toolbar-button {
-  display: inline-block;
-  padding: 7px;
-  cursor: pointer;
 }
