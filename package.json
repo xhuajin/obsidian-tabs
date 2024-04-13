@@ -9,7 +9,6 @@
         "dev": "obsidian-plugin dev src/main.ts"
     },
     "devDependencies": {
-        "@codemirror/highlight": "^0.19.8",
         "@codemirror/lang-markdown": "^6.2.4",
         "latest": "^0.2.0",
         "obsidian": "latest",
