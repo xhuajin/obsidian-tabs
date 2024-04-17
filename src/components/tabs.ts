@@ -117,8 +117,8 @@ export class Tabs {
       const menu = new Menu();
 
       menu.addItem((item) => {
-        item.setTitle("Add New Tab");
-        item.setIcon("circle-plus");
+        item.setTitle("Add new tab");
+        item.setIcon("plus");
         item.onClick(() => {
           if (this.editorWrapper.isEditing) {
             const content = this.tabnav.tabnavitems[this.currentIndex].title + "\n" + this.tabContents.tabcontents[this.currentIndex].content
@@ -136,7 +136,7 @@ export class Tabs {
         });
       });
       menu.addItem((item) => {
-        item.setTitle("Delete Tab");
+        item.setTitle("Delete tab");
         item.setIcon("trash");
         item.onClick(() => {
           let deleteIndex = -1;
@@ -167,7 +167,7 @@ export class Tabs {
         })
       });
       menu.addItem((item) => {
-        item.setTitle("Copy Tab");
+        item.setTitle("Copy tab");
         item.setIcon("copy");
         item.onClick(() => {
           let copyIndex = -1;
@@ -191,7 +191,7 @@ export class Tabs {
         });
       });
       menu.addItem((item) => {
-        item.setTitle("Paste Tab");
+        item.setTitle("Paste tab");
         item.setIcon("paste");
         item.onClick(() => {
           navigator.clipboard.readText().then((text) => {
@@ -207,7 +207,7 @@ export class Tabs {
               new Notice("🟠 No content in clipboard.");
               return;
             }
-            let title = "New Tab\n";
+            let title = "New tab\n";
             let content = text.trim();
             if (text.startsWith(this.split)) {
               title = text.substring(this.split.length, text.indexOf("\n"));
@@ -258,7 +258,7 @@ export class Tabs {
     this.editorWrapper.tabEditorWrapperEl.classList.add('tab-editor-wrapper-hidden');
     this.tabContents.tabcontentsEl.removeClass('tab-contents-hidden');
     this.tabnav.tabbutton.type = "add-new-tab";
-    setIcon(this.tabnav.tabbutton.buttonEl, "circle-plus");
+    setIcon(this.tabnav.tabbutton.buttonEl, "plus");
   }
 
   isPreviewMode() {
