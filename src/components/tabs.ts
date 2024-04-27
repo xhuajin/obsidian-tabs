@@ -117,7 +117,7 @@ export class Tabs {
       const menu = new Menu();
 
       menu.addItem((item) => {
-        item.setTitle("Add new tab");
+        item.setTitle("Add New Tab");
         item.setIcon("plus");
         item.onClick(() => {
           if (this.editorWrapper.isEditing) {
@@ -136,7 +136,7 @@ export class Tabs {
         });
       });
       menu.addItem((item) => {
-        item.setTitle("Delete tab");
+        item.setTitle("Delete Tab");
         item.setIcon("trash");
         item.onClick(() => {
           let deleteIndex = -1;
@@ -167,7 +167,7 @@ export class Tabs {
         })
       });
       menu.addItem((item) => {
-        item.setTitle("Copy tab");
+        item.setTitle("Copy Tab");
         item.setIcon("copy");
         item.onClick(() => {
           let copyIndex = -1;
@@ -191,7 +191,7 @@ export class Tabs {
         });
       });
       menu.addItem((item) => {
-        item.setTitle("Paste tab");
+        item.setTitle("Paste Tab");
         item.setIcon("paste");
         item.onClick(() => {
           navigator.clipboard.readText().then((text) => {
@@ -207,7 +207,7 @@ export class Tabs {
               new Notice("🟠 No content in clipboard.");
               return;
             }
-            let title = "New tab\n";
+            let title = "New Tab\n";
             let content = text.trim();
             if (text.startsWith(this.split)) {
               title = text.substring(this.split.length, text.indexOf("\n"));
