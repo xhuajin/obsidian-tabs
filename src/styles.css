@@ -110,3 +110,8 @@
 .tab-editor-wrapper .toolbar.floating-editor-active:hover {
   opacity: 1;
 }
+
+/* 兼容 minimal 主题 */
+body :not(.canvas-node) .markdown-source-view.mod-cm6 .tab-container .cm-gutters {
+  position:sticky !important;
+}
