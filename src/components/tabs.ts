@@ -1,12 +1,17 @@
-import { App, EditorPosition, MarkdownPostProcessorContext, MarkdownSectionInformation, MarkdownView, Menu, Notice, setIcon } from 'obsidian';
+import { App, EditorPosition, MarkdownPostProcessorContext, MarkdownSectionInformation, MarkdownView, Notice, setIcon } from 'obsidian';
 
 import { TabContent } from './tabcontent';
 import { TabContents } from './tabcontents';
 import { TabEditorWrapper } from './tabeditorwrapper';
+import { TabMenu } from './tabmenu';
 import { TabNav } from './tabnav';
-import { TabNavItem } from './tabnavitem';
 import TabsPlugin from '../main';
 import { TabsSettings } from '../settings';
+
+// After editing content inside tabs, the code block will rerender. So we need to save the last active tab for the next rerender.
+let lastActiveTabIndex: number = 0;
+// Used to distinguish innerTabs and outerTabs. (render from outside to inside)
+let hasInnerTabs: boolean = false;
 
 export class Tabs {
   plugin: TabsPlugin;
@@ -18,7 +23,9 @@ export class Tabs {
   tabContents: TabContents;
   editorWrapper: TabEditorWrapper;
   sectioninfo: MarkdownSectionInformation;
+  context: MarkdownPostProcessorContext;
   currentIndex: number = 0;
+  isInnerTabs: boolean = false;
 
   constructor(source: string, element: HTMLElement, context: MarkdownPostProcessorContext, app: App, plugin: TabsPlugin, settings: TabsSettings) {
     element.className = "tab-container";
@@ -28,19 +35,16 @@ export class Tabs {
     this.app = app;
     this.activeView = app.workspace.getActiveViewOfType(MarkdownView);
     this.sectioninfo = context.getSectionInfo(element);
+    this.context = context;
 
-    const splitContent = source.split(this.split);
-    const tabnavitemtitle = [];
-    const tabcontent = [];
-    for (let i = 1; i < splitContent.length; i++) {
-      const j = splitContent[i].indexOf("\n");
-      tabnavitemtitle.push(splitContent[i].substring(0, j));
-      tabcontent.push(splitContent[i].substring(j + 1));
+    if (hasInnerTabs) {
+      this.isInnerTabs = true;
     }
-    this.tabnav = new TabNav(tabnavitemtitle, this.split, this.sectioninfo);
+    const [tabnavitemtitle, tabcontent] = this.parseTabs(source, settings.defaultTabNavItem, settings.defaultTabContent);
+    this.tabnav = new TabNav(tabnavitemtitle.slice(1), this.split, this.sectioninfo);
     this.tabContents = new TabContents(plugin, tabcontent.map((content, index) => {
       return new TabContent(index, tabnavitemtitle[index], content, app, context);
-    }));
+    }).slice(1));
     this.editorWrapper = new TabEditorWrapper();
 
     element.appendChild(this.tabnav.tabnavEl);
@@ -48,49 +52,92 @@ export class Tabs {
     element.appendChild(this.editorWrapper.tabEditorWrapperEl);
 
     this.registerEventHandlers();
+
+    // switch to the last active tab
+    lastActiveTabIndex = lastActiveTabIndex >= this.tabnav.tabnavitems.length ? 0 : lastActiveTabIndex;
+    this.currentIndex = lastActiveTabIndex;
+    this.tabnav.refreshActiveTabNav(lastActiveTabIndex);
+    this.tabContents.refreshActiveTabContent(lastActiveTabIndex);
   }
 
+  parseTabs(source: string, defaultTabNavItem: string, defaultTabContent: string): [string[], string[]] {
+    const tabnavitemtitle = [];
+    const tabcontent = [];
+    let title = "";
+    let content = "";
+    
+    if (!source.contains(this.split)) {
+      tabnavitemtitle.push("");
+      tabcontent.push("");
+      tabnavitemtitle.push(defaultTabNavItem);
+      tabcontent.push(source.trim() === "" ? defaultTabContent : source);
+    } else {
+      let lines = source.split('\n');
+      let temp_hasInnerTabs = false; // If a tabs does't have inner tabs
+      for (let i = 0, innerTabs = 0; i < lines.length; i++) {
+        if (!innerTabs && lines[i].startsWith(this.split)) {
+          tabnavitemtitle.push(title);
+          tabcontent.push(content);
+          title = lines[i].substring(this.split.length);
+          content = "";
+        } else {
+          content += lines[i] + "\n";
+          if (lines[i].trim().startsWith('```')) {
+            if (!innerTabs && lines[i].trim().endsWith('tabs')) {
+              innerTabs = lines[i].trim().length - 4;
+              temp_hasInnerTabs = true; // If a tabs has inner tabs
+            } else if (innerTabs && lines[i].trim().endsWith('`'.repeat(innerTabs))) {
+              innerTabs = 0;
+            }
+          }
+        }
+      }
+      // ensure the innertab will not enter editing mode
+      hasInnerTabs = temp_hasInnerTabs;
+      tabnavitemtitle.push(title);
+      tabcontent.push(content);
+    }
+    return [tabnavitemtitle, tabcontent];
+  }
+  
   async registerEventHandlers() {
     // switch tab event
     this.tabnav.tabnavitems.forEach((tab, index) => {
       this.plugin.registerDomEvent(tab.tabitemEl, "click", (e: MouseEvent) => {
-        if (this.currentIndex == index) {
-          return;
-        }
         if (this.editorWrapper.isEditing) {
           const content =this.tabnav.tabnavitems[this.currentIndex].title + "\n" + this.tabContents.tabcontents[this.currentIndex].content
           const editorContent = this.editorWrapper.editor.view.state.doc.toString().trim().substring(this.split.length)
           if (content.trim() !== editorContent.trim()) {
-            new Notice("🟠 Please save the current tab.");
+            !this.plugin.settings.ignoreNotice && new Notice("🟠 Please save the current tab.");
             return;
           }
         }
         this.tabnav.refreshActiveTabNav(index);
         this.tabContents.refreshActiveTabContent(index);
-        this.editorWrapper.refreshActiveTabEditor(index, this.split + " " + this.tabnav.tabnavitems[index].title + "\n" + this.tabContents.tabcontents[index].content);
+        this.editorWrapper.refreshActiveTabEditor(index, this.split + this.tabnav.tabnavitems[index].title + "\n" + this.tabContents.tabcontents[index].content);
         this.currentIndex = index;
+        lastActiveTabIndex = index;
       });
     });
 
     // double click event
     this.plugin.registerDomEvent(this.tabContents.tabcontentsEl, "dblclick", (e: MouseEvent) => {
       e.preventDefault();
-
-      if (!this.activeView || this.isPreviewMode()) {
+      
+      if (!this.activeView || this.isPreviewMode() || this.isInnerTabs) {
         return;
       }
 
       this.enterEditingMode();
-
+      
       const editor = this.editorWrapper.editor;
-      const transaction = editor.state.update({
+      editor.view.dispatch({
         changes: {
-          from: 0, to: editor.state.doc.length,
-          insert: this.split + " " + this.tabnav.tabnavitems[this.currentIndex].title + "\n" +
+          from: 0, to: editor.view.state.doc.length,
+          insert: this.split + this.tabnav.tabnavitems[this.currentIndex].title + "\n" +
             this.tabContents.tabcontents[this.currentIndex].content.trim()
         }
       });
-      editor.view.dispatch(transaction);
       editor.view.focus();
     });
 
@@ -99,12 +146,13 @@ export class Tabs {
       if (!this.activeView || this.isPreviewMode()) { return; }
 
       if (this.tabnav.tabbutton.type == "add-new-tab") {
-        const newTabItem = new TabNavItem(this.tabnav, this.tabnav.tabnavitems.length, "New Tab");
-        this.tabnav.append(newTabItem);
-
         // Add new tab to the file
+        lastActiveTabIndex = this.tabnav.tabnavitems.length;
         const activeEditor = this.activeView?.editor;
-        activeEditor.setLine(this.sectioninfo.lineEnd, this.split + " new tab\nNew Tab Content\n" + activeEditor.getLine(this.sectioninfo.lineEnd));
+        activeEditor.setLine(this.sectioninfo.lineEnd, 
+          this.split + this.plugin.settings.defaultTabNavItem + "\n" + 
+          this.plugin.settings.defaultTabContent + "\n" + 
+          activeEditor.getLine(this.sectioninfo.lineEnd));
       } else {
         this.saveEditorData();
         this.exitEditingMode();
@@ -114,122 +162,16 @@ export class Tabs {
     // right click menu event
     this.plugin.registerDomEvent(this.tabnav.tabnavEl, "contextmenu", (e: MouseEvent) => {
       e.preventDefault();
-      const menu = new Menu();
-
-      menu.addItem((item) => {
-        item.setTitle("Add New Tab");
-        item.setIcon("plus");
-        item.onClick(() => {
-          if (this.editorWrapper.isEditing) {
-            const content = this.tabnav.tabnavitems[this.currentIndex].title + "\n" + this.tabContents.tabcontents[this.currentIndex].content
-            const editorContent = this.editorWrapper.editor.view.state.doc.toString().trim().substring(this.split.length)
-            if (content.trim() !== editorContent.trim()) {
-              new Notice("🟠 Please save the current tab before you adding a new tab.");
-              return;
-            }
-          }
-          // Add new tab to the file
-          const activeView = this.app.workspace.getActiveViewOfType(MarkdownView)
-          const activeEditor = activeView.editor;
-          activeEditor.setLine(this.sectioninfo.lineEnd, this.split + " new tab\nNew Tab Content\n" + activeEditor.getLine(this.sectioninfo.lineEnd));
-          new Notice("🟢 Add new tab successfully");
-        });
-      });
-      menu.addItem((item) => {
-        item.setTitle("Delete Tab");
-        item.setIcon("trash");
-        item.onClick(() => {
-          let deleteIndex = -1;
-          for (let i = 0; i < this.tabnav.tabnavitems.length; i++) {
-            if (this.tabnav.tabnavitems[i].tabitemEl == e.target) {
-              deleteIndex = i;
-              break;
-            }
-          }
-          if (deleteIndex === -1) {
-            new Notice("🔴 Not a valid tab.");
-            return;
-          }
-          const deleteTabTitle = this.tabnav.tabnavitems[deleteIndex].title;
-          if (this.editorWrapper.isEditing) {
-            const content = this.tabnav.tabnavitems[this.currentIndex].title + "\n" + this.tabContents.tabcontents[this.currentIndex].content
-            const editorContent = this.editorWrapper.editor.view.state.doc.toString().trim().substring(this.split.length)
-            if (content.trim() !== editorContent.trim()) {
-              new Notice("🟠 Please save the current tab before deleting: " + deleteTabTitle);
-              return;
-            }
-          }
-          const newDoc = this.getNewDocByIndex(deleteIndex, "");
-          this.activeView?.editor.replaceRange(newDoc,
-            { line: (this.sectioninfo.lineStart + 1), ch: 0 } as EditorPosition,
-            { line: this.sectioninfo.lineEnd, ch: 0 } as EditorPosition);
-          new Notice("🟢 Delete " + deleteTabTitle + " successfully");
-        })
-      });
-      menu.addItem((item) => {
-        item.setTitle("Copy Tab");
-        item.setIcon("copy");
-        item.onClick(() => {
-          let copyIndex = -1;
-          let copyContent = "";
-          for (let i = 0; i < this.tabnav.tabnavitems.length; i++) {
-            if (this.tabnav.tabnavitems[i].tabitemEl == e.target) {
-              copyIndex = i;
-              copyContent = this.split + " " + this.tabnav.tabnavitems[i].title + "\n" + this.tabContents.tabcontents[i].content
-              break;
-            }
-          }
-          if (copyIndex === -1) {
-            new Notice("🔴 Not a valid tab.");
-            return;
-          }
-          navigator.clipboard.writeText(copyContent).then(() => {
-            new Notice("🟢 Copied to clipboard successfully.");
-          }).catch((err) => {
-            new Notice("🔴 Failed to copy to clipboard");
-          });
-        });
-      });
-      menu.addItem((item) => {
-        item.setTitle("Paste Tab");
-        item.setIcon("paste");
-        item.onClick(() => {
-          navigator.clipboard.readText().then((text) => {
-            if (this.editorWrapper.isEditing) {
-              const content = this.tabnav.tabnavitems[this.currentIndex].title + "\n" + this.tabContents.tabcontents[this.currentIndex].content
-              const editorContent = this.editorWrapper.editor.view.state.doc.toString().trim().substring(this.split.length)
-              if (content.trim() !== editorContent.trim()) {
-                new Notice("🟠 Please save the current tab.");
-                return;
-              }
-            }
-            if (!text || text.trim() === "" || (text.trim() == this.split)) {
-              new Notice("🟠 No content in clipboard.");
-              return;
-            }
-            let title = "New Tab\n";
-            let content = text.trim();
-            if (text.startsWith(this.split)) {
-              title = text.substring(this.split.length, text.indexOf("\n"));
-              content = content.substring(text.indexOf("\n"));
-            }
-            
-            const activeEditor = this.activeView?.editor;
-            activeEditor.setLine(
-              this.sectioninfo.lineEnd, this.split + " " + title.trim() + "\n" + 
-              content.trim() + "\n" + activeEditor.getLine(this.sectioninfo.lineEnd));
-          }).catch((err) => {
-            new Notice("🔴 Failed to paste from clipboard");
-          });
-        });
-      });
-      menu.showAtMouseEvent(e);
+      const tabmenu = new TabMenu(this, e);
+      tabmenu.showAtMouseEvent(e);
     });
   }
 
   saveEditorData() {
     const newDoc = this.getNewDocByIndex(this.currentIndex);
-    this.activeView?.editor.replaceRange(newDoc, { line: (this.sectioninfo.lineStart + 1), ch: 0 } as EditorPosition, { line: this.sectioninfo.lineEnd, ch: 0 } as EditorPosition);
+    this.activeView?.editor.replaceRange(newDoc, 
+      { line: (this.sectioninfo.lineStart + 1), ch: 0 } as EditorPosition,
+      { line: this.sectioninfo.lineEnd, ch: 0 } as EditorPosition);
   }
 
   getNewDocByIndex(index: number, doc?: string): string {
@@ -237,7 +179,7 @@ export class Tabs {
     let newDoc = "";
     for (let i = 0; i < this.tabnav.tabnavitems.length; i++) {
       if (i !== index) {
-        newDoc += "\n" + this.split + " " + this.tabnav.tabnavitems[i].title.trim() + "\n" + this.tabContents.tabcontents[i].content.trim() + "\n";
+        newDoc += "\n" + this.split + this.tabnav.tabnavitems[i].title.trim() + "\n" + this.tabContents.tabcontents[i].content.trim() + "\n";
       } else {
         newDoc += "\n" + doc + "\n";
       }
@@ -251,6 +193,8 @@ export class Tabs {
     this.tabContents.tabcontentsEl.addClass('tab-contents-hidden');
     this.tabnav.tabbutton.type = "save";
     setIcon(this.tabnav.tabbutton.buttonEl, "save");
+    this.tabnav.tabbutton.buttonEl.classList.remove('tab-nav-button-add');
+    this.tabnav.tabbutton.buttonEl.classList.add('tab-nav-button-save');
   }
 
   exitEditingMode() {
@@ -259,6 +203,8 @@ export class Tabs {
     this.tabContents.tabcontentsEl.removeClass('tab-contents-hidden');
     this.tabnav.tabbutton.type = "add-new-tab";
     setIcon(this.tabnav.tabbutton.buttonEl, "plus");
+    this.tabnav.tabbutton.buttonEl.classList.add('tab-nav-button-add');
+    this.tabnav.tabbutton.buttonEl.classList.remove('tab-nav-button-save');
   }
 
   isPreviewMode() {

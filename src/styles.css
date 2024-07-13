@@ -1,5 +1,7 @@
 .tab-container {
   --tab-nav-item-active-color: var(--interactive-accent);
+  --tab-nav-item-hover-color: var(--background-modifier-border-hover);
+  --p-spacing: 0.75em;
 }
 
 /* navigation */
@@ -28,6 +30,8 @@
   font-weight: bold;
   user-select: none;
   white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: border-bottom 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tab-container .tab-nav .tab-nav-item.tab-nav-item-active {
@@ -35,14 +39,26 @@
   color: var(--tab-nav-item-active-color);
 }
 
+.tab-container .tab-nav .tab-nav-item:not(.tab-nav-item-active):hover {
+  border-bottom: 3px solid var(--tab-nav-item-hover-color);
+}
+
 .tab-container .tab-nav .tab-nav-button {
   margin: auto;
   margin-left: 15px;
-  margin-right: 50px;
+  margin-right: 40px;
   box-shadow: unset;
   cursor: pointer;
   background-color: transparent;
-  
+}
+
+.tab-container .tab-nav .tab-nav-button-add {
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.markdown-source-view.mod-cm6 .cm-embed-block:not(.cm-table-widget):hover .tab-container .tab-nav .tab-nav-button-add {
+  opacity: 1;
 }
 
 .markdown-reading-view .tab-container .tab-nav .tab-nav-button {
@@ -113,5 +129,10 @@
 
 /* 兼容 minimal 主题 */
 body :not(.canvas-node) .markdown-source-view.mod-cm6 .tab-container .cm-gutters {
-  position:sticky !important;
+  position: sticky !important;
+}
+
+/* embed page */
+.tab-container .tab-content .markdown-embed-title {
+  display: none;
 }

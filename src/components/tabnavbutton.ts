@@ -19,7 +19,7 @@ export class TabNavButton {
   
   createTabNavButtonEl(): HTMLElement {
     const addButton = document.createElement('div');
-    addButton.className = "tab-nav-button";
+    addButton.className = "tab-nav-button tab-nav-button-add";
     setIcon(addButton, "plus");
     return addButton;
   }

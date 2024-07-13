@@ -9,16 +9,20 @@ export class TabNav {
   currentTab: number = 0;
   
   constructor(tabsNav: string[], split: string, sectioninfo: MarkdownSectionInformation) {
-    this.tabnavitems = new Array(tabsNav.length) as TabNavItem[];
-    this.tabbutton = new TabNavButton(this, "add-new-tab", split, sectioninfo);
+    this.tabnavitems = new Array() as TabNavItem[];
+    
+    if (tabsNav.length > 0) {
+      this.tabnavitems = new Array(tabsNav.length) as TabNavItem[];
+      this.tabbutton = new TabNavButton(this, "add-new-tab", split, sectioninfo);
 
-    for (let i = 0; i < tabsNav.length; i++) {
-      this.tabnavitems[i] = new TabNavItem(this, i, tabsNav[i]);
+      for (let i = 0; i < tabsNav.length; i++) {
+        this.tabnavitems[i] = new TabNavItem(this, i, tabsNav[i]);
+      }
+      this.tabnavitems[0].isActiveed = true;
+      this.tabnavitems[0].tabitemEl.classList.add("tab-nav-item-active");
+      this.tabnavEl = this.createTabNavEl();
+      this.currentTab = 0;
     }
-    this.tabnavitems[0].isActiveed = true;
-    this.tabnavitems[0].tabitemEl.classList.add("tab-nav-item-active");
-    this.tabnavEl = this.createTabNavEl();
-    this.currentTab = 0;
   }
 
   createTabNavEl(): HTMLElement {
@@ -27,7 +31,7 @@ export class TabNav {
     const wrapper = document.createElement('div');
     wrapper.className = "tab-nav-item-wrapper";
     element.appendChild(wrapper);
-    this.tabnavitems.forEach(tab => {
+    this.tabnavitems.length > 0 && this.tabnavitems.forEach(tab => {
       wrapper.appendChild(tab.tabitemEl);
     });
     element.appendChild(this.tabbutton.buttonEl);

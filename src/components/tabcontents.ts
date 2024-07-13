@@ -20,7 +20,6 @@ export class TabContents {
     const element = document.createElement('div');
     element.className = "tab-contents";
     this.tabcontents.forEach(tab => {
-      
       element.appendChild(tab.contentEl);
     });
     return element;
