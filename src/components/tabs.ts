@@ -26,6 +26,8 @@ export class Tabs {
   context: MarkdownPostProcessorContext;
   currentIndex: number = 0;
   isInnerTabs: boolean = false;
+  backquote: string = "`";
+  backquoteCount: number = 3;
 
   constructor(source: string, element: HTMLElement, context: MarkdownPostProcessorContext, app: App, plugin: TabsPlugin, settings: TabsSettings) {
     element.className = "tab-container";
@@ -36,7 +38,8 @@ export class Tabs {
     this.activeView = app.workspace.getActiveViewOfType(MarkdownView);
     this.sectioninfo = context.getSectionInfo(element);
     this.context = context;
-
+    this.updateBackquote(source);
+    
     if (hasInnerTabs) {
       this.isInnerTabs = true;
     }
@@ -87,6 +90,13 @@ export class Tabs {
               innerTabs = lines[i].trim().length - 4;
               temp_hasInnerTabs = true; // If a tabs has inner tabs
             } else if (innerTabs && lines[i].trim().endsWith('`'.repeat(innerTabs))) {
+              innerTabs = 0;
+            }
+          } else if (lines[i].trim().startsWith('~~~')) {
+            if (!innerTabs && lines[i].trim().endsWith('tabs')) {
+              innerTabs = lines[i].trim().length - 4;
+              temp_hasInnerTabs = true; // If a tabs has inner tabs
+            } else if (innerTabs && lines[i].trim().endsWith('~'.repeat(innerTabs))) {
               innerTabs = 0;
             }
           }
@@ -169,9 +179,10 @@ export class Tabs {
 
   saveEditorData() {
     const newDoc = this.getNewDocByIndex(this.currentIndex);
+    console.log(newDoc);
     this.activeView?.editor.replaceRange(newDoc, 
-      { line: (this.sectioninfo.lineStart + 1), ch: 0 } as EditorPosition,
-      { line: this.sectioninfo.lineEnd, ch: 0 } as EditorPosition);
+      { line: (this.sectioninfo.lineStart), ch: 0 } as EditorPosition,
+      { line: this.sectioninfo.lineEnd, ch: this.activeView?.editor.getLine(this.sectioninfo.lineEnd).length } as EditorPosition);
   }
 
   getNewDocByIndex(index: number, doc?: string): string {
@@ -179,11 +190,16 @@ export class Tabs {
     let newDoc = "";
     for (let i = 0; i < this.tabnav.tabnavitems.length; i++) {
       if (i !== index) {
-        newDoc += "\n" + this.split + this.tabnav.tabnavitems[i].title.trim() + "\n" + this.tabContents.tabcontents[i].content.trim() + "\n";
+        newDoc += this.split + this.tabnav.tabnavitems[i].title.trim() + "\n" + this.tabContents.tabcontents[i].content.trim() + "\n";
       } else {
-        newDoc += "\n" + doc + "\n";
+        newDoc += doc + "\n";
+        // if doc contains code block, add one more backtick
+        if (doc.includes('```') || doc.includes('~~~')) {
+          this.updateBackquote(doc);
+        }
       }
     }
+    newDoc = this.backquote.repeat(this.backquoteCount) + 'tabs\n' + newDoc + this.backquote.repeat(this.backquoteCount);
     return newDoc;
   }
 
@@ -209,5 +225,31 @@ export class Tabs {
 
   isPreviewMode() {
     return this.activeView?.leaf.getViewState().state.mode === "preview";
+  }
+  
+  updateBackquote(doc: string) {
+    if (this.activeView && this.sectioninfo) {
+      const startLine = this.activeView?.editor.getLine(this.sectioninfo?.lineStart).trim();
+      if (startLine.contains('```tabs')) {
+        this.backquote = '`';
+      } else if (startLine.contains('~~~tabs')) {
+        this.backquote = '~';
+      }
+    }
+    
+    let count = this.sectioninfo ? this.activeView?.editor.getLine(this.sectioninfo?.lineStart).trim().replace('tabs', '')?.length : 0;
+    this.backquoteCount = Math.max(this.backquoteCount, count);
+    if (doc.contains('```') || doc.contains('~~~')) {
+      count = 0;
+      for (let i = 0; i < doc.length; i++) {
+        if ((doc[i] === '`' || doc[i] === '~') && (doc[i + 1] === doc[i] || doc[i - 1] === doc[i])) {
+          count++;
+          this.backquoteCount = Math.max(this.backquoteCount, count + 1);
+        } else {
+          count = 0;
+        }
+      }
+      this.backquoteCount = Math.max(this.backquoteCount, count + 1);
+    }
   }
 }

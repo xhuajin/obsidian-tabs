@@ -55,8 +55,8 @@ export class TabMenu extends Menu {
         }
         const newDoc = tabs.getNewDocByIndex(deleteIndex, "");
         tabs.activeView?.editor.replaceRange(newDoc,
-          { line: (tabs.sectioninfo.lineStart + 1), ch: 0 } as EditorPosition,
-          { line: tabs.sectioninfo.lineEnd, ch: 0 } as EditorPosition);
+          { line: (tabs.sectioninfo.lineStart), ch: 0 } as EditorPosition,
+          { line: tabs.sectioninfo.lineEnd, ch: tabs.activeView?.editor.getLine(tabs.sectioninfo.lineEnd).length } as EditorPosition);
           !tabs.plugin.settings.ignoreNotice && new Notice("🟢 Delete " + deleteTabTitle + " successfully");
       })
     });

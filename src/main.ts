@@ -53,9 +53,17 @@ export default class TabsPlugin extends Plugin {
               selectedText + "\n" + 
               "`".repeat(maxCount + 1));
           }
-          
         } else {
-          editor.replaceSelection("```tabs\n" + selectedText + "\n```");
+          if (selectedText.startsWith(this.settings.split)) {
+            editor.replaceSelection("```" + "tabs\n" + 
+              selectedText + "\n" + 
+              "```");
+          } else {
+            editor.replaceSelection("```tabs\n" + 
+              this.settings.split + this.settings.defaultTabNavItem + "\n" + 
+              selectedText + "\n" + 
+              "```");
+          }
         }
       }
     })

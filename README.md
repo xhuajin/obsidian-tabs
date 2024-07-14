@@ -2,6 +2,11 @@
 
 Thanks to the [Code Tab](https://github.com/lazyloong/obsidian-code-tab) plugin for the inspiration, but since it had not been updated for a long time and it wasn't support edit content directly, I refactored the plugin and added a lot of features.
 
+> [!WARNING] 
+> **Please refrain from entering tasks directly within the Tabs code block.**
+> 
+> The Tabs function operates based on the code block. In Obsidian, text within a code block is treated as plain text. Consequently, if you input tasks inside a code block, neither the tasks plugin nor the dataview plugin will be able to recognize them.
+
 ## Showcase
 
 Insert a tab component into markdown file.
@@ -22,7 +27,7 @@ With LeetCode
 
 ![tabs-7](./assets/tabs-7.png)
 
-ps.If you have a usage you'd like to share, feel free to raise an issue or pull a request. I'll add it to readme.
+> If you have a usage you'd like to share, feel free to raise an issue or pull a request. I'll add it to readme.
 
 ## Usage
 
@@ -57,6 +62,22 @@ console.log('Hello Tabs');
 ````
 `````
 
+Or you can use '~' to create code block, like
+
+````
+~~~tabs
+tab: python
+```python
+print("Hello Tabs")
+```
+
+tab: javascript
+```javascript
+console.log('Hello Tabs');
+```
+~~~
+````
+
 ![tabs-5](./assets/tabs-5.png)
 
 
@@ -79,6 +100,25 @@ tab: TAB-TWO
 ````
 `````
 
+or use '~' to create code block(inside or outside).
+
+````
+~~~tabs
+tab: TAB-ONE
+An innerTab in TAB-ONE 👇
+
+```tabs
+tab: inner tab one
+This is an inner tab.
+
+tab: inner tab two
+This is an inner tab.
+```
+
+tab: TAB-TWO
+~~~
+````
+
 ![tabs-6](./assets/tabs-6.png)
 
 ### 3. Edit tab
@@ -99,7 +139,7 @@ You can quickly create a new tab using the contents of the clipboard.
 
 tip: if tab nav is too long, try to hold `shift` and scroll.
 
-Remember to click the Save button when you are finished editing.
+Remember to click the save button after editing.
 
 ### 4. Command
 
@@ -110,3 +150,8 @@ Provides a command to quickly create or convert selected text to a Tabs componen
 ### 5. Settings
 
 ![tabs-setting](./assets/tabs-settingTab.png)
+
+## Todo
+
+- Update editor.
+- Draggable tab nav item.
