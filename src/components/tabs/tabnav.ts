@@ -8,13 +8,13 @@ export class TabNav {
   tabnavEl: HTMLElement;
   currentTab: number = 0;
   
-  constructor(tabsNav: string[], split: string, sectioninfo: MarkdownSectionInformation) {
+  constructor(tabsNav: string[], actionbuttontype: string, sectioninfo: MarkdownSectionInformation) {
     this.tabnavitems = new Array() as TabNavItem[];
     
     if (tabsNav.length > 0) {
       this.tabnavitems = new Array(tabsNav.length) as TabNavItem[];
-      this.tabbutton = new TabNavButton(this, "add-new-tab", split, sectioninfo);
-
+      this.tabbutton = new TabNavButton(this, actionbuttontype, sectioninfo);
+      
       for (let i = 0; i < tabsNav.length; i++) {
         this.tabnavitems[i] = new TabNavItem(this, i, tabsNav[i]);
       }
@@ -34,7 +34,7 @@ export class TabNav {
     this.tabnavitems.length > 0 && this.tabnavitems.forEach(tab => {
       wrapper.appendChild(tab.tabitemEl);
     });
-    element.appendChild(this.tabbutton.buttonEl);
+    this.tabbutton.buttonEl && element.appendChild(this.tabbutton.buttonEl);
     return element;
   }
 

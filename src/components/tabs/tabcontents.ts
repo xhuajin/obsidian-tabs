@@ -1,4 +1,4 @@
-import { TabContent } from "./tabcontent";
+import { TabContent } from "./tabs/tabcontent";
 import TabsPlugin from "../main";
 
 export class TabContents {
@@ -13,7 +13,6 @@ export class TabContents {
     this.tabcontentsEl = this.createTabContentsEl();
     this.tabcontents[0].isActiveed = true;
     this.tabcontents[0].contentEl.classList.add("tab-content-active");
-    
   }
 
   createTabContentsEl(): HTMLElement {

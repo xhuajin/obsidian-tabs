@@ -1,18 +1,27 @@
 import { DEFAULT_SETTINGS, TabsSettings, TabsSettingsTab } from "./settings";
 
 import { Plugin } from "obsidian";
-import { Tabs } from "./components/tabs";
+import { Tabs } from "./components/tabs/tabs";
+import { TabsEditorModal } from "./components/editor/tabeditormodal";
 
+declare module "obsidian" {
+  interface WorkspaceLeaf {
+    rebuildView(): void;
+  }
+}
 export default class TabsPlugin extends Plugin {
   settings: TabsSettings;
+  tabsEditorModal: TabsEditorModal;
 
   async onload() {
     await this.loadSettings();
     this.addSettingTab(new TabsSettingsTab(this.app, this));
     this.registerMarkdownCodeBlockProcessor("tabs", (source, el, ctx) => {
-      new Tabs(source, el, ctx, this.app, this, this.settings);
+      new Tabs(source, el, ctx, this.app, this);
     });
     this.registerCommands();
+    this.tabsEditorModal = new TabsEditorModal(this, this.app);
+    this.refreshOpenViews();
   }
 
   async loadSettings() {
@@ -67,5 +76,9 @@ export default class TabsPlugin extends Plugin {
         }
       }
     })
+  }
+
+  public refreshOpenViews(): void {
+    this.app.workspace.getLeavesOfType("markdown").forEach((leaf) => leaf.rebuildView())
   }
 }
