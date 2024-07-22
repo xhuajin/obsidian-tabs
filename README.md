@@ -27,6 +27,10 @@ With LeetCode
 
 ![tabs-7](./assets/tabs-7.png)
 
+Tab nav on the left
+
+![tabs-nav-left](./assets/tabs-nav-left.png)
+
 > If you have a usage you'd like to share, feel free to raise an issue or pull a request. I'll add it to readme.
 
 ## Usage
@@ -121,9 +125,36 @@ tab: TAB-TWO
 
 ![tabs-6](./assets/tabs-6.png)
 
-### 3. Edit tab
+### 3. Customize your tabs
 
-Double click the content can rouse an editor.
+Add configuration information at the beginning(comma separate). Only the last configuration of the same type takes effect.
+
+````
+```tabs
+top, multi
+tab: TAB 1
+Tab content
+tab: TAB 2
+Tab content
+```
+````
+
+| Configuration |                  Explanation                  |
+| :-----------: | :-------------------------------------------: |
+|     top       | Tabs nav bar will be displayed at the top.    |
+|     left      | Tabs nav bar will be displayed on the left.   |
+|     right     | Tabs nav bar will be displayed on the right.  |
+|     bottom    | Tabs nav bar will be displayed at the bottom. |
+|     one       | Tabs nav bar can scroll with many nav items.  |
+|     multi     | Tabs nav items will show in multi line.       |
+
+![tabs-nav-left](./assets/tabs-nav-left.png)
+
+### 4. Edit tab
+
+Double click the content can rouse an editor if you turn on the setting 'Double click to edit'. You can also use action button if you set it to 'Edit tab' in setting.
+
+The editor automatically saves the edited content. You can change the interval between your last editing and editor saving in setting 'Auto saving interval'. Content will be saved when the editor is closed. You can also use the shortcut `Ctrl+S` to save the editing content.
 
 ![tabs-editing](./assets/editing.png)
 
@@ -141,17 +172,12 @@ tip: if tab nav is too long, try to hold `shift` and scroll.
 
 Remember to click the save button after editing.
 
-### 4. Command
+### 5. Command
 
 Provides a command to quickly create or convert selected text to a Tabs component. Click `Cmd-p` to open the setting pannel. Search for 'Tabs'.
 
 ![tabs-command](./assets/tabs-command.png)
 
-### 5. Settings
-
-![tabs-setting](./assets/tabs-settingTab.png)
-
 ## Todo
 
-- Update editor.
 - Draggable tab nav item.
