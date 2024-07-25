@@ -1,0 +1,116 @@
+/* ----------------------------- tabs editor modal ----------------------------- */
+
+.tabs-editor-modal {
+  --tabs-editor-line-height: var(--line-height-normal, 1.5);
+  width: 60vw;
+  border: unset;
+}
+
+.modal.tabs-editor-modal .modal-close-button {
+  display: none;
+}
+
+.tabs-editor-modal .modal-content {
+  padding: 5px 10px;
+  border: 2px solid var(--text-muted);
+  border-radius: 6px;
+  margin: 10px 6%;
+  caret-color: var(--caret-color) !important;
+}
+
+/* tabs editor toolbar */
+
+.tabs-editor-modal .modal-content .toolbar {
+  display: flex;
+  height: 30px;
+  gap: 18px;
+  text-align: center;
+  align-items: center;
+  border-bottom: 1.6px solid var(--text-muted);
+  overflow-x: scroll;
+}
+.tabs-editor-modal .modal-content .toolbar::-webkit-scrollbar {
+  display: none;
+}
+.tabs-editor-modal .modal-content .toolbar .toolbar-button {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  padding: 0;
+  box-shadow: unset;
+  color: var(--text-muted);
+  background-color: transparent;
+}
+.tabs-editor-modal .modal-content .toolbar .toolbar-button:hover {
+  color: var(--text-normal);
+}
+.tabs-editor-modal .modal-content .toolbar .toolbar-button.useless-button {
+  color: var(--text-faint);
+}
+.tabs-editor-modal .modal-content .toolbar .split-line {
+  width: 1px;
+  height: 75%;
+  border: 1px solid var(--text-muted);
+}
+
+/* table generator */
+.table-generator-container {
+	display: flex;
+	flex-flow: row wrap;
+	max-width: 150px;
+	align-content: flex-start;
+	padding-top: 5px;
+	padding-left: 3px;
+}
+.table-generator-grid {
+	width: 15px;
+	height: 15px;
+	background-color: var(--interactive-normal);
+	margin: 3px;
+	border-radius: 3px;
+}
+.table-generator-grid.select {
+	background-color: var(--interactive-accent);
+	opacity: 1;
+}
+.table-generator-counter {
+	display: block;
+	text-align: center;
+}
+.table-height-adjust th, .table-height-adjust tr {
+	/** 防止单元格太窄不方便点击 */
+	height: 1.5em !important;
+}
+
+/* save button */
+.tabs-editor-modal .modal-content .toolbar .toolbar-button.save-button {
+  margin-left: auto;
+  margin-right: 0.5em;
+}
+
+/* editor */
+
+.tabs-editor-modal .modal-content .tabs-editor {
+  height: 50vh;
+}
+.tabs-editor-modal .modal-content .cm-editor .cm-cursor { 
+  border-left-color: var(--caret-color)
+}
+.tabs-editor-modal .modal-content .cm-editor .cm-scroller {
+  font-family: var(--font-text);
+  font-size: var(--font-text-size);
+  line-height: var(--tabs-editor-line-height);
+  scroll-padding-block-end: var(--status-bar-scroll-padding);
+  scrollbar-gutter: stable;
+}
+.tabs-editor-modal .modal-content .cm-editor .cm-scroller .cm-content {
+  padding-bottom: 30vh;
+}
+.tabs-editor-modal .modal-content .cm-editor .cm-scroller .cm-layer.cm-selectionLayer .cm-selectionBackground {
+  background-color: var(--text-selection);
+}
+.modal.tabs-editor-modal .modal-content .cm-editor .cm-line {
+  font-family: var(--font-text);
+  line-height: var(--line-height-normal);
+  scroll-padding-block-end: var(--status-bar-scroll-padding);
+  scrollbar-gutter: stable;
+}

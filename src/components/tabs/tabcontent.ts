@@ -11,21 +11,19 @@ export class TabContent {
     this.index = index;
     this.title = title;
     this.content = content;
-    this.contentEl = this.createTabContentEl(content, app, context);
+    this.createTabContentEl(content, app, context);
   }
 
-  createTabContentEl(content: string, app: App, context: MarkdownPostProcessorContext): HTMLElement {
-    const element = document.createElement('div');
-    element.className = "tab-content";
+  createTabContentEl(content: string, app: App, context: MarkdownPostProcessorContext) {
+    this.contentEl = document.createElement('div');
+    this.contentEl.className = "tabs-content";
     const tabComponent = new MarkdownRenderChild(this.contentEl);
-    // console.log(content);
     MarkdownRenderer.render(
       app,
       content,
-      element,
-      context.sourcePath,
+      this.contentEl,
+      context?.sourcePath,
       tabComponent
     );
-    return element;
   }
 }

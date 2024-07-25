@@ -1,0 +1,30 @@
+.sample-tabs-container {
+  display: block;
+  position: relative;
+  max-width: var(--file-line-width);
+  margin: 0 auto;
+}
+
+.sample-tabs-container .tabs-contents {
+  min-height: 120px;
+}
+
+.sample-tabs-container .edit-block-button {
+  padding: var(--size-2-2) var(--size-2-3);
+  position: absolute;
+  top: var(--size-2-2);
+  inset-inline-end: var(--size-2-2);
+  display: flex;
+  opacity: 0;
+  color: var(--text-muted);
+  border-radius: var(--radius-s);
+  cursor: var(--cursor);
+}
+
+.sample-tabs-container:hover .edit-block-button {
+  opacity: 1;
+}
+
+body.hide-tabs-edit-block-button .sample-tabs-container .edit-block-button {
+  display: none;
+}

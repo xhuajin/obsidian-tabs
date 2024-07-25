@@ -2,18 +2,34 @@ import { TabsSettings } from "../../settings";
 
 export class TabsConfig {
   rawConfig: string;
+  tabsborder: "border-none" | "border-hover" | "border-always";
+  tabsBorderColor: string;
+  hideTabsEditBlockButton: boolean;
   titlePosition: "top" | "bottom" | "left" | "right";
   titleLineClamp: "one" | "multi";
-  actionButton: "add" | "edit" | "none";
+  actionButton: "action-add" | "action-edit" | "action-none";
+  titleLimited: boolean;
+  tabsMaxHeight: string;
+  tabsContentsPadding: string;
   
-  
-  constructor(config: string, element: HTMLElement, settings: TabsSettings) {
+  constructor(config: string, tabsEl: HTMLElement, settings: TabsSettings) {
     this.rawConfig = config.trim();
+
+    // tabs
+    this.tabsborder = settings.defaultTabsBorder;
+    this.tabsBorderColor = settings.defaultTabsBorderColor;
+    this.hideTabsEditBlockButton = settings.hideTabsEditBlockButton;
+    
+    // tabs nav
     this.titlePosition = settings.defaultTitlePosition;
     this.titleLineClamp = settings.defaultTitleLineClamp;
     this.actionButton = settings.actionButtonType;
+    this.titleLimited = settings.defaultTitleLimited;
+    
+    this.tabsMaxHeight = settings.defaultTabsContentsMaxHeight;
+    this.tabsContentsPadding = settings.defaultTabsContentsPadding;
+
     this.parseConfig(config);
-    this.addClassByConfig(element);
   }
   
   private parseConfig(configs: string) {
@@ -32,14 +48,14 @@ export class TabsConfig {
           case "right":
             this.titlePosition = "right";
             break;
-          case "add":
-            this.actionButton = "add";
+          case "action-add":
+            this.actionButton = "action-add";
             break;
-          case "edit":
-            this.actionButton = "edit";
+          case "action-edit":
+            this.actionButton = "action-edit";
             break;
-          case "none":
-            this.actionButton = "none";
+          case "action-none":
+            this.actionButton = "action-none";
             break;
           case "one":
             this.titleLineClamp = "one";
@@ -54,32 +70,23 @@ export class TabsConfig {
     });
   }
 
-  private addClassByConfig(el: HTMLElement) {
-    switch (this.titlePosition) {
-      case "top":
-        el.classList.add("tab-nav-top");
-        break;
-      case "bottom":
-        el.classList.add("tab-nav-bottom");
-        break;
-      case "left":
-        el.classList.add("tab-nav-left");
-        break;
-      case "right":
-        el.classList.add("tab-nav-right");
-        break;
-      default:
-        el.classList.add("tab-nav-top");
-    };
-    switch (this.titleLineClamp) {
-      case "one":
-        el.classList.add("tab-nav-line-clamp-one");
-        break;
-      case "multi":
-        el.classList.add("tab-nav-line-clamp-multi");
-        break;
-      default:
-        el.classList.add("tab-nav-line-clamp-one");
-    };
+  decorate(tabsEl: HTMLElement, tabsNavEl: HTMLElement, tabsContentsEl: HTMLElement) {
+    tabsEl.classList.add("tabs-" + this.tabsborder);
+    tabsEl.style.setProperty("--tabs-border-color", this.tabsBorderColor);
+    tabsEl.style.setProperty("--tabs-max-height", this.tabsMaxHeight);
+
+    if (this.hideTabsEditBlockButton) {
+      tabsEl.classList.add("tabs-hide-edit-block-button");
+    }
+
+    tabsEl.classList.add("tabs-nav-" + (this.titlePosition || "top"))
+    tabsEl.classList.add("tabs-nav-" + (this.titleLineClamp || "one"))
+    
+    if (this.titleLimited) {
+      tabsNavEl.classList.add("tabs-nav-title-limited");
+    }
+
+    tabsContentsEl.style.setProperty("--tabs-contents-padding", this.tabsContentsPadding);
+    
   }
 }

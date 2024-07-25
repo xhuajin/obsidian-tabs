@@ -15,15 +15,15 @@ export class TabNavButton {
   }
   
   createTabNavButtonEl(actionbuttontype: string): HTMLElement {
-    if (actionbuttontype === "none") {
+    if (actionbuttontype === "action-none") {
       return null;
     }
     const actionButtonEl = document.createElement('div');
-    actionButtonEl.className = "tab-nav-button";
+    actionButtonEl.className = "tabs-nav-button";
 
-    if (actionbuttontype === "add" ) {
+    if (actionbuttontype === "action-add" ) {
       setIcon(actionButtonEl, "plus");
-    } else { // if (actionbuttontype === "edit" ) {
+    } else if (actionbuttontype === "action-edit" ) {
       setIcon(actionButtonEl, "lucide-pencil");
     }
     return actionButtonEl;

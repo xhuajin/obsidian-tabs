@@ -1,0 +1,31 @@
+@import url(./tabs-nav-config.css);
+@import url(./tabs-contents-config.css);
+
+/* ----------------------------- Tabs config ----------------------------- */
+
+.tabs-container:not(.tabs-innertabs).tabs-border-always {
+  box-shadow: 0 0 0 1px var(--tabs-border-color), inset 0 0 0 1px var(--tabs-border-color);
+  border-radius: var(--radius-s);
+}
+
+.markdown-source-view.mod-cm6>.cm-editor>.cm-scroller>.cm-sizer>.cm-contentContainer>.cm-content>.cm-preview-code-block.cm-embed-block.markdown-rendered:has(>.tabs-container):hover {
+  box-shadow: none;
+}
+
+.tabs-container:not(.tabs-innertabs).tabs-border-hover {
+  box-shadow: none;
+  border-radius: var(--radius-s);
+}
+
+.tabs-container:not(.tabs-innertabs).tabs-border-hover:hover {
+  box-shadow: 0 0 0 1px var(--tabs-border-color), inset 0 0 0 1px var(--tabs-border-color);
+  border-radius: var(--radius-s);
+}
+
+body.hide-tabs-edit-block-button .markdown-source-view.mod-cm6 .tabs-container + .edit-block-button {
+  display: none;
+}
+
+body.hide-tabs-edit-block-button .tabs-container .tabs-nav-button {
+  margin-right: 10px;
+}

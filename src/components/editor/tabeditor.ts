@@ -1,3 +1,5 @@
+import {} from "@codemirror/commands"
+
 import { Decoration, DecorationSet, EditorView, ViewPlugin, ViewUpdate, keymap } from "@codemirror/view";
 import { EditorState, Extension } from "@codemirror/state";
 import { baseHighlight, baseTheme } from "./tabeditorstyle";
@@ -84,23 +86,26 @@ export class TabEditor {
       doc: doc,
       extensions: [
         minimalSetup,
-        baseHighlight,
         baseTheme,
-        // markdown({
-        //   extensions: [Strikethrough, Table, TaskList, Emoji],
-        // }),
         markdown(),
         html(),
         keymap.of(this.basicMDKeymap),
         this.activeLineHighlighter,
+        // this.docSizePlugin,
+        baseHighlight,
         lastTimeExtension,
+        // markdown({
+        //   extensions: [Strikethrough, Table, TaskList, Emoji],
+        // }),
       ],
     });
     // Create editor view by state
     this.view = new EditorView({
       state: this.state,
       parent: this.tabseditorEl,
-      extensions: EditorView.lineWrapping,
+      extensions: [
+        EditorView.lineWrapping,
+      ],
     });
   }
 
@@ -555,6 +560,24 @@ export class TabEditor {
     decorations: v => v.decorations
   })
 
+  // docSizePlugin = ViewPlugin.fromClass(class {
+  //   dom: HTMLElement;
+    
+  //   constructor(view) {
+  //     this.dom = view.dom.appendChild(document.createElement("div"))
+  //     this.dom.style.cssText =
+  //       "position: absolute; bottom: 0; right: 0;"
+  //     this.dom.textContent = view.state.doc.length
+  //   }
+  
+  //   update(update) {
+  //     if (update.docChanged)
+  //       this.dom.textContent = update.state.doc.length
+  //   }
+  
+  //   destroy() { this.dom.remove() }
+  // })
+
   // keymap: ctrl+b, ctrl+i, ctrl+u, ctrl+l, $, []
   basicMDKeymap = [
     {
@@ -578,6 +601,19 @@ export class TabEditor {
             from: editor.state.selection.main.from,
             to: editor.state.selection.main.to,
             insert: "*" + editor.state.doc.sliceString(editor.state.selection.main.from, editor.state.selection.main.to) + "*",
+          }
+        });
+        return true;
+      }
+    },
+    {
+      key: "=",
+      run: (editor) => {
+        editor.dispatch({
+          changes: {
+            from: editor.state.selection.main.from,
+            to: editor.state.selection.main.to,
+            insert: "=" + editor.state.doc.sliceString(editor.state.selection.main.from, editor.state.selection.main.to) + "=",
           }
         });
         return true;

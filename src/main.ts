@@ -5,13 +5,23 @@ import { Tabs } from "./components/tabs/tabs";
 import { TabsEditorModal } from "./components/editor/tabeditormodal";
 
 declare module "obsidian" {
+  interface App {
+    setting: SettingModal;
+  }
   interface WorkspaceLeaf {
     rebuildView(): void;
   }
+  interface SettingModal {
+    settingTabs: TabsSettings[];
+    onClose(): void;
+    closeActiveTab(): void;
+  }
 }
+
 export default class TabsPlugin extends Plugin {
   settings: TabsSettings;
   tabsEditorModal: TabsEditorModal;
+  tabsStyleSheet: HTMLStyleElement;
 
   async onload() {
     await this.loadSettings();

@@ -1,0 +1,4 @@
+/* ----------------------------- Tabs contents config ----------------------------- */
+.tabs-container > .tabs-contents {
+  max-height: var(--tabs-max-height, 100%);
+}

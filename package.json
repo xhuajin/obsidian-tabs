@@ -1,22 +1,21 @@
 {
-    "name": "obsidian-tabs",
-    "version": "0.0.1",
-    "description": "1.0",
-    "main": "lib/main.js",
-    "license": "MIT",
-    "scripts": {
-        "build": "obsidian-plugin build --with-stylesheet src/styles.css src/main.ts",
-        "dev": "obsidian-plugin dev src/main.ts"
-    },
-    "devDependencies": {
-        "@codemirror/lang-markdown": "^6.2.4",
-        "latest": "^0.2.0",
-        "obsidian": "latest",
-        "obsidian-plugin-cli": "^0.4.5",
-        "typescript": "^4.1.5"
-    },
-    "dependencies": {
-        "@codemirror/history": "^0.19.2",
-        "codemirror": "^6.0.1"
-    }
+  "name": "obsidian-tabs",
+  "version": "1.1.4",
+  "description": "1.0",
+  "main": "lib/main.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "obsidian-plugin build --with-stylesheet src/styles.css src/main.ts",
+    "dev": "obsidian-plugin dev --vault-path ../TabsTestVault --with-stylesheet src/styles.css src/main.ts"
+  },
+  "devDependencies": {
+    "@codemirror/lang-markdown": "^6.2.4",
+    "codemirror": "^6.0.1",
+    "latest": "^0.2.0",
+    "obsidian": "latest",
+    "typescript": "^4.1.5",
+    "obsidian-plugin-cli": "^0.8.3"
+  },
+  "dependencies": {
+  }
 }

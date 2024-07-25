@@ -19,7 +19,7 @@ export class TabNav {
         this.tabnavitems[i] = new TabNavItem(this, i, tabsNav[i]);
       }
       this.tabnavitems[0].isActiveed = true;
-      this.tabnavitems[0].tabitemEl.classList.add("tab-nav-item-active");
+      this.tabnavitems[0].tabitemEl.classList.add("tabs-nav-item-active");
       this.tabnavEl = this.createTabNavEl();
       this.currentTab = 0;
     }
@@ -27,9 +27,9 @@ export class TabNav {
 
   createTabNavEl(): HTMLElement {
     const element = document.createElement('div');
-    element.className = "tab-nav";
+    element.className = "tabs-nav";
     const wrapper = document.createElement('div');
-    wrapper.className = "tab-nav-item-wrapper";
+    wrapper.className = "tabs-nav-item-wrapper";
     element.appendChild(wrapper);
     this.tabnavitems.length > 0 && this.tabnavitems.forEach(tab => {
       wrapper.appendChild(tab.tabitemEl);
@@ -46,9 +46,9 @@ export class TabNav {
   // refresh tab nav
   refreshActiveTabNav(index: number) {
     this.tabnavitems[this.currentTab].isActiveed = false;
-    this.tabnavitems[this.currentTab].tabitemEl.classList.remove("tab-nav-item-active");
+    this.tabnavitems[this.currentTab].tabitemEl.classList.remove("tabs-nav-item-active");
     this.tabnavitems[index].isActiveed = true;
-    this.tabnavitems[index].tabitemEl.classList.add("tab-nav-item-active");
+    this.tabnavitems[index].tabitemEl.classList.add("tabs-nav-item-active");
     this.currentTab = index;
   }
 }

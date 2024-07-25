@@ -27,22 +27,24 @@ export class Tabs {
   backquoteCount: number = 3;
 
   constructor(source: string, element: HTMLElement, context: MarkdownPostProcessorContext, app: App, plugin: TabsPlugin) {
-    element.className = "tab-container";
+    element.className = "tabs-container";
     this.plugin = plugin;
     this.tabsEl = element;
     this.split = this.plugin.settings.split;
     this.app = app;
     this.activeView = app.workspace.getActiveViewOfType(MarkdownView);
-    this.sectionInfo = context.getSectionInfo(element);
+    this.sectionInfo = context?.getSectionInfo(element);
     this.context = context;
     this.updateBackquote(source);
     if (!this.sectionInfo) {
       this.tabsType = "innertabs";
+      this.tabsEl.classList.add("tabs-innertabs");
     }
     
     const [tabnavitemtitle, tabcontent] = this.parseTabs(source, this.plugin.settings.defaultTabNavItem, this.plugin.settings.defaultTabContent);
     this.tabsConfig = new TabsConfig(tabcontent[0], this.tabsEl, this.plugin.settings);
-    this.tabNav = new TabNav(tabnavitemtitle.slice(1), this.tabsType === "innertabs" ? "none" : this.tabsConfig.actionButton, this.sectionInfo);
+    
+    this.tabNav = new TabNav(tabnavitemtitle.slice(1), this.tabsType === "innertabs" ? "action-none" : this.tabsConfig.actionButton, this.sectionInfo);
     this.tabContents = new TabContents(plugin, tabcontent.map((content, index) => {
       return new TabContent(index, tabnavitemtitle[index], content, app, context);
     }).slice(1));
@@ -51,6 +53,7 @@ export class Tabs {
     
     element.appendChild(this.tabNav.tabnavEl);
     element.appendChild(this.tabContents.tabcontentsEl);
+    this.tabsConfig.decorate(this.tabsEl, this.tabNav.tabnavEl, this.tabContents.tabcontentsEl);
     
     // switch to the last active tab
     lastActiveTabIndex = lastActiveTabIndex >= this.tabNav.tabnavitems.length ? 0 : lastActiveTabIndex;
@@ -127,14 +130,14 @@ export class Tabs {
 
     // action button click event
     switch (this.tabsConfig.actionButton) {
-      case 'none':
+      case 'action-none':
         break;
-      case 'edit':
+      case 'action-edit':
         this.tabNav.tabbutton.buttonEl && this.plugin.registerDomEvent(this.tabNav.tabbutton.buttonEl, "click", () => {
           this.plugin.tabsEditorModal.startEditing(this);
         });
         break;
-      case 'add':
+      case 'action-add':
         this.tabNav.tabbutton.buttonEl && this.plugin.registerDomEvent(this.tabNav.tabbutton.buttonEl, "click", () => {
           lastActiveTabIndex = this.tabNav.tabnavitems.length;
           const activeEditor = this.activeView?.editor;
@@ -145,7 +148,7 @@ export class Tabs {
         });
         break;
       default:
-        this.plugin.settings.actionButtonType = 'none';
+        this.plugin.settings.actionButtonType = 'action-none';
         this.plugin.saveSettings();
         new Notice("Invalid action button type. Set to 'None'.");
     }

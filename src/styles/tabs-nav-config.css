@@ -1,0 +1,97 @@
+/* ----------------------------- Tabs nav config ----------------------------- */
+
+/* tabs-nav-top */
+.tabs-container.tabs-nav-top {
+  flex-direction: column;
+}
+.tabs-container.tabs-nav-top .tabs-nav .tabs-nav-item {
+  border-width: 0 0 3px 0;
+}
+.tabs-container.tabs-nav-top .tabs-nav .tabs-nav-item.tabs-nav-item-active {
+  border-color: var(--tabs-nav-item-active-color);
+}
+.tabs-container.tabs-nav-top .tabs-nav .tabs-nav-item:not(.tabs-nav-item-active):hover {
+  border-color: var(--tabs-nav-item-hover-color);
+}
+.tabs-container.tabs-nav-top .tabs-nav.tabs-nav-title-limited .tabs-nav-item {
+  max-width: var(--tab-max-width);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* tabs-nav-bottom */
+.tabs-container.tabs-nav-bottom {
+  flex-direction: column-reverse;
+}
+.tabs-container.tabs-nav-bottom .tabs-nav .tabs-nav-item {
+  max-width: var(--tab-max-width);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-width: 0 0 3px 0;
+}
+.tabs-container.tabs-nav-bottom .tabs-nav .tabs-nav-item.tabs-nav-item-active {
+  border-color: var(--tabs-nav-item-active-color);
+}
+.tabs-container.tabs-nav-bottom .tabs-nav .tabs-nav-item:not(.tabs-nav-item-active):hover {
+  border-color: var(--tabs-nav-item-hover-color);
+}
+
+/* tabs-nav-left */
+.tabs-container.tabs-nav-left {
+  flex-direction: row;
+}
+.tabs-container.tabs-nav-left > .tabs-nav {
+  display: flex;
+  width: auto;
+  max-width: 20%;
+  flex-direction: column;
+}
+.tabs-container.tabs-nav-left > .tabs-nav > .tabs-nav-item-wrapper > .tabs-nav-item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-width: 0 3px 0 0;
+}
+.tabs-container.tabs-nav-left > .tabs-nav > .tabs-nav-item-wrapper > .tabs-nav-item.tabs-nav-item-active {
+  border-color: var(--tabs-nav-item-active-color);
+}
+.tabs-container.tabs-nav-left > .tabs-nav > .tabs-nav-item-wrapper > .tabs-nav-item:not(.tabs-nav-item-active):hover {
+  border-color: var(--tabs-nav-item-hover-color);
+}
+.tabs-container.tabs-nav-left > .tabs-nav > .tabs-nav-item-wrapper {
+  flex-direction: column;
+}
+.tabs-container.tabs-nav-left > .tabs-nav > .tabs-nav-button {
+  margin: 10px auto;
+}
+
+/* tabs-nav-right */
+.tabs-container.tabs-nav-right {
+  flex-direction: row-reverse;
+}
+.tabs-container.tabs-nav-right > .tabs-nav {
+  display: flex;
+  width: auto;
+  max-width: 20%;
+  flex-direction: column;
+}
+.tabs-container.tabs-nav-right > .tabs-nav > .tabs-nav-item-wrapper > .tabs-nav-item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-width: 0 3px 0 0;
+}
+.tabs-container.tabs-nav-right > .tabs-nav > .tabs-nav-item-wrapper > .tabs-nav-item.tabs-nav-item-active {
+  border-color: var(--tabs-nav-item-active-color);
+}
+.tabs-container.tabs-nav-right > .tabs-nav > .tabs-nav-item-wrapper > .tabs-nav-item:not(.tabs-nav-item-active):hover {
+  border-color: var(--tabs-nav-item-hover-color);
+}
+.tabs-container.tabs-nav-right > .tabs-nav > .tabs-nav-item-wrapper {
+  flex-direction: column;
+}
+.tabs-container.tabs-nav-right > .tabs-nav > .tabs-nav-button {
+  margin: 10px auto;
+}

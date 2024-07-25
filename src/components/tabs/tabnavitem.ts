@@ -12,6 +12,6 @@ export class TabNavItem {
     this.title = title.trim();
     this.tabnav = tabnav;
     this.tabitemEl = createEl("div", { text: this.title });
-    this.tabitemEl.className = "tab-nav-item";
+    this.tabitemEl.className = "tabs-nav-item";
   }
 }

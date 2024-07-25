@@ -1,0 +1,37 @@
+/* contents */
+
+.tabs-container .tabs-contents {
+  width: 100%;
+  padding: var(--tabs-contents-padding, 0.25em 2em);
+  overflow: auto;
+}
+
+.tabs-container .tabs-contents .tabs-content {
+  display: none;
+}
+
+.tabs-container .tabs-contents .tabs-content :is(h1, h2, h3) {
+  margin-top: 0.5em;
+}
+
+.tabs-container .tabs-contents .tabs-content p {
+  margin: 0;
+}
+
+.tabs-container .tabs-contents .tabs-content.tabs-content-active {
+  display: block;
+}
+
+.tabs-container .tabs-contents.tabs-contents-hidden {
+  display: none;
+}
+
+/* 兼容 minimal 主题 */
+body :not(.canvas-node) .markdown-source-view.mod-cm6 .tabs-container .cm-gutters {
+  position: sticky !important;
+}
+
+/* embed page */
+.tabs-container .tabs-content .markdown-embed-title {
+  display: none;
+}
