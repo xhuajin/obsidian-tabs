@@ -22,6 +22,7 @@ export class TabNavItem {
 
     this.tabitemEl = createDiv();
     this.tabitemEl.className = "tabs-nav-item";
+    
     draggable && this.tabitemEl.setAttr("draggable", "true");
 
     this.tabitemMDEl = this.tabitemEl.createDiv();
@@ -29,11 +30,12 @@ export class TabNavItem {
 
 
     const tabComponent = new MarkdownRenderChild(this.tabitemMDEl);
+    // console.log(this.tabs.context);
     MarkdownRenderer.render(
-      tabnav.tabs.app,
+      this.tabs.app,
       this.title,
       this.tabitemMDEl,
-      tabnav.sourcePath,
+      this.tabs.context.sourcePath,
       tabComponent
     );
   }

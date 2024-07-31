@@ -1,6 +1,6 @@
 import { DEFAULT_SETTINGS, TabsSettings, TabsSettingsTab } from "./settings";
+import { MarkdownView, Plugin } from "obsidian";
 
-import { Plugin } from "obsidian";
 import { TabDragger } from "./types";
 import { Tabs } from "./components/tabs/tabs";
 import { TabsEditorModal } from "./components/editor/tabeditormodal";
@@ -28,15 +28,26 @@ export default class TabsPlugin extends Plugin {
   
   async onload() {
     await this.loadSettings();
+    // setting tab
     this.addSettingTab(new TabsSettingsTab(this.app, this));
+
+    // register tabs code block
     this.registerMarkdownCodeBlockProcessor("tabs", (source, el, ctx) => {
       new Tabs(source, el, ctx, this.app, this);
     });
+
+    // register commands
     this.registerCommands();
+    
+    // tabs editor
     this.tabsEditorModal = new TabsEditorModal(this, this.app);
-    this.settings.autorefreshMarkdownView && this.app.workspace.onLayoutReady(() => {
-      this.refreshOpenViews();
+    
+    // refresh active markdown view onload
+    this.app.workspace.onLayoutReady(() => {
+      this.settings.autorefreshMarkdownView && this.refreshActiveView();
     });
+
+    // a cache to store the last active tab index of each opened file
     this.lastTabsCache = new Map();
     this.lastTabsCache.set("/", 0);
     this.app.workspace.on("active-leaf-change", () => {
@@ -110,6 +121,18 @@ export default class TabsPlugin extends Plugin {
   public refreshOpenViews(): boolean {
     try {
       this.app.workspace.getLeavesOfType("markdown").forEach((leaf) => leaf.rebuildView());
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  }
+
+  public refreshActiveView(): boolean {
+    try {
+      const activeView = this.app.workspace.getActiveViewOfType(MarkdownView);
+      activeView && activeView.leaf.rebuildView();
+      console.log(activeView);
       return true;
     } catch (e) {
       console.error(e);
