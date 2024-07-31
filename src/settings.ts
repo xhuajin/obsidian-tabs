@@ -6,21 +6,26 @@ export interface TabsSettings {
   split: string;
   defaultTabNavItem: string;
   defaultTabContent: string;
-  ignoreNotice: boolean;
   actionButtonType: "action-none" | "action-add" | "action-edit";
+  ignoreNotice: boolean;
+  autorefreshMarkdownView: boolean;
+  dragAndDrop: boolean;
+
+  // default editor settings
   doubleClickToEdit: boolean;
   showToolbar: boolean;
   tabSize: number;
   editorAutoSaveInterval: number;
+
   // default style settings
   defaultTabsBorder: "border-none" | "border-hover" | "border-always";
   defaultTabsBorderColor: HexString;
   hideTabsEditBlockButton: boolean;
-  
+
   defaultTitlePosition: "top" | "bottom" | "left" | "right";
   defaultTitleLineClamp: "one" | "multi";
   defaultTitleLimited: boolean;
-  
+
   defaultTabsContentsPadding: string;
   defaultTabsContentsMaxHeight: string;
 }
@@ -29,17 +34,22 @@ export const DEFAULT_SETTINGS: TabsSettings = {
   split: "tab: ",
   defaultTabNavItem: "New tab",
   defaultTabContent: "New tab content",
-  ignoreNotice: false,
   actionButtonType: "action-add",
+  ignoreNotice: false,
+  autorefreshMarkdownView: true,
+  dragAndDrop: false,
+
+  // default editor settings
   doubleClickToEdit: false,
   showToolbar: true,
   tabSize: 4,
   editorAutoSaveInterval: 5000,
+
   // default style settings
   defaultTabsBorder: "border-hover",
   defaultTabsBorderColor: "#e0e0e0",
   hideTabsEditBlockButton: true,
-  
+
   defaultTitleLineClamp: "one",
   defaultTitlePosition: "top",
   defaultTitleLimited: false,
@@ -51,24 +61,24 @@ export const DEFAULT_SETTINGS: TabsSettings = {
 export class TabsSettingsTab extends PluginSettingTab {
   plugin: TabsPlugin;
   sampleTabs: SampleTabs;
-  
+  settingChanged: boolean = false;
+
   constructor(app: App, plugin: TabsPlugin) {
     super(app, plugin);
     this.plugin = plugin;
     app.setting.onClose = () => {
-      plugin.refreshOpenViews();
+      this.plugin.settings.autorefreshMarkdownView && this.settingChanged && plugin.refreshOpenViews();
       app.setting.closeActiveTab();
     }
   }
-  
+
   display(): void {
-    let {containerEl} = this;
+    let { containerEl } = this;
     containerEl.empty();
-    
+
     this.displayNormalSetting(containerEl);
     this.displayEditorSetting(containerEl);
     this.displayAppearanceSetting(containerEl);
-
   }
 
   displayNormalSetting(containerEl: HTMLElement): void {
@@ -84,7 +94,7 @@ export class TabsSettingsTab extends PluginSettingTab {
           }
           this.plugin.settings.split = value;
           this.plugin.saveSettings();
-          this.plugin.refreshOpenViews();
+          this.settingChanged = true;
         })
       )
       .then(setting => this.addResetButton(setting, 'defaultTabContent'));
@@ -121,18 +131,6 @@ export class TabsSettingsTab extends PluginSettingTab {
       .then(setting => this.addResetButton(setting, 'defaultTabContent'));
 
     new Setting(containerEl)
-      .setName("Ignore notice")
-      .setDesc("Ignore notice when adding, deleting tabs and so on.")
-      .addToggle(toggle => toggle
-        .setValue(this.plugin.settings.ignoreNotice)
-        .onChange((value) => {
-          this.plugin.settings.ignoreNotice = value;
-          this.plugin.saveSettings();
-          this.plugin.refreshOpenViews();
-        })
-      );
-
-    new Setting(containerEl)
       .setName("Action button")
       .setDesc("Function of top right button. Select 'None' if you don't need it.")
       .addDropdown(dropdown => dropdown
@@ -144,10 +142,37 @@ export class TabsSettingsTab extends PluginSettingTab {
         .setValue(this.plugin.settings.actionButtonType)
         .onChange((value: "action-none" | "action-add" | "action-edit") => {
           this.plugin.settings.actionButtonType = value;
+          this.settingChanged = true;
           this.plugin.saveSettings();
           this.sampleTabs.refresh();
         })
       );
+
+    new Setting(containerEl)
+      .setName("Ignore notice")
+      .setDesc("Ignore notice when adding, deleting tabs and so on.")
+      .addToggle(toggle => toggle
+        .setValue(this.plugin.settings.ignoreNotice)
+        .onChange((value) => {
+          this.plugin.settings.ignoreNotice = value;
+          this.plugin.saveSettings();
+        })
+      );
+
+    new Setting(containerEl)
+      .setName("Autorefresh markdown view")
+      .setDesc("When enabled, after you modify the settings of the tabs, all markdown files that opened will automatically refresh when you close the settings panel. If disabled, the changes will not take effect immediately on the Tabs in opened markdown file, and you will need to re-render them matually.")
+      .addToggle(toggle => toggle
+        .setValue(this.plugin.settings.autorefreshMarkdownView)
+        .onChange((value) => {
+          this.plugin.settings.autorefreshMarkdownView = value;
+          this.plugin.saveSettings();
+        })
+      );
+
+    new Setting(containerEl)
+      .setName("Drag and drop")
+      .setDesc("You can drag and drop tabs to reorder them in the same file.")
   }
 
   displayEditorSetting(containerEl: HTMLElement): void {
@@ -160,8 +185,8 @@ export class TabsSettingsTab extends PluginSettingTab {
         .setValue(this.plugin.settings.doubleClickToEdit)
         .onChange((value) => {
           this.plugin.settings.doubleClickToEdit = value;
+          this.settingChanged = true;
           this.plugin.saveSettings();
-          this.plugin.refreshOpenViews();
         })
       );
 
@@ -172,11 +197,11 @@ export class TabsSettingsTab extends PluginSettingTab {
         .setValue(this.plugin.settings.showToolbar)
         .onChange((value) => {
           this.plugin.settings.showToolbar = value;
+          this.settingChanged = true;
           this.plugin.saveSettings();
-          this.plugin.refreshOpenViews();
         })
       );
-    
+
     new Setting(containerEl)
       .setName("Tab size")
       .setDesc("Tab size in tabs editor")
@@ -185,8 +210,8 @@ export class TabsSettingsTab extends PluginSettingTab {
         slider.setValue(this.plugin.settings.tabSize);
         slider.onChange(value => {
           this.plugin.settings.tabSize = value;
+          this.settingChanged = true;
           this.plugin.saveSettings();
-          this.plugin.refreshOpenViews();
         });
         slider.setDynamicTooltip();
       })
@@ -204,8 +229,8 @@ export class TabsSettingsTab extends PluginSettingTab {
             return;
           }
           this.plugin.settings.editorAutoSaveInterval = interval;
+          this.settingChanged = true;
           this.plugin.saveSettings();
-          this.plugin.refreshOpenViews();
         })
       )
       .then(setting => this.addResetButton(setting, 'defaultTabContent'));
@@ -223,12 +248,13 @@ export class TabsSettingsTab extends PluginSettingTab {
         .setTooltip('Reset to default')
         .onClick(() => {
           this.plugin.settings[settingKey] = DEFAULT_SETTINGS[settingKey]
+          this.settingChanged = true;
           this.plugin.saveSettings()
-          if (refreshView) { 
-            this.display() 
+          if (refreshView) {
+            this.display()
           }
-      })
-    )
+        })
+      )
   }
 }
 
@@ -242,7 +268,7 @@ class SampleTabs {
   tabscontentsEl: HTMLElement;
   tabscontentsItems: HTMLElement[] = [];
   currentIndex: number;
-  
+
   constructor(plugin: TabsPlugin, settingsTab: TabsSettingsTab, containerEl: HTMLElement) {
     this.plugin = plugin;
     this.settingsTab = settingsTab;
@@ -255,13 +281,13 @@ class SampleTabs {
   private createTabsContainer(): void {
     this.containerEl.addClass('sample-tabs-container');
     this.tabscontainerEl = this.containerEl.createDiv('tabs-container');
-    
+
     // tabs
     this.tabscontainerEl.classList.add("tabs-" + this.plugin.settings.defaultTabsBorder);
     this.tabscontainerEl.style.setProperty("--tabs-border-color", this.plugin.settings.defaultTabsBorderColor);
     // this.tabscontainerEl.setAttribute("style", "--tabs-max-height: " + this.plugin.settings.defaultTabsContentsMaxHeight + ";");
     this.tabscontainerEl.style.setProperty("--tabs-max-height", this.plugin.settings.defaultTabsContentsMaxHeight);
-    
+
     // tabs nav
     this.tabscontainerEl.classList.add("tabs-nav-" + this.plugin.settings.defaultTitlePosition);
     if (this.plugin.settings.defaultTitlePosition === "top" || this.plugin.settings.defaultTitlePosition === "bottom") {
@@ -276,7 +302,7 @@ class SampleTabs {
     codeblockEditButton.setAttribute("aria-label", "Edit this block");
     setIcon(codeblockEditButton, "lucide-code-2");
   }
-  
+
   private createSampleTabNav(tabsContainerEl: HTMLElement): void {
     this.tabsnavEl = tabsContainerEl.createEl('div');
     this.tabsnavEl.className = "tabs-nav";
@@ -284,7 +310,7 @@ class SampleTabs {
     const wrapper = this.tabsnavEl.createEl('div');
     wrapper.className = "tabs-nav-item-wrapper";
 
-    const navitems = ["Lorem ipsum", "Tabs", "Tabs nav", "Tabs contents"];
+    const navitems = ["Tabs", "Tabs nav", "Tabs contents", "Lorem ipsum"];
     this.currentIndex = 0;
     navitems.forEach((tab, index) => {
       const tabitem = wrapper.createEl('div');
@@ -298,7 +324,7 @@ class SampleTabs {
         this.tabscontentsItems[this.currentIndex].classList.remove("tabs-content-active");
         this.currentIndex = index;
         wrapper.children[index].classList.add("tabs-nav-item-active");
-        this.tabscontentsItems[index].classList.add("tabs-content-active");        
+        this.tabscontentsItems[index].classList.add("tabs-content-active");
       });
     });
 
@@ -315,24 +341,23 @@ class SampleTabs {
 
   private createSampleTabContent(tabsContainerEl: HTMLElement): void {
     this.tabscontentsEl = tabsContainerEl.createDiv('tabs-contents');
-    
-    const TABS_LoremIpsum = this.tabscontentsEl.createDiv('tabs-content');
-    const loremIpsum = TABS_LoremIpsum.createEl('p');
-    loremIpsum.style.userSelect = "text";
-    loremIpsum.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-    
-    TABS_LoremIpsum.classList.add("tabs-content-active");
 
     const TABS_Tabs = this.tabscontentsEl.createDiv('tabs-content');
     this.generateTabsStyleSettings(TABS_Tabs);
-    
+    TABS_Tabs.classList.add("tabs-content-active");
+
     const TABS_TabsNav = this.tabscontentsEl.createDiv('tabs-content');
     this.generateTabsNavStyleSettings(TABS_TabsNav);
 
     const TABS_TabsContents = this.tabscontentsEl.createDiv('tabs-content');
     this.generateTabsContentStyleSettings(TABS_TabsContents);
-    
-    this.tabscontentsItems = [TABS_LoremIpsum, TABS_Tabs, TABS_TabsNav, TABS_TabsContents];
+
+    const TABS_LoremIpsum = this.tabscontentsEl.createDiv('tabs-content');
+    const loremIpsum = TABS_LoremIpsum.createEl('p');
+    loremIpsum.style.userSelect = "text";
+    loremIpsum.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+    this.tabscontentsItems = [TABS_Tabs, TABS_TabsNav, TABS_TabsContents, TABS_LoremIpsum];
   }
 
   private generateTabsStyleSettings(containerEl: HTMLElement): void {
@@ -357,7 +382,7 @@ class SampleTabs {
           this.plugin.saveSettings();
         })
       );
-    
+
     // 边框的颜色
     new Setting(containerEl)
       .setName("Tabs border color")
@@ -371,7 +396,7 @@ class SampleTabs {
         })
       )
       .then(setting => this.settingsTab.addResetButton(setting, 'defaultTabsBorderColor'));
-      
+
 
     // Tabs 代码块右上角的编辑按钮
     new Setting(containerEl)
@@ -379,7 +404,7 @@ class SampleTabs {
       .setDesc("It's just a decorative setting. If you turn on it, you can still control the cursor into tabs to edit the source code.")
       .addToggle(toggel => toggel
         .setValue(this.plugin.settings.hideTabsEditBlockButton)
-        .onChange((value)=>{
+        .onChange((value) => {
           if (value) {
             document.body.addClass("hide-tabs-edit-block-button");
           } else {
@@ -393,22 +418,22 @@ class SampleTabs {
 
   private generateTabsNavStyleSettings(containerEl: HTMLElement): void {
     new Setting(containerEl)
-    .setName("Tabs nav item default position")
-    .setDesc("Show tabs nav items at the top, bottom, left or right.")
-    .addDropdown(dropdown => dropdown
-      .addOptions({
-        "top": "Top",
-        "bottom": "Bottom",
-        "left": "Left",
-        "right": "Right",
-      })
-      .setValue(this.plugin.settings.defaultTitlePosition)
-      .onChange((value: "top" | "bottom" | "left" | "right") => {
-        this.refreshNavPosition(this.plugin.settings.defaultTitlePosition, value);
-        this.plugin.settings.defaultTitlePosition = value;
-        this.plugin.saveSettings();
-      })
-    );
+      .setName("Tabs nav item default position")
+      .setDesc("Show tabs nav items at the top, bottom, left or right.")
+      .addDropdown(dropdown => dropdown
+        .addOptions({
+          "top": "Top",
+          "bottom": "Bottom",
+          "left": "Left",
+          "right": "Right",
+        })
+        .setValue(this.plugin.settings.defaultTitlePosition)
+        .onChange((value: "top" | "bottom" | "left" | "right") => {
+          this.refreshNavPosition(this.plugin.settings.defaultTitlePosition, value);
+          this.plugin.settings.defaultTitlePosition = value;
+          this.plugin.saveSettings();
+        })
+      );
 
     new Setting(containerEl)
       .setName("Tabs nav item line clamp")
@@ -418,7 +443,7 @@ class SampleTabs {
           "one": "One line",
           "multi": "Multiple lines",
         })
-        .setValue(this.plugin.settings.defaultTitleLineClamp === "one" || 
+        .setValue(this.plugin.settings.defaultTitleLineClamp === "one" ||
           this.plugin.settings.defaultTitleLineClamp === "multi" ? this.plugin.settings.defaultTitleLineClamp : "one")
         .onChange((value: "one" | "multi") => {
           this.plugin.settings.defaultTitleLineClamp = value;
@@ -430,7 +455,7 @@ class SampleTabs {
       .setName("Limit tab title width")
       .setDesc("If set true, tab title will be limited to the width of the tab. Otherwise, the tab title will be displayed the full width.")
       .addToggle(toggle => toggle
-        .setValue(true)
+        .setValue(this.plugin.settings.defaultTitleLimited)
         .onChange((value) => {
           if (value) {
             this.tabsnavEl.addClass("tabs-nav-title-limited");
@@ -493,7 +518,7 @@ class SampleTabs {
     this.createSampleTabContent(this.tabscontainerEl);
   }
 
-  
+
   clear(): void {
     this.containerEl.empty();
   }

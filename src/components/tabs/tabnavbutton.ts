@@ -1,14 +1,14 @@
 import { MarkdownSectionInformation, setIcon } from "obsidian";
 
-import { TabNav } from "./tabnav";
+import { TabsNav } from "./tabsnav";
 
 export class TabNavButton {
-  tabnav: TabNav;
+  tabnav: TabsNav;
   buttonEl: HTMLElement;
   actionbuttontype: string;
   sectioninfo: MarkdownSectionInformation;
   
-  constructor(tabnav: TabNav, actionbuttontype: string, sectioninfo: MarkdownSectionInformation) {
+  constructor(tabnav: TabsNav, actionbuttontype: string, sectioninfo: MarkdownSectionInformation) {
     this.tabnav = tabnav;
     this.sectioninfo = sectioninfo;
     this.buttonEl = this.createTabNavButtonEl(actionbuttontype);

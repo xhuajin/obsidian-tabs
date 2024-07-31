@@ -3,29 +3,30 @@ import { App, MarkdownPostProcessorContext, MarkdownSectionInformation, Markdown
 import { TabContent } from './tabcontent';
 import { TabContents } from './tabcontents';
 import { TabMenu } from './tabmenu';
-import { TabNav } from './tabnav';
 import { TabsConfig } from './tabsconfig';
+import { TabsNav } from './tabsnav';
 import TabsPlugin from '../../main';
 
 // After editing content inside tabs, the code block will rerender. So we need to save the last active tab for the next rerender.
-let lastActiveTabIndex: number = 0;
+// export let lastActiveTabIndex: number = 0;
 
 export class Tabs {
+  tabsId: string;
   plugin: TabsPlugin;
   tabsEl: HTMLElement;
   split: string;
   app: App;
   activeView: MarkdownView;
   tabsConfig: TabsConfig;
-  tabNav: TabNav;
-  tabContents: TabContents;
-  sectionInfo: MarkdownSectionInformation;
+  tabsNav: TabsNav;
+  tabsContents: TabContents;
   context: MarkdownPostProcessorContext;
+  sectionInfo: MarkdownSectionInformation;
   currentIndex: number = 0;
   tabsType: string = "outertabs";
   backquote: string = "`";
   backquoteCount: number = 3;
-
+  
   constructor(source: string, element: HTMLElement, context: MarkdownPostProcessorContext, app: App, plugin: TabsPlugin) {
     element.className = "tabs-container";
     this.plugin = plugin;
@@ -44,22 +45,29 @@ export class Tabs {
     const [tabnavitemtitle, tabcontent] = this.parseTabs(source, this.plugin.settings.defaultTabNavItem, this.plugin.settings.defaultTabContent);
     this.tabsConfig = new TabsConfig(tabcontent[0], this.tabsEl, this.plugin.settings);
     
-    this.tabNav = new TabNav(tabnavitemtitle.slice(1), this.tabsType === "innertabs" ? "action-none" : this.tabsConfig.actionButton, this.sectionInfo);
-    this.tabContents = new TabContents(plugin, tabcontent.map((content, index) => {
+    this.tabsNav = new TabsNav(this, tabnavitemtitle.slice(1), this.tabsType === "innertabs" ? "action-none" : this.tabsConfig.actionButton, this.sectionInfo);
+    this.tabsContents = new TabContents(plugin, tabcontent.map((content, index) => {
       return new TabContent(index, tabnavitemtitle[index], content, app, context);
     }).slice(1));
     
     this.registerEventHandlers();
     
-    element.appendChild(this.tabNav.tabnavEl);
-    element.appendChild(this.tabContents.tabcontentsEl);
-    this.tabsConfig.decorate(this.tabsEl, this.tabNav.tabnavEl, this.tabContents.tabcontentsEl);
+    element.appendChild(this.tabsNav.navEl);
+    element.appendChild(this.tabsContents.tabcontentsEl);
+    this.tabsConfig.decorate(this.tabsEl, this.tabsNav.navEl, this.tabsContents.tabcontentsEl);
     
     // switch to the last active tab
-    lastActiveTabIndex = lastActiveTabIndex >= this.tabNav.tabnavitems.length ? 0 : lastActiveTabIndex;
-    this.currentIndex = lastActiveTabIndex;
-    this.tabNav.refreshActiveTabNav(lastActiveTabIndex);
-    this.tabContents.refreshActiveTabContent(lastActiveTabIndex);
+    this.tabsId = "/";
+    if (this.context && this.sectionInfo) {
+      this.tabsId = this.context.sourcePath + this.sectionInfo.lineStart;
+    }
+    if (!this.plugin.lastTabsCache.has(this.tabsId)) {
+      this.plugin.lastTabsCache.set(this.tabsId, 0);
+    }
+    // lastActiveTabIndex = lastActiveTabIndex >= this.tabsNav.navItems.length ? 0 : lastActiveTabIndex;
+    this.currentIndex = this.plugin.lastTabsCache.get(this.tabsId);
+    this.tabsNav.refreshActiveTabNav(this.currentIndex);
+    this.tabsContents.refreshActiveTabContent(this.currentIndex);
   }
 
   parseTabs(source: string, defaultTabNavItem: string, defaultTabContent: string): [string[], string[]] {
@@ -75,7 +83,6 @@ export class Tabs {
       tabcontent.push(source.trim() === "" ? defaultTabContent : source);
     } else {
       let lines = source.split('\n');
-      let temp_hasInnerTabs = false; // If a tabs does't have inner tabs
       for (let i = 0, innerTabs = 0; i < lines.length; i++) {
         if (!innerTabs && lines[i].startsWith(this.split)) {
           tabnavitemtitle.push(title);
@@ -87,14 +94,12 @@ export class Tabs {
           if (lines[i].trim().startsWith('```')) {
             if (!innerTabs && lines[i].trim().endsWith('tabs')) {
               innerTabs = lines[i].trim().length - 4;
-              temp_hasInnerTabs = true; // If a tabs has inner tabs
             } else if (innerTabs && lines[i].trim().endsWith('`'.repeat(innerTabs))) {
               innerTabs = 0;
             }
           } else if (lines[i].trim().startsWith('~~~')) {
             if (!innerTabs && lines[i].trim().endsWith('tabs')) {
               innerTabs = lines[i].trim().length - 4;
-              temp_hasInnerTabs = true; // If a tabs has inner tabs
             } else if (innerTabs && lines[i].trim().endsWith('~'.repeat(innerTabs))) {
               innerTabs = 0;
             }
@@ -110,17 +115,19 @@ export class Tabs {
   
   async registerEventHandlers() {
     // switch tab event
-    this.tabNav.tabnavitems.forEach((tab, index) => {
-      this.plugin.registerDomEvent(tab.tabitemEl, "click", (e: MouseEvent) => {
-        this.tabNav.refreshActiveTabNav(index);
-        this.tabContents.refreshActiveTabContent(index);
+    this.tabsNav.navItems.forEach((tab) => {
+      this.plugin.registerDomEvent(tab.tabitemEl, "click", () => {
+        // 可能会插入新的tab，所以不能用固定的index，需要重新获取index
+        const index = this.tabsNav.navItems.indexOf(tab);
+        this.tabsNav.refreshActiveTabNav(index);
+        this.tabsContents.refreshActiveTabContent(index);
         this.currentIndex = index;
-        lastActiveTabIndex = index;
+        this.plugin.lastTabsCache.set(this.context.sourcePath + this.sectionInfo.lineStart, index);
       });
     });
 
     // double click event
-    this.tabsType === "outertabs" && this.plugin.settings.doubleClickToEdit && this.plugin.registerDomEvent(this.tabContents.tabcontentsEl, "dblclick", (e: MouseEvent) => {
+    this.tabsType === "outertabs" && this.plugin.settings.doubleClickToEdit && this.plugin.registerDomEvent(this.tabsContents.tabcontentsEl, "dblclick", (e: MouseEvent) => {
       e.preventDefault();
       if (!this.activeView || this.isPreviewMode()) {
         return;
@@ -133,19 +140,24 @@ export class Tabs {
       case 'action-none':
         break;
       case 'action-edit':
-        this.tabNav.tabbutton.buttonEl && this.plugin.registerDomEvent(this.tabNav.tabbutton.buttonEl, "click", () => {
-          this.plugin.tabsEditorModal.startEditing(this);
-        });
+        if (this.activeView && !this.isPreviewMode() && this.tabsType !== "innertabs" && this.tabsNav.tabsButton.buttonEl) {
+            this.plugin.registerDomEvent(this.tabsNav.tabsButton.buttonEl, "click", () => {
+            this.plugin.tabsEditorModal.startEditing(this);
+          });
+        } 
         break;
       case 'action-add':
-        this.tabNav.tabbutton.buttonEl && this.plugin.registerDomEvent(this.tabNav.tabbutton.buttonEl, "click", () => {
-          lastActiveTabIndex = this.tabNav.tabnavitems.length;
-          const activeEditor = this.activeView?.editor;
-          activeEditor.setLine(this.sectionInfo.lineEnd,
-            this.split + this.plugin.settings.defaultTabNavItem + "\n" + 
-            this.plugin.settings.defaultTabContent + "\n" + 
-            activeEditor.getLine(this.sectionInfo.lineEnd));
-        });
+        if (this.activeView && !this.isPreviewMode() && this.tabsType !== "innertabs" && this.tabsNav.tabsButton.buttonEl) {
+          this.plugin.registerDomEvent(this.tabsNav.tabsButton.buttonEl, "click", () => {
+            // lastActiveTabIndex = this.tabsNav.navItems.length;
+            this.plugin.lastTabsCache[this.context.sourcePath + this.sectionInfo.lineStart] = this.tabsNav.navItems.length;
+            const activeEditor = this.activeView?.editor;
+            activeEditor.setLine(this.sectionInfo.lineEnd,
+              this.split + this.plugin.settings.defaultTabNavItem + "\n" + 
+              this.plugin.settings.defaultTabContent + "\n" + 
+              activeEditor.getLine(this.sectionInfo.lineEnd));
+          });
+        }
         break;
       default:
         this.plugin.settings.actionButtonType = 'action-none';
@@ -154,11 +166,16 @@ export class Tabs {
     }
 
     // right click menu event
-    this.plugin.registerDomEvent(this.tabNav.tabnavEl, "contextmenu", (e: MouseEvent) => {
-      e.preventDefault();
-      const tabmenu = new TabMenu(this, e);
-      tabmenu.showAtMouseEvent(e);
-    });
+    if (this.activeView && !this.isPreviewMode() && this.tabsType !== "innertabs") {
+      this.plugin.registerDomEvent(this.tabsNav.navEl, "contextmenu", (e: MouseEvent) => {
+        e.preventDefault();
+        const tabmenu = new TabMenu(this, e);
+        tabmenu.showAtMouseEvent(e);
+      });
+    }
+
+    // drag and drop event
+    (this.tabsType !== "innertabs") && this.tabsNav.registerDragEvents();
   }
 
   isPreviewMode() {

@@ -1,6 +1,7 @@
 import { DEFAULT_SETTINGS, TabsSettings, TabsSettingsTab } from "./settings";
 
 import { Plugin } from "obsidian";
+import { TabDragger } from "./types";
 import { Tabs } from "./components/tabs/tabs";
 import { TabsEditorModal } from "./components/editor/tabeditormodal";
 
@@ -22,7 +23,9 @@ export default class TabsPlugin extends Plugin {
   settings: TabsSettings;
   tabsEditorModal: TabsEditorModal;
   tabsStyleSheet: HTMLStyleElement;
-
+  lastTabsCache: Map<string, number>; // sourcePath + Linestart -> lastActiveTabIndex
+  tabDragger: TabDragger;
+  
   async onload() {
     await this.loadSettings();
     this.addSettingTab(new TabsSettingsTab(this.app, this));
@@ -31,7 +34,15 @@ export default class TabsPlugin extends Plugin {
     });
     this.registerCommands();
     this.tabsEditorModal = new TabsEditorModal(this, this.app);
-    this.refreshOpenViews();
+    this.settings.autorefreshMarkdownView && this.app.workspace.onLayoutReady(() => {
+      this.refreshOpenViews();
+    });
+    this.lastTabsCache = new Map();
+    this.lastTabsCache.set("/", 0);
+    this.app.workspace.on("active-leaf-change", () => {
+      this.lastTabsCache = new Map();
+      this.lastTabsCache.set("/", 0);
+    });
   }
 
   async loadSettings() {
@@ -86,6 +97,14 @@ export default class TabsPlugin extends Plugin {
         }
       }
     })
+
+    this.addCommand({
+      id: "refresh-all-tabs",
+      name: "Refresh all tabs in opened files",
+      callback: () => {
+        this.refreshOpenViews();
+      }
+    });
   }
 
   public refreshOpenViews(): void {

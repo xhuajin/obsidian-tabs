@@ -3,7 +3,6 @@ import { EditorPosition, MarkdownView, Menu, Notice } from "obsidian";
 import { Tabs } from "./tabs";
 
 export class TabMenu extends Menu {
-  
   constructor(tabs: Tabs, e: MouseEvent) {
     super();
 
@@ -18,7 +17,7 @@ export class TabMenu extends Menu {
           tabs.split + tabs.plugin.settings.defaultTabNavItem + "\n" + 
           tabs.plugin.settings.defaultTabContent + "\n" + 
           activeEditor.getLine(tabs.sectionInfo.lineEnd));
-          !tabs.plugin.settings.ignoreNotice && new Notice("🟢 Add new tab successfully");
+        !tabs.plugin.settings.ignoreNotice && new Notice("🟢 Add new tab successfully");
       });
     });
     this.addItem((item) => {
@@ -26,8 +25,8 @@ export class TabMenu extends Menu {
       item.setIcon("trash");
       item.onClick(() => {
         let deleteIndex = -1;
-        for (let i = 0; i < tabs.tabNav.tabnavitems.length; i++) {
-          if (tabs.tabNav.tabnavitems[i].tabitemEl === e.target) {
+        for (let i = 0; i < tabs.tabsNav.navItems.length; i++) {
+          if (tabs.tabsNav.navItems[i].tabitemEl === e.target) {
             deleteIndex = i;
             break;
           }
@@ -36,12 +35,11 @@ export class TabMenu extends Menu {
           !tabs.plugin.settings.ignoreNotice && new Notice("🔴 Not a valid tab.");
           return;
         }
-        const deleteTabTitle = tabs.tabNav.tabnavitems[deleteIndex].title;
-
+        const deleteTabTitle = tabs.tabsNav.navItems[deleteIndex].title;
         let newDoc = "";
-        for (let i = 0; i < tabs.tabNav.tabnavitems.length; i++) {
+        for (let i = 0; i < tabs.tabsNav.navItems.length; i++) {
           if (i !== deleteIndex) {
-            newDoc += tabs.split + tabs.tabNav.tabnavitems[i].title.trim() + "\n" + tabs.tabContents.tabcontents[i].content.trim() + "\n";
+            newDoc += tabs.split + tabs.tabsNav.navItems[i].title.trim() + "\n" + tabs.tabsContents.tabcontents[i].content.trim() + "\n";
           }
         }
         newDoc = tabs.backquote.repeat(tabs.backquoteCount) + 'tabs\n' + tabs.tabsConfig.rawConfig + "\n" + newDoc + tabs.backquote.repeat(tabs.backquoteCount);
@@ -58,10 +56,10 @@ export class TabMenu extends Menu {
       item.onClick(() => {
         let copyIndex = -1;
         let copyContent = "";
-        for (let i = 0; i < tabs.tabNav.tabnavitems.length; i++) {
-          if (tabs.tabNav.tabnavitems[i].tabitemEl == e.target) {
+        for (let i = 0; i < tabs.tabsNav.navItems.length; i++) {
+          if (tabs.tabsNav.navItems[i].tabitemEl == e.target) {
             copyIndex = i;
-            copyContent = tabs.split + tabs.tabNav.tabnavitems[i].title + "\n" + tabs.tabContents.tabcontents[i].content
+            copyContent = tabs.split + tabs.tabsNav.navItems[i].title + "\n" + tabs.tabsContents.tabcontents[i].content
             break;
           }
         }

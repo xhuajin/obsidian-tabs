@@ -76,7 +76,7 @@ export class TabsConfig {
     tabsEl.style.setProperty("--tabs-max-height", this.tabsMaxHeight);
 
     if (this.hideTabsEditBlockButton) {
-      tabsEl.classList.add("tabs-hide-edit-block-button");
+      document.body.classList.add("hide-tabs-edit-block-button");
     }
 
     tabsEl.classList.add("tabs-nav-" + (this.titlePosition || "top"))

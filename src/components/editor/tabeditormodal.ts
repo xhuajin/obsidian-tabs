@@ -21,8 +21,8 @@ export class TabsEditorModal extends Modal {
   startEditing(tabs: Tabs) {
     this.contentEl.empty();
     this.tabs = tabs;
-    const newDoc = tabs.split + tabs.tabNav.tabnavitems[tabs.currentIndex].title + "\n" +
-      tabs.tabContents.tabcontents[tabs.currentIndex].content.trim()
+    const newDoc = tabs.split + tabs.tabsNav.navItems[tabs.currentIndex].title + "\n" +
+      tabs.tabsContents.tabcontents[tabs.currentIndex].content.trim()
     this.editor = new TabEditor(this.plugin, this.contentEl, newDoc);
     this.open();
   }
@@ -54,9 +54,9 @@ export class TabsEditorModal extends Modal {
     // replace current tab with editor content
     const doc = this.editor.view.state.doc.toString();
     let newTabs = "";
-    for (let i = 0; i < this.tabs.tabNav.tabnavitems.length; i++) {
+    for (let i = 0; i < this.tabs.tabsNav.navItems.length; i++) {
       if (i !== index) {
-        newTabs += this.tabs.split + this.tabs.tabNav.tabnavitems[i].title.trim() + "\n" + this.tabs.tabContents.tabcontents[i].content.trim() + "\n";
+        newTabs += this.tabs.split + this.tabs.tabsNav.navItems[i].title.trim() + "\n" + this.tabs.tabsContents.tabcontents[i].content.trim() + "\n";
       } else {
         newTabs += doc + "\n";
         // if doc contains code block, add one more backtick

@@ -128,6 +128,10 @@ Tab content
 
 ![tabs-nav-left](./assets/tabs-nav-left.png)
 
+You can decorate tab title too.
+
+![tabs-decorate-title](./assets/tabs-decorate-title.png)
+
 ### 4. Edit tab
 
 Double click the content can rouse an editor if you turn on the setting 'Double click to edit'. You can also use action button if you set it to 'Edit tab' in setting.
