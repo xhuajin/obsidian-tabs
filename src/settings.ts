@@ -61,13 +61,16 @@ export const DEFAULT_SETTINGS: TabsSettings = {
 export class TabsSettingsTab extends PluginSettingTab {
   plugin: TabsPlugin;
   sampleTabs: SampleTabs;
-  settingChanged: boolean = false;
+  needRefresh: boolean = false;
 
   constructor(app: App, plugin: TabsPlugin) {
     super(app, plugin);
     this.plugin = plugin;
     app.setting.onClose = () => {
-      this.plugin.settings.autorefreshMarkdownView && this.settingChanged && plugin.refreshOpenViews();
+      this.plugin.settings.autorefreshMarkdownView 
+        && this.needRefresh
+        && this.plugin.refreshOpenViews() 
+        && (this.needRefresh = false);
       app.setting.closeActiveTab();
     }
   }
@@ -94,7 +97,7 @@ export class TabsSettingsTab extends PluginSettingTab {
           }
           this.plugin.settings.split = value;
           this.plugin.saveSettings();
-          this.settingChanged = true;
+          this.needRefresh = true;
         })
       )
       .then(setting => this.addResetButton(setting, 'defaultTabContent'));
@@ -142,7 +145,7 @@ export class TabsSettingsTab extends PluginSettingTab {
         .setValue(this.plugin.settings.actionButtonType)
         .onChange((value: "action-none" | "action-add" | "action-edit") => {
           this.plugin.settings.actionButtonType = value;
-          this.settingChanged = true;
+          this.needRefresh = true;
           this.plugin.saveSettings();
           this.sampleTabs.refresh();
         })
@@ -166,6 +169,7 @@ export class TabsSettingsTab extends PluginSettingTab {
         .setValue(this.plugin.settings.autorefreshMarkdownView)
         .onChange((value) => {
           this.plugin.settings.autorefreshMarkdownView = value;
+          this.needRefresh = true;
           this.plugin.saveSettings();
         })
       );
@@ -173,6 +177,14 @@ export class TabsSettingsTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName("Drag and drop")
       .setDesc("You can drag and drop tabs to reorder them in the same file.")
+      .addToggle(toggle => toggle
+        .setValue(this.plugin.settings.dragAndDrop)
+        .onChange((value) => {
+          this.plugin.settings.dragAndDrop = value;
+          this.needRefresh = true;
+          this.plugin.saveSettings();
+        })
+      );
   }
 
   displayEditorSetting(containerEl: HTMLElement): void {
@@ -185,7 +197,7 @@ export class TabsSettingsTab extends PluginSettingTab {
         .setValue(this.plugin.settings.doubleClickToEdit)
         .onChange((value) => {
           this.plugin.settings.doubleClickToEdit = value;
-          this.settingChanged = true;
+          this.needRefresh = true;
           this.plugin.saveSettings();
         })
       );
@@ -197,7 +209,7 @@ export class TabsSettingsTab extends PluginSettingTab {
         .setValue(this.plugin.settings.showToolbar)
         .onChange((value) => {
           this.plugin.settings.showToolbar = value;
-          this.settingChanged = true;
+          this.needRefresh = true;
           this.plugin.saveSettings();
         })
       );
@@ -210,7 +222,7 @@ export class TabsSettingsTab extends PluginSettingTab {
         slider.setValue(this.plugin.settings.tabSize);
         slider.onChange(value => {
           this.plugin.settings.tabSize = value;
-          this.settingChanged = true;
+          this.needRefresh = true;
           this.plugin.saveSettings();
         });
         slider.setDynamicTooltip();
@@ -229,7 +241,7 @@ export class TabsSettingsTab extends PluginSettingTab {
             return;
           }
           this.plugin.settings.editorAutoSaveInterval = interval;
-          this.settingChanged = true;
+          this.needRefresh = true;
           this.plugin.saveSettings();
         })
       )
@@ -248,7 +260,7 @@ export class TabsSettingsTab extends PluginSettingTab {
         .setTooltip('Reset to default')
         .onClick(() => {
           this.plugin.settings[settingKey] = DEFAULT_SETTINGS[settingKey]
-          this.settingChanged = true;
+          this.needRefresh = true;
           this.plugin.saveSettings()
           if (refreshView) {
             this.display()
@@ -378,6 +390,7 @@ class SampleTabs {
           }
           this.tabscontainerEl.removeClass("tabs-" + this.plugin.settings.defaultTabsBorder);
           this.plugin.settings.defaultTabsBorder = value;
+          this.settingsTab.needRefresh = true;
           this.tabscontainerEl.addClass("tabs-" + value);
           this.plugin.saveSettings();
         })
@@ -392,6 +405,7 @@ class SampleTabs {
         .onChange((value: HexString) => {
           this.tabscontainerEl.style.setProperty("--tabs-border-color", value);
           this.plugin.settings.defaultTabsBorderColor = value;
+          this.settingsTab.needRefresh = true;
           this.plugin.saveSettings();
         })
       )
@@ -431,6 +445,7 @@ class SampleTabs {
         .onChange((value: "top" | "bottom" | "left" | "right") => {
           this.refreshNavPosition(this.plugin.settings.defaultTitlePosition, value);
           this.plugin.settings.defaultTitlePosition = value;
+          this.settingsTab.needRefresh = true;
           this.plugin.saveSettings();
         })
       );
@@ -447,6 +462,7 @@ class SampleTabs {
           this.plugin.settings.defaultTitleLineClamp === "multi" ? this.plugin.settings.defaultTitleLineClamp : "one")
         .onChange((value: "one" | "multi") => {
           this.plugin.settings.defaultTitleLineClamp = value;
+          this.settingsTab.needRefresh = true;
           this.plugin.saveSettings();
         })
       );
@@ -463,6 +479,7 @@ class SampleTabs {
             this.tabsnavEl.removeClass("tabs-nav-title-limited");
           }
           this.plugin.settings.defaultTitleLimited = value;
+          this.settingsTab.needRefresh = true;
           this.plugin.saveSettings();
         })
       );
@@ -479,6 +496,7 @@ class SampleTabs {
         .onChange((value) => {
           this.tabscontainerEl.style.setProperty("--tabs-contents-padding", value);
           this.plugin.settings.defaultTabsContentsPadding = value;
+          this.settingsTab.needRefresh = true;
           this.plugin.saveSettings();
         })
       ).then(setting => this.settingsTab.addResetButton(setting, 'defaultTabsContentsPadding'));
@@ -499,6 +517,7 @@ class SampleTabs {
             this.tabscontainerEl.style.removeProperty("--tabs-max-height");
           }
           this.plugin.settings.defaultTabsContentsMaxHeight = value;
+          this.settingsTab.needRefresh = true;
           this.plugin.saveSettings();
         })
       ).then(setting => this.settingsTab.addResetButton(setting, 'defaultTabsMaxHeight'));

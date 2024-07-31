@@ -107,7 +107,13 @@ export default class TabsPlugin extends Plugin {
     });
   }
 
-  public refreshOpenViews(): void {
-    this.app.workspace.getLeavesOfType("markdown").forEach((leaf) => leaf.rebuildView())
+  public refreshOpenViews(): boolean {
+    try {
+      this.app.workspace.getLeavesOfType("markdown").forEach((leaf) => leaf.rebuildView());
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
   }
 }

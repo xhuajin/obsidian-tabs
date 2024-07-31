@@ -175,7 +175,7 @@ export class Tabs {
     }
 
     // drag and drop event
-    (this.tabsType !== "innertabs") && this.tabsNav.registerDragEvents();
+    (this.tabsType !== "innertabs") && this.plugin.settings.dragAndDrop && this.tabsNav.registerDragEvents();
   }
 
   isPreviewMode() {
