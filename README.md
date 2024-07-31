@@ -170,7 +170,7 @@ With Dataview & Tasks
 
 From [DeusEx01](https://github.com/xhuajin/obsidian-tabs/issues/28)
 
-![showcase-DeusEx01](https://private-user-images.githubusercontent.com/149239010/350985938-92089290-4470-4d8c-8e86-e5889599759c.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjE5MTU3MzQsIm5iZiI6MTcyMTkxNTQzNCwicGF0aCI6Ii8xNDkyMzkwMTAvMzUwOTg1OTM4LTkyMDg5MjkwLTQ0NzAtNGQ4Yy04ZTg2LWU1ODg5NTk5NzU5Yy5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwNzI1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDcyNVQxMzUwMzRaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0zMzBlZmVhMjQ1NzliY2NmNDI3ZmNlMDllNzQyNTA1ZmU5NDM2MThkZjliYTNhMGUzYzEzMDEyN2E0NTQ4ZTcwJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.v6lYaWNxE1eE1FmQGUnhO3uhF8i2EsLUqH1Yn61Yw-8)
+![showcase-DeusEx01](./assets/tabs-showcase-01-by-DeusEx01.png)
 
 ![tabs-3](./assets/tabs-3.png)
 
@@ -184,11 +184,11 @@ Tab nav on the left
 
 Tabs in mobile, from [DeusEx01](https://github.com/xhuajin/obsidian-tabs/issues/28)
 
-![showcase-DeusEx01](https://private-user-images.githubusercontent.com/149239010/351033796-36c5b48d-f8c1-4be6-ab85-fcc4d6908b7e.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjE5MTU3MzQsIm5iZiI6MTcyMTkxNTQzNCwicGF0aCI6Ii8xNDkyMzkwMTAvMzUxMDMzNzk2LTM2YzViNDhkLWY4YzEtNGJlNi1hYjg1LWZjYzRkNjkwOGI3ZS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwNzI1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDcyNVQxMzUwMzRaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1lMjdmYzNmOTlkZGUyODRmYTI3ZjNhN2Y1ODU5MWNlZmFiZWE1NzZiY2U0MTViZmVjYTYzYWFhYzMxNzg4NDExJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.Z5n40_Di01D6jBGHOMi5ir_4VE_5Sshk4Nc2sIiRylQ)
+![showcase-DeusEx01](./assets/tabs-showcase-02-by-DeusEx01.png)
 
 > If you have a usage you'd like to share, feel free to raise an issue or pull a request. I'll add it to readme.
 
 ## Todo
 
-- Draggable tab nav item.
+- Tabs drag and drop in different files.
 - Obsidian native editor (Live preview mode)
