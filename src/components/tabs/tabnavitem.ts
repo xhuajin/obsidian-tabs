@@ -152,6 +152,7 @@ export class TabNavItem {
               this.tabs.tabsContents.tabcontents[i].index = i;
               if (this.tabs.tabsNav.navItems[i].isActiveed) {
                 this.tabs.tabsNav.currentTab = i;
+                this.tabs.tabsContents.currentTab = i;
                 let key = "/";
                 if (this.tabs.context && this.tabs.sectionInfo) {
                   key = this.tabs.context.sourcePath + this.tabs.sectionInfo.lineStart;
@@ -165,6 +166,7 @@ export class TabNavItem {
               this.tabs.tabsContents.tabcontents[i].index = i;
               if (this.tabs.tabsNav.navItems[i].isActiveed) {
                 this.tabs.tabsNav.currentTab = i;
+                this.tabs.tabsContents.currentTab = i;
                 this.tabs.plugin.lastTabsCache.set(this.tabs.tabsId, i);
               }
             }
@@ -246,7 +248,11 @@ export class TabNavItem {
 
           // 删除 fromTabs 中的 tab
           if (tabDragger.fromTabs.currentIndex === tabDragger.draggedIndex) {
-            tabDragger.fromTabs.currentIndex = tabDragger.fromTabs.currentIndex === 0 ? 1 : 0;
+            if (tabDragger.fromTabs.currentIndex > 0) {
+              tabDragger.fromTabs.currentIndex -= 1;
+            }
+            tabDragger.fromTabs.tabsNav.refreshActiveTabNav(tabDragger.fromTabs.currentIndex);
+            tabDragger.fromTabs.tabsContents.refreshActiveTabContent(tabDragger.fromTabs.currentIndex);
             this.tabs.plugin.lastTabsCache.set(tabDragger.fromTabs.tabsId, tabDragger.fromTabs.currentIndex);
           }
           tabDragger.fromTabs.tabsNav.navWrapperEl.removeChild(tabDragger.fromTabs.tabsNav.navItems[dragIndex].tabitemEl);
