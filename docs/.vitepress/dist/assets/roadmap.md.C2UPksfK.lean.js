@@ -1,0 +1,1 @@
+import{_ as a,c as e,o as t,a5 as r}from"./chunks/framework.D-ihIdkc.js";const m=JSON.parse('{"title":"Present","description":"","frontmatter":{},"headers":[],"relativePath":"roadmap.md","filePath":"roadmap.md"}'),o={name:"roadmap.md"},s=r("",5),n=[s];function _(d,c,i,p,h,l){return t(),e("div",null,n)}const f=a(o,[["render",_]]);export{m as __pageData,f as default};
