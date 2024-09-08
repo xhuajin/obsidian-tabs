@@ -188,6 +188,6 @@ export default defineConfig({
   },
 
   head: [
-    ['link', { rel: 'icon', href: '/newtabpage.png', type: 'image/png' }]
+    ['link', { rel: 'icon', href: '/obsidian-tabs/newtabpage.png', type: 'image/png' }]
   ]
 })
