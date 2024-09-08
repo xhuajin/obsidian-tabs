@@ -103,8 +103,8 @@ export class TabsSettingsTab extends PluginSettingTab {
       .then(setting => this.addResetButton(setting, 'defaultTabContent'));
 
     new Setting(containerEl)
-      .setName("Default tabs nav item")
-      .setDesc("The default tabs nav item")
+      .setName("Default tab title")
+      .setDesc("Default title of new tab")
       .addText(text => text
         .setValue(this.plugin.settings.defaultTabNavItem)
         .setPlaceholder("New tab")
@@ -120,7 +120,7 @@ export class TabsSettingsTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName("Default tabs content")
-      .setDesc("The default tabs content")
+      .setDesc("Default content of new content")
       .addTextArea(text => text
         .setValue(this.plugin.settings.defaultTabContent)
         .setPlaceholder("New tab content")
@@ -231,7 +231,7 @@ export class TabsSettingsTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName("Auto save interval")
-      .setDesc("Set the duration of inactivity after which the editor will automatically save your work. (default: 5000ms)")
+      .setDesc("Set the duration of inactivity after which the editor will automatically save your work. (default: 5000ms, 0 means only save on exit)")
       .addText(text => text
         .setValue(this.plugin.settings.editorAutoSaveInterval.toString())
         .setPlaceholder(DEFAULT_SETTINGS.editorAutoSaveInterval.toString())
@@ -432,8 +432,8 @@ class SampleTabs {
 
   private generateTabsNavStyleSettings(containerEl: HTMLElement): void {
     new Setting(containerEl)
-      .setName("Tabs nav item default position")
-      .setDesc("Show tabs nav items at the top, bottom, left or right.")
+      .setName("Tabs nav default posi tion")
+      .setDesc("Show tabs nav at the top, bottom, left or right.")
       .addDropdown(dropdown => dropdown
         .addOptions({
           "top": "Top",
@@ -451,8 +451,8 @@ class SampleTabs {
       );
 
     new Setting(containerEl)
-      .setName("Tabs nav item line clamp")
-      .setDesc("Show tabs nav items in one line or multiple lines. Only works when the position is 'top' or 'bottom'")
+      .setName("Tabs nav line clamp")
+      .setDesc("Show tabs nav in one line or multiple lines. Only works when the position is 'top' or 'bottom'")
       .addDropdown(dropdown => dropdown
         .addOptions({
           "one": "One line",

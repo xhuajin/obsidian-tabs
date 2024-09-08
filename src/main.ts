@@ -132,7 +132,6 @@ export default class TabsPlugin extends Plugin {
     try {
       const activeView = this.app.workspace.getActiveViewOfType(MarkdownView);
       activeView && activeView.leaf.rebuildView();
-      console.log(activeView);
       return true;
     } catch (e) {
       console.error(e);
