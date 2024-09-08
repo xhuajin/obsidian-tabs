@@ -14,6 +14,7 @@ const VERSIONS: (DefaultTheme.NavItemWithLink | DefaultTheme.NavItemChildren)[] 
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/obsidian-tabs/',
   title: "Tabs",
   description: "Home page",
   themeConfig: {
@@ -41,7 +42,7 @@ export default defineConfig({
         items: [
           { text: 'Introduction', link: '/tabs' },
           { text: 'Installation', link: '/installation' },
-          { 
+          {
             text: 'Usage',
             items: [
               { text: 'Basic', link: '/usage/' },
@@ -139,7 +140,7 @@ export default defineConfig({
               { text: '搭配其他插件', link: '/zh/usage/pluginssupport' },
             ]
           },
-          { 
+          {
             text: '其他',
             items: [
               { text: '示例', link: '/zh/showcase' },
@@ -152,22 +153,22 @@ export default defineConfig({
           pattern: 'https://github.com/xhuajin/obsidian-vault/edit/main/docs/:path',
           text: '在 GitHub 上编辑此页面'
         },
-    
+
         footer: {
           message: '基于 MIT 许可发布',
           copyright: `版权所有 © 2024 Huajin`
         },
-    
+
         docFooter: {
           prev: '上一页',
           next: '下一页'
         },
-    
+
         outline: {
           level: [2, 4],
           label: '目录'
         },
-    
+
         lastUpdated: {
           text: '最后更新于',
           formatOptions: {
@@ -175,7 +176,7 @@ export default defineConfig({
             timeStyle: 'medium'
           }
         },
-    
+
         langMenuLabel: '多语言',
         returnToTopLabel: '回到顶部',
         sidebarMenuLabel: '菜单',

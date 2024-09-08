@@ -1,5 +1,4 @@
 ---
-
 ---
 
 # 3. Customize your tabs
@@ -25,8 +24,8 @@ Tab content
 |      one      | Tabs nav bar can scroll with many nav items.  |
 |     multi     |    Tabs nav items will show in multi line.    |
 
-![tabs-nav-left](./assets/tabs-nav-left.png)
+![tabs-nav-left](../assets/tabs-nav-left.png)
 
 You can decorate tab title too.
 
-![tabs-decorate-title](./assets/tabs-decorate-title.png)
+![tabs-decorate-title](../assets/tabs-decorate-title.png)

@@ -24,7 +24,7 @@ Tabs 插件提供了在 obsidian 笔记中快速渲染一个 Tabs 组件的功�
 
 ![tabs-showcase](../assets/tabs-1.png)
 
-![Tabs&Mermaid](../../assets/with-mermaid.png)
+![Tabs&Mermaid](../assets/with-mermaid.png)
 
 对于同一层级下的同层内容，可以借助嵌套 tab 记录，例如你收集了很多前端 UI 框架，你可以这样使用 Tabs 组件记录他们。
 

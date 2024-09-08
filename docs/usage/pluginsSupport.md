@@ -1,5 +1,4 @@
 ---
-
 ---
 
 # 2. With other code block
@@ -16,6 +15,7 @@ print("Hello Tabs")
 tab: javascript
 ```javascript
 console.log('Hello Tabs');
+```
 ````
 `````
 
@@ -35,8 +35,7 @@ console.log('Hello Tabs');
 ~~~
 ````
 
-![tabs-5](./assets/tabs-5.png)
-
+![tabs-5](../assets/tabs-5.png)
 
 With this feature, you can create tabs component nested.
 
@@ -76,4 +75,4 @@ tab: TAB-TWO
 ~~~
 ````
 
-![tabs-6](./assets/tabs-6.png)
+![tabs-6](../assets/tabs-6.png)
