@@ -1,5 +1,3 @@
-import {} from "@codemirror/commands"
-
 import { Decoration, DecorationSet, EditorView, ViewPlugin, ViewUpdate, keymap } from "@codemirror/view";
 import { EditorState, Extension } from "@codemirror/state";
 import { baseHighlight, baseTheme } from "./tabeditorstyle";
@@ -12,8 +10,6 @@ import TabsPlugin from "../../main";
 import { html } from "@codemirror/lang-html";
 import { markdown } from "@codemirror/lang-markdown";
 import { minimalSetup } from "codemirror";
-
-// import { Emoji, Strikethrough, Table, TaskList } from "@lezer/markdown";
 
 export class TabEditor {
   plugin: TabsPlugin;
@@ -123,7 +119,7 @@ export class TabEditor {
       this.addButton("bold", "Bold (Ctrl+B)", "bold-button"),
       this.addButton("italic", "Italic (Ctrl+I)", "italic-button"),
       this.addButton("underline", "Underline (Ctrl+U)", "underline-button"),
-      this.addButton("strikethrough", "Strike (Ctrl+Shift+S)", "strike-button"),
+      this.addButton("strikethrough", "Strike (Ctrl+Shift+S)", "strike-button")
     ]
   }
 
@@ -132,8 +128,7 @@ export class TabEditor {
     this.paragraphTools = [
       this.addButton("lucide-list", "Unordered List", "unordered-list-button"),
       this.addButton("lucide-list-ordered", "Ordered List", "ordered-list-button"),
-      this.addButton("quote", "Quote", "quote-button"),
-
+      this.addButton("quote", "Quote", "quote-button")
     ]
   }
 
@@ -142,7 +137,7 @@ export class TabEditor {
     this.insertTools = [
       this.addButton("code", "Code", "code-button"),
       this.addButton("lucide-quote", "Callout", "callout-button"),
-      this.addButton("table", "Table", "table-button"),
+      this.addButton("table", "Table", "table-button")
     ]
   }
 
@@ -635,6 +630,7 @@ export class TabEditor {
     {
       key: "Mod-u",
       run: (editor) => {
+        console.log(1);
         editor.dispatch({
           changes: {
             from: editor.state.selection.main.from,

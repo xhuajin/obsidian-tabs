@@ -28,12 +28,14 @@ export class TabsEditorModal extends Modal {
   }
 
   onOpen(): void {
-    // 每秒检查一次，当用户10s内没有操作时，自动保存
-    this.timer = setInterval(() => {
-      if (this.editor.docChange && this.editor.lastEditTime && Date.now() - this.editor.lastEditTime > 10000) {
-        this.saveEditorData();
-      }
-    }, 1000);
+    // 每秒检查一次，当用户一定时间内没有操作时，自动保存
+    if (this.plugin.settings.editorAutoSaveInterval !== 0) {
+      this.timer = setInterval(() => {
+        if (this.editor.docChange && this.editor.lastEditTime && Date.now() - this.editor.lastEditTime > this.plugin.settings.editorAutoSaveInterval) {
+          this.saveEditorData();
+        }
+      }, 1000);
+    }
   }
 
   onClose(): void {

@@ -18,7 +18,7 @@ export class TabMenu extends Menu {
           tabs.plugin.settings.defaultTabContent + "\n" + 
           activeEditor.getLine(tabs.sectionInfo.lineEnd));
         !tabs.plugin.settings.ignoreNotice && new Notice("🟢 Add new tab successfully");
-      });
+      })
     });
     this.addItem((item) => {
       item.setTitle("Delete tab");

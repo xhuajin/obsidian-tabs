@@ -7,9 +7,9 @@ Thanks to the [Code Tab](https://github.com/lazyloong/obsidian-code-tab) plugin 
 > 
 > The Tabs function operates based on the code block. In Obsidian, text within a code block is treated as plain text. Consequently, if you input tasks inside a code block, neither the tasks plugin nor the dataview plugin will be able to recognize them.
 
-![tabs-2](./assets/tabs-2.png)
+![tabs-2](./docs/assets/tabs-2.png)
 
-![tabs-4](./assets/tabs-4.png)
+![tabs-4](./docs/assets/tabs-4.png)
 
 ## Usage
 
@@ -60,7 +60,7 @@ console.log('Hello Tabs');
 ~~~
 ````
 
-![tabs-5](./assets/tabs-5.png)
+![tabs-5](./docs/assets/tabs-5.png)
 
 
 With this feature, you can create tabs component nested.

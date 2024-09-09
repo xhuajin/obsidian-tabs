@@ -95,3 +95,8 @@
 .tabs-container.tabs-nav-right > .tabs-nav > .tabs-nav-button {
   margin: 10px auto;
 }
+
+/* multi line */
+.tabs-container.tabs-nav-multi > .tabs-nav > .tabs-nav-item-wrapper {
+  flex-wrap: wrap;
+}

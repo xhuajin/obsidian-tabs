@@ -18,5 +18,5 @@
 }
 
 .markdown-source-view.is-readable-line-width .tabs-container {
-  max-width: var(--file-line-width);
+  max-width: max(100%, var(--file-line-width));
 }
