@@ -1,6 +1,7 @@
 # 示例
 
-如果你想要分享的示例，可以在 [issue](https://github.com/xhuajin/obsidian-tabs/issues/new) 中告诉我，我会添加到此处
+> [!TIP]
+> 如果你想要分享你的示例，可以在 [issue](https://github.com/xhuajin/obsidian-tabs/issues/new) 中告诉我，我会添加到此处
 
 ![tabs-1](../assets/tabs-1.png)
 

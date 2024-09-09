@@ -49,7 +49,7 @@ Code tab 已经长时间没有更新了，因此自己动手丰衣足食，重�
 
 [![Star History Chart](https://api.star-history.com/svg?repos=xhuajin/obsidian-tabs&type=Date)](https://star-history.com/#xhuajin/obsidian-tabs&Date)
 
-## 三、完成度
+## 三、已实现、未实现
 
 已经实现
 

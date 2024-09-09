@@ -62,6 +62,7 @@ print("Hello Tabs")
 tab: javascript
 ```javascript
 console.log('Hello Tabs');
+```
 ````
 `````
 
@@ -123,8 +124,6 @@ tab: TAB-TWO
 ````
 `````
 
-```
-
 :::
 
 ![tabs-6](../../assets/tabs-6.png)
@@ -136,4 +135,3 @@ tab: TAB-TWO
 - 如果你将 『Action button』 设置为了『Edit tab 』，那么你可以通过点击 Tabs 组件右上角的编辑按钮进入 Tabs 编辑器。
 
 ![tabs-editing](../../assets/editing.png)
-```

@@ -1,5 +1,14 @@
-# 下载
+# How to Install
 
+<TabsComponent :tabsTitle="['Obsidian Plugin Market', 'Github Release', 'Pkmer']" :tabsContents="[obsidianCommunity, githubRelease, pkmer]"/>
 
+<DownloadChart />
 
-官方的 Community Plugins 中可以下载，也可以去 Github 的 release 中下载最新版 tabs 的 main.js, styles.css, manifest.json 文件，放到 plugins 文件夹下的一个你自己命名的新文件夹即可。
+<script setup>
+import TabsComponent from './.vitepress/components/TabsComponent.vue';
+import DownloadChart from './.vitepress/components/DownloadChart.vue'
+
+const obsidianCommunity = `Install from <a href="https://obsidian.md/plugins?id=tabs">Obsidian's plugin market</a>.`;
+const githubRelease = '<ol><li>Download the latest release in <a href="https://github.com/xhuajin/obsidian-tabs/releases" target="_blank" rel="noreferrer">Github/Release</a>. Download the three files: <code>main.js</code>, <code>style.css</code> 和 `manifest.json` 文件</li><li>Create a folder in <code>{your vault}/.obsidian/plugins</code>m(Folder name arbitrary). Put the three files you just downloaded into it.</li><li>Enable the plugin Tabs.</li><ol>';
+const pkmer = 'Install from <a href="https://pkmer.cn/products/market/" target="_blank" rel="noreferrer">Pkmer-market</a> plugins.';
+</script>

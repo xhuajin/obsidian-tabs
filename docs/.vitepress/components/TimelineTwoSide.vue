@@ -2,121 +2,102 @@
   <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
     <li>
       <div class="timeline-middle">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          class="h-5 w-5">
-          <path
-            fill-rule="evenodd"
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+          <path fill-rule="evenodd"
             d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
             clip-rule="evenodd" />
         </svg>
       </div>
-      <div class="timeline-start mb-10 md:text-end">
-        <time class="font-mono italic">1984</time>
-        <div class="text-lg font-black">First Macintosh computer</div>
-        The Apple Macintosh—later rebranded as the Macintosh 128K—is the original Apple Macintosh
-        personal computer. It played a pivotal role in establishing desktop publishing as a general
-        office function. The motherboard, a 9 in (23 cm) CRT monitor, and a floppy drive were housed
-        in a beige case with integrated carrying handle; it came with a keyboard and single-button
-        mouse.
+      <div class="timeline-content">
+        <time class="font-mono italic">2024-09-09</time>
+        <div class="text-lg font-black">文档上线</div>
+        由于功能逐渐增多，单页 readme 会很长，因此将其拆分为文档。
       </div>
       <hr />
     </li>
+
     <li>
-      <hr />
       <div class="timeline-middle">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          class="h-5 w-5">
-          <path
-            fill-rule="evenodd"
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+          <path fill-rule="evenodd"
             d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
             clip-rule="evenodd" />
         </svg>
       </div>
-      <div class="timeline-end mb-10">
-        <time class="font-mono italic">1998</time>
-        <div class="text-lg font-black">iMac</div>
-        iMac is a family of all-in-one Mac desktop computers designed and built by Apple Inc. It has
-        been the primary part of Apple's consumer desktop offerings since its debut in August 1998,
-        and has evolved through seven distinct forms
+      <div class="timeline-content">
+        <time class="font-mono italic">2024-07-31 v1.1.6</time>
+        <div class="text-lg font-black">拖拽功能</div>
+        对于 tab 与 tab 之间的修改变得更加方便，不仅可以在同个 Tabs 组件内部拖拽，还可以在不同 Tabs 组件之间拖拽。
       </div>
       <hr />
     </li>
+
     <li>
       <hr />
       <div class="timeline-middle">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          class="h-5 w-5">
-          <path
-            fill-rule="evenodd"
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+          <path fill-rule="evenodd"
             d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
             clip-rule="evenodd" />
         </svg>
       </div>
-      <div class="timeline-start mb-10 md:text-end">
-        <time class="font-mono italic">2001</time>
-        <div class="text-lg font-black">iPod</div>
-        The iPod is a discontinued series of portable media players and multi-purpose mobile devices
-        designed and marketed by Apple Inc. The first version was released on October 23, 2001, about
-        8+1⁄2 months after the Macintosh version of iTunes was released. Apple sold an estimated 450
-        million iPod products as of 2022. Apple discontinued the iPod product line on May 10, 2022. At
-        over 20 years, the iPod brand is the oldest to be discontinued by Apple
+      <div class="timeline-content mb-10">
+        <time class="font-mono italic">2024-07-22 v1.1.3</time>
+        <div class="text-lg font-black">新增布局</div>
+        Tabs 组件不再只有上下布局，新增了左导航栏右正文、左正文右导航栏、上正文下导航栏三种布局方式。这其实主要是通过 css 实现的。
       </div>
       <hr />
     </li>
+
     <li>
       <hr />
       <div class="timeline-middle">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          class="h-5 w-5">
-          <path
-            fill-rule="evenodd"
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+          <path fill-rule="evenodd"
             d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
             clip-rule="evenodd" />
         </svg>
       </div>
-      <div class="timeline-end mb-10">
-        <time class="font-mono italic">2007</time>
-        <div class="text-lg font-black">iPhone</div>
-        iPhone is a line of smartphones produced by Apple Inc. that use Apple's own iOS mobile
-        operating system. The first-generation iPhone was announced by then-Apple CEO Steve Jobs on
-        January 9, 2007. Since then, Apple has annually released new iPhone models and iOS updates. As
-        of November 1, 2018, more than 2.2 billion iPhones had been sold. As of 2022, the iPhone
-        accounts for 15.6% of global smartphone market share
+      <div class="timeline-content">
+        <time class="font-mono italic">2024-07-14 v1.1.0</time>
+        <div class="text-lg font-black">Tabs 嵌套</div>
+        在早期版本中采用 <code>split('tab:')</code> 分隔 tab，而嵌套后内层的与外层的 tabs
+        组件用的分隔符相同，会导致分隔的结果有误，通过优化分隔方式实现 Tabs 组件的嵌套功能。
       </div>
       <hr />
     </li>
+
     <li>
       <hr />
       <div class="timeline-middle">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          class="h-5 w-5">
-          <path
-            fill-rule="evenodd"
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+          <path fill-rule="evenodd"
             d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
             clip-rule="evenodd" />
         </svg>
       </div>
-      <div class="timeline-start mb-10 md:text-end">
-        <time class="font-mono italic">2015</time>
-        <div class="text-lg font-black">Apple Watch</div>
-        The Apple Watch is a line of smartwatches produced by Apple Inc. It incorporates fitness
-        tracking, health-oriented capabilities, and wireless telecommunication, and integrates with
-        iOS and other Apple products and services
+      <div class="timeline-content">
+        <time class="font-mono italic">2024-06-07 v1.0.4</time>
+        <div class="text-lg font-black">Tabs 上架官方市场</div>
+        其实早在 2024-04-11 就给 obsidian 官方提交了本插件，根据官方要求修改了一些内容，例如不用<code>innerHTML</code>渲染组件改为使用 obsidian 提供的 DOM API、将 UI
+        出现的名称全部改为仅首字母大写的格式等。等了好久终于在 2024-06-07 通过了审核，上架了官方市场。
+      </div>
+      <hr />
+    </li>
+
+    <li>
+      <hr />
+      <div class="timeline-middle">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+          <path fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+            clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="timeline-content">
+        <time class="font-mono italic">2024-04-11 v1.0.2</time>
+        <div class="text-lg font-black">Tabs 诞生</div>
+        基本功能编写完成，组件支持双击编辑，编辑器使用 codemirror6 的 basicSetup extension，右键弹出菜单。
       </div>
     </li>
   </ul>
@@ -125,32 +106,11 @@
   </ul>
 </template>
 
-<script setup>
-const timelineItems = ref([
-  { year: '2024-07-31', version: '1.1.7', text: '- 修复与插件 Virtual Linker l Glossary 和 Supercharged Links 的冲突' },
-  { year: '2024-07-31', version: '1.1.6', text: `- 修复设置目标显示异常 bug
-- 修复拖拽 tab 位置异常 bug` },
-  { year: '2024-07-31', version: '1.1.5', text: `- 实现 tab 拖拽功能
-- 优化设置修改时自动刷新逻辑，增加关闭自动刷新选项
-- 新增 tab title 渲染` },
-  { year: '2024-07-25', version: '1.1.4', text: `- 修复 *Readable line length* 关闭时的宽度异常 bug
-- 修复 tab title 宽度异常 bug` },
-  { year: '2024-07-22', version: '1.1.3', text: `- 新增不同布局的 Tabs，Nav 可以置于左右下侧。
-- Tabs 编辑器取消使用 basicSetup extension，根据 markdown 语法写了一套 extension` },
-  { year: '2024-07-14', version: '1.1.1', text: `- 增加编辑后自动更新 tabs 代码块反引号数量的功能` },
-  { year: '2024-07-14', version: '1.1.0', text: `- 实现 Tabs 嵌套功能
-- 优化粘贴 tab 解析，可以解析为 title + content
-- 增加快速添加 tabs 代码块命令
-- 增加 Tabs 设置` },
-]);
-
-
-</script>
-
 <style>
 .timeline-vertical {
   flex-direction: column;
 }
+
 .timeline {
   position: relative;
   display: flex;
@@ -168,23 +128,15 @@ ul.timeline {
   grid-row-start: 2;
 }
 
-.timeline-vertical .timeline-start {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 1;
-  grid-row-end: 4;
-  align-self: center;
-  justify-self: end;
-  margin: .25rem .25rem 2.5rem .25rem;
-}
 
-.timeline-vertical:where(.timeline-snap-icon) > li {
+
+.timeline-vertical:where(.timeline-snap-icon)>li {
   --timeline-col-start: minmax(0, 1fr);
   --timeline-row-start: .5rem;
 }
 
-:where(.timeline-snap-icon) > li,
-.timeline-horizontal:where(.timeline-snap-icon) > li {
+:where(.timeline-snap-icon)>li,
+.timeline-horizontal:where(.timeline-snap-icon)>li {
   --timeline-col-start: .5rem;
   --timeline-row-start: minmax(0, 1fr);
 }
@@ -200,33 +152,35 @@ ul.timeline {
   display: grid;
   flex-shrink: 0;
   align-items: center;
-  grid-template-rows: var(--timeline-row-start,minmax(0,1fr)) auto var( --timeline-row-end,minmax(0,1fr) );
-  grid-template-columns: var(--timeline-col-start,minmax(0,1fr)) auto var( --timeline-col-end,minmax(0,1fr) );
+  grid-template-rows: var(--timeline-row-start, minmax(0, 1fr)) auto var(--timeline-row-end, minmax(0, 1fr));
+  grid-template-columns: var(--timeline-col-start, minmax(0, 1fr)) auto var(--timeline-col-end, minmax(0, 1fr));
 }
 
 .w-5 {
   width: 1.25rem;
 }
+
 .h-5 {
   height: 1.25rem;
 }
 
-.timeline.timeline-vertical > li + li {
+.timeline.timeline-vertical>li+li {
   margin-top: 0;
 }
 
-.timeline.timeline-vertical > li > hr {
+.timeline.timeline-vertical>li>hr {
   width: .25rem;
   height: 100%;
 }
 
-.timeline > li > hr {
+.timeline>li>hr {
   width: 100%;
   margin: 0;
   border-width: 0;
   border-radius: 0;
   background-color: var(--vp-c-default-3);
 }
+
 .timeline hr {
   height: .25rem;
 }
@@ -236,6 +190,7 @@ ul.timeline {
   grid-column-end: auto;
   grid-row-start: 3;
   grid-row-end: none;
+  text-align: end;
 }
 
 :where(.timeline > li > hr):last-child {
@@ -251,10 +206,34 @@ ul.timeline {
   grid-row-start: 1;
 }
 
-@media (min-width: 768px) {
-  .md\:text-end {
-    text-align: end;
-  }
+ul.timeline-vertical>li:nth-child(2n+1) .timeline-content {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 4;
+  align-self: center;
+  justify-self: end;
+  margin: .25rem .25rem 2.5rem .25rem;
+  text-align: end;
+}
+
+ul.timeline-vertical>li:nth-child(2n) .timeline-content {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 4;
+  align-self: center;
+  justify-self: start;
+}
+
+/* .timeline-vertical .timeline-start {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 4;
+  align-self: center;
+  justify-self: end;
+  margin: .25rem .25rem 2.5rem .25rem;
 }
 
 .timeline-vertical .timeline-end {
@@ -264,22 +243,14 @@ ul.timeline {
   grid-row-end: 4;
   align-self: center;
   justify-self: start;
-}
-
-.timeline-end {
-  grid-column-start: 1;
-  grid-column-end: 4;
-  grid-row-start: 3;
-  grid-row-end: 4;
   margin: .25rem;
   margin-bottom: 0.25rem;
-  align-self: flex-start;
-  justify-self: center;
-}
+} */
 
 .font-black {
   font-weight: 900;
 }
+
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -288,8 +259,8 @@ ul.timeline {
 .italic {
   font-style: italic;
 }
-.font-mono {
-  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Vazirmatn,Courier New,monospace;
-}
 
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Vazirmatn, Courier New, monospace;
+}
 </style>

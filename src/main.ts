@@ -25,7 +25,7 @@ export default class TabsPlugin extends Plugin {
   tabsStyleSheet: HTMLStyleElement;
   lastTabsCache: Map<string, number>; // sourcePath + Linestart -> lastActiveTabIndex
   tabDragger: TabDragger;
-  
+
   async onload() {
     await this.loadSettings();
     // setting tab
@@ -38,10 +38,10 @@ export default class TabsPlugin extends Plugin {
 
     // register commands
     this.registerCommands();
-    
+
     // tabs editor
     this.tabsEditorModal = new TabsEditorModal(this, this.app);
-    
+
     // refresh active markdown view onload
     this.app.workspace.onLayoutReady(() => {
       this.settings.autorefreshMarkdownView && this.refreshActiveView();
@@ -85,24 +85,24 @@ export default class TabsPlugin extends Plugin {
             }
           }
           if (selectedText.startsWith(this.settings.split)) {
-            editor.replaceSelection("`".repeat(maxCount + 1) + "tabs\n" + 
-              selectedText + "\n" + 
+            editor.replaceSelection("`".repeat(maxCount + 1) + "tabs\n" +
+              selectedText + "\n" +
               "`".repeat(maxCount + 1));
           } else {
-            editor.replaceSelection("`".repeat(maxCount + 1) + "tabs\n" + 
-              this.settings.split + this.settings.defaultTabNavItem + "\n" + 
-              selectedText + "\n" + 
+            editor.replaceSelection("`".repeat(maxCount + 1) + "tabs\n" +
+              this.settings.split + this.settings.defaultTabNavItem + "\n" +
+              selectedText + "\n" +
               "`".repeat(maxCount + 1));
           }
         } else {
           if (selectedText.startsWith(this.settings.split)) {
-            editor.replaceSelection("```" + "tabs\n" + 
-              selectedText + "\n" + 
+            editor.replaceSelection("```" + "tabs\n" +
+              selectedText + "\n" +
               "```");
           } else {
-            editor.replaceSelection("```tabs\n" + 
-              this.settings.split + this.settings.defaultTabNavItem + "\n" + 
-              selectedText + "\n" + 
+            editor.replaceSelection("```tabs\n" +
+              this.settings.split + this.settings.defaultTabNavItem + "\n" +
+              selectedText + "\n" +
               "```");
           }
         }

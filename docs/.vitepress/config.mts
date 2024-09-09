@@ -38,23 +38,31 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Guide',
         items: [
           { text: 'Introduction', link: '/tabs' },
           { text: 'Installation', link: '/installation' },
-          {
-            text: 'Usage',
-            items: [
-              { text: 'Basic', link: '/usage/' },
-              { text: 'Nav menu', link: '/usage/menu' },
-              { text: 'Edit tab', link: '/usage/editTabs' },
-              { text: 'Plugins support', link: '/usage/pluginsSupport' },
-              { text: 'Customization', link: '/usage/customization' },
-              { text: 'Drag and drop', link: '/usage/dnd' },
-            ]
-          },
+          { text: 'Quick start', link: '/quickstart' },
+          { text: "Tabs's structure", link: '/tabsmodal' },
+        ]
+      },
+      {
+        text: 'Usage',
+        items: [
+          { text: 'Create a Tabs component', link: '/usage/' },
+          { text: 'Menu', link: '/usage/menu' },
+          { text: 'Tabs Editor', link: '/usage/editor' },
+          { text: 'Tabs Commands', link: '/usage/commands' },
+          { text: 'Customization', link: '/usage/customization' },
+          { text: 'Drag and drop', link: '/usage/dnd' },
+          { text: 'Settings', link: '/usage/settings' },
+          { text: 'Plugins support', link: '/usage/pluginssupport' },
+        ]
+      },
+      {
+        text: 'Other',
+        items: [
           { text: 'Showcase', link: '/showcase' },
-          { text: 'RoadMap', link: '/roadmap' },
+          { text: 'Changelog', link: '/changelog' },
         ]
       }
     ],
@@ -120,10 +128,10 @@ export default defineConfig({
 
         sidebar: [
           {
-            text: '关于',
             items: [
               { text: '介绍', link: '/zh/tabs' },
               { text: '下载', link: '/zh/installation' },
+              { text: '快速开始', link: '/zh/quickstart' },
               { text: 'Tabs 的构造', link: '/zh/tabsmodal' },
             ],
           },

@@ -1,7 +1,5 @@
----
+# Drag and Drop
 
----
+After enabling 'Drag and drop' in the Tabs settings, you can quickly adjust the order of tabs using mouse drag and drop. Currently, drag and drop is implemented for tabs within the same Tabs component on a single page and between different Tabs components on a single page. Drag and drop between Tabs components on different pages is not yet supported.
 
-# Drag and drop
-
-实现 tab 拖拽编辑的功能也挺麻烦的，主要是 editor 的 replaceRange 后已经创建的 tabs 组件由于被拖拽不会被刷新，同时原先我没有预留整个 Tabs 组件 refresh 的方法，因此这里得补上部分刷新。还要处理很多逻辑，非常麻烦。
+Drag and drop is implemented by listening to drag-related events, so it cannot be used on mobile devices.
