@@ -28,7 +28,7 @@ export default defineConfig({
 
     nav: [
       { text: 'Document', link: '/tabs' },
-      { text: 'Roadmap', link: '/tabs' },
+      { text: 'Changelog', link: '/changelog' },
       { text: 'Showcase', link: '/showcase' },
       {
         text: `v${version}`,
