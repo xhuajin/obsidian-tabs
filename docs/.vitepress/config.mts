@@ -197,12 +197,6 @@ export default defineConfig({
 
   head: [
     ['link', { rel: 'icon', href: '/obsidian-tabs/newtabpage.png', type: 'image/png' }],
-    ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-MDN1KQG2BB' }],
-    ['script', {}, `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-MDN1KQG2BB');
-    `]
+    ['script', { async: '', src: '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js' }]
   ]
 })
