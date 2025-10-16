@@ -1,5 +1,5 @@
-import { TabContent } from "./tabcontent";
-import TabsPlugin from "../../main";
+import { TabContent } from './tabcontent';
+import TabsPlugin from '../../main';
 
 export class TabContents {
   plugin: TabsPlugin;
@@ -12,12 +12,12 @@ export class TabContents {
     this.tabcontents = tabcontents;
     this.tabcontentsEl = this.createTabContentsEl();
     this.tabcontents[0].isActiveed = true;
-    this.tabcontents[0].contentEl.classList.add("tabs-content-active");
+    this.tabcontents[0].contentEl.classList.add('tabs-content-active');
   }
 
   createTabContentsEl(): HTMLElement {
     const element = document.createElement('div');
-    element.className = "tabs-contents";
+    element.className = 'tabs-contents';
     this.tabcontents.forEach(tab => {
       element.appendChild(tab.contentEl);
     });
@@ -27,9 +27,9 @@ export class TabContents {
   // refresh tab contents
   refreshActiveTabContent(index: number) {
     this.tabcontents[this.currentTab].isActiveed = false;
-    this.tabcontents[this.currentTab].contentEl.classList.remove("tabs-content-active");
+    this.tabcontents[this.currentTab].contentEl.classList.remove('tabs-content-active');
     this.tabcontents[index].isActiveed = true;
-    this.tabcontents[index].contentEl.classList.add("tabs-content-active");
+    this.tabcontents[index].contentEl.classList.add('tabs-content-active');
     this.currentTab = index;
   }
 }

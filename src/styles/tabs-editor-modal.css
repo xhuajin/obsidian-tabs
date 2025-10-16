@@ -54,31 +54,32 @@
 
 /* table generator */
 .table-generator-container {
-	display: flex;
-	flex-flow: row wrap;
-	max-width: 150px;
-	align-content: flex-start;
-	padding-top: 5px;
-	padding-left: 3px;
+  display: flex;
+  flex-flow: row wrap;
+  max-width: 150px;
+  align-content: flex-start;
+  padding-top: 5px;
+  padding-left: 3px;
 }
 .table-generator-grid {
-	width: 15px;
-	height: 15px;
-	background-color: var(--interactive-normal);
-	margin: 3px;
-	border-radius: 3px;
+  width: 15px;
+  height: 15px;
+  background-color: var(--interactive-normal);
+  margin: 3px;
+  border-radius: 3px;
 }
 .table-generator-grid.select {
-	background-color: var(--interactive-accent);
-	opacity: 1;
+  background-color: var(--interactive-accent);
+  opacity: 1;
 }
 .table-generator-counter {
-	display: block;
-	text-align: center;
+  display: block;
+  text-align: center;
 }
-.table-height-adjust th, .table-height-adjust tr {
-	/** 防止单元格太窄不方便点击 */
-	height: 1.5em !important;
+.table-height-adjust th,
+.table-height-adjust tr {
+  /** 防止单元格太窄不方便点击 */
+  height: 1.5em !important;
 }
 
 /* save button */
@@ -92,8 +93,8 @@
 .tabs-editor-modal .modal-content .tabs-editor {
   height: 50vh;
 }
-.tabs-editor-modal .modal-content .cm-editor .cm-cursor { 
-  border-left-color: var(--caret-color)
+.tabs-editor-modal .modal-content .cm-editor .cm-cursor {
+  border-left-color: var(--caret-color);
 }
 .tabs-editor-modal .modal-content .cm-editor .cm-scroller {
   font-family: var(--font-text);

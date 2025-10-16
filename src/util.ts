@@ -1,8 +1,8 @@
-export function createCodeBlock(code: string, language: string = "") : string {
+export function createCodeBlock(code: string, language: string = ''): string {
   let backquoteNum = 3;
-  if (code.includes("```")) {
+  if (code.includes('```')) {
     for (let i = 0, count = 0; i < code.length; i++) {
-      if (code[i] === "`") {
+      if (code[i] === '`') {
         count++;
         backquoteNum = Math.max(backquoteNum, count);
       } else {
@@ -10,9 +10,9 @@ export function createCodeBlock(code: string, language: string = "") : string {
       }
     }
   }
-  if (code.contains("~~~")) {
+  if (code.includes('~~~')) {
     for (let i = 0, count = 0; i < code.length; i++) {
-      if (code[i] === "~") {
+      if (code[i] === '~') {
         count++;
         backquoteNum = Math.max(backquoteNum, count);
       } else {
@@ -20,9 +20,7 @@ export function createCodeBlock(code: string, language: string = "") : string {
       }
     }
   }
-  return "`".repeat(backquoteNum) + language + "\n" + 
-    code + "\n" + 
-    "`".repeat(backquoteNum);
+  return '`'.repeat(backquoteNum) + language + '\n' + code + '\n' + '`'.repeat(backquoteNum);
 }
 
 export function getFormattedContent(rowStr: string, format: string, tail?: string): string {

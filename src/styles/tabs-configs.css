@@ -4,7 +4,8 @@
 /* ----------------------------- Tabs config ----------------------------- */
 
 .tabs-container:not(.tabs-innertabs).tabs-border-always {
-  box-shadow: 0 0 0 1px var(--tabs-border-color),
+  box-shadow:
+    0 0 0 1px var(--tabs-border-color),
     inset 0 0 0 1px var(--tabs-border-color); /* 2px 2px 8px #dddddd */
   border-radius: var(--radius-s);
 }
@@ -15,9 +16,7 @@
   > .cm-sizer
   > .cm-contentContainer
   > .cm-content
-  > .cm-preview-code-block.cm-embed-block.markdown-rendered:has(
-    > .tabs-container
-  ):hover {
+  > .cm-preview-code-block.cm-embed-block.markdown-rendered:has(> .tabs-container):hover {
   box-shadow: none;
 }
 
@@ -27,15 +26,13 @@
 }
 
 .tabs-container:not(.tabs-innertabs).tabs-border-hover:hover {
-  box-shadow: 0 0 0 1px var(--tabs-border-color),
+  box-shadow:
+    0 0 0 1px var(--tabs-border-color),
     inset 0 0 0 1px var(--tabs-border-color);
   border-radius: var(--radius-s);
 }
 
-body.hide-tabs-edit-block-button
-  .markdown-source-view.mod-cm6
-  .tabs-container
-  + .edit-block-button {
+body.hide-tabs-edit-block-button .markdown-source-view.mod-cm6 .tabs-container + .edit-block-button {
   display: none;
 }
 

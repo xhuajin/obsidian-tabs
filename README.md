@@ -2,9 +2,9 @@
 
 Thanks to the [Code Tab](https://github.com/lazyloong/obsidian-code-tab) plugin for the inspiration, but since it had not been updated for a long time and it wasn't support edit content directly, I refactored the plugin and added a lot of features.
 
-> [!WARNING] 
+> [!WARNING]
 > **Please refrain from entering tasks directly within the Tabs code block.**
-> 
+>
 > The Tabs function operates based on the code block. In Obsidian, text within a code block is treated as plain text. Consequently, if you input tasks inside a code block, neither the tasks plugin nor the dataview plugin will be able to recognize them.
 
 ![tabs-2](./docs/assets/tabs-2.png)
@@ -63,7 +63,6 @@ console.log('Hello Tabs');
 
 ![tabs-5](./docs/assets/tabs-5.png)
 
-
 With this feature, you can create tabs component nested.
 
 `````
@@ -120,12 +119,12 @@ Tab content
 
 | Configuration |                  Explanation                  |
 | :-----------: | :-------------------------------------------: |
-|     top       | Tabs nav bar will be displayed at the top.    |
-|     left      | Tabs nav bar will be displayed on the left.   |
+|      top      |  Tabs nav bar will be displayed at the top.   |
+|     left      |  Tabs nav bar will be displayed on the left.  |
 |     right     | Tabs nav bar will be displayed on the right.  |
-|     bottom    | Tabs nav bar will be displayed at the bottom. |
-|     one       | Tabs nav bar can scroll with many nav items.  |
-|     multi     | Tabs nav items will show in multi line.       |
+|    bottom     | Tabs nav bar will be displayed at the bottom. |
+|      one      | Tabs nav bar can scroll with many nav items.  |
+|     multi     |    Tabs nav items will show in multi line.    |
 
 ![tabs-nav-left](./assets/tabs-nav-left.png)
 

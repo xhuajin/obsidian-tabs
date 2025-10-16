@@ -1,4 +1,4 @@
-import { App, MarkdownPostProcessorContext, MarkdownRenderChild, MarkdownRenderer } from "obsidian";
+import { App, MarkdownPostProcessorContext, MarkdownRenderChild, MarkdownRenderer } from 'obsidian';
 
 export class TabContent {
   index: number;
@@ -16,14 +16,8 @@ export class TabContent {
 
   createTabContentEl(content: string, app: App, context: MarkdownPostProcessorContext) {
     this.contentEl = createDiv();
-    this.contentEl.className = "tabs-content";
+    this.contentEl.className = 'tabs-content';
     const tabComponent = new MarkdownRenderChild(this.contentEl);
-    MarkdownRenderer.render(
-      app,
-      content,
-      this.contentEl,
-      context?.sourcePath,
-      tabComponent
-    );
+    MarkdownRenderer.render(app, content, this.contentEl, context?.sourcePath, tabComponent);
   }
 }

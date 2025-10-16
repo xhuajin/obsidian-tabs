@@ -1,11 +1,11 @@
-import { DEFAULT_SETTINGS, TabsSettings, TabsSettingsTab } from "./settings";
-import { MarkdownView, Plugin } from "obsidian";
+import { DEFAULT_SETTINGS, TabsSettings, TabsSettingsTab } from './settings';
+import { MarkdownView, Plugin } from 'obsidian';
 
-import { TabDragger } from "./types";
-import { Tabs } from "./components/tabs/tabs";
-import { TabsEditorModal } from "./components/editor/tabeditormodal";
+import { TabDragger } from './types';
+import { Tabs } from './components/tabs/tabs';
+import { TabsEditorModal } from './components/editor/tabeditormodal';
 
-declare module "obsidian" {
+declare module 'obsidian' {
   interface App {
     setting: SettingModal;
   }
@@ -32,7 +32,7 @@ export default class TabsPlugin extends Plugin {
     this.addSettingTab(new TabsSettingsTab(this.app, this));
 
     // register tabs code block
-    this.registerMarkdownCodeBlockProcessor("tabs", (source, el, ctx) => {
+    this.registerMarkdownCodeBlockProcessor('tabs', (source, el, ctx) => {
       new Tabs(source, el, ctx, this.app, this);
     });
 
@@ -49,10 +49,10 @@ export default class TabsPlugin extends Plugin {
 
     // a cache to store the last active tab index of each opened file
     this.lastTabsCache = new Map();
-    this.lastTabsCache.set("/", 0);
-    this.app.workspace.on("active-leaf-change", () => {
+    this.lastTabsCache.set('/', 0);
+    this.app.workspace.on('active-leaf-change', () => {
       this.lastTabsCache = new Map();
-      this.lastTabsCache.set("/", 0);
+      this.lastTabsCache.set('/', 0);
     });
   }
 
@@ -67,17 +67,24 @@ export default class TabsPlugin extends Plugin {
   async registerCommands() {
     // Convert selected text to tabs
     this.addCommand({
-      id: "convert-to-tabs",
-      name: "Convert selected text to tabs",
+      id: 'convert-to-tabs',
+      name: 'Convert selected text to tabs',
       editorCallback: (editor: any, view: any) => {
         const selectedText = editor.getSelection();
-        if (selectedText.trim() === "") {
-          editor.replaceSelection("```tabs\n" + this.settings.split + this.settings.defaultTabNavItem + "\n" + this.settings.defaultTabContent + "\n```");
-        } else if (selectedText.includes("```")) {
+        if (selectedText.trim() === '') {
+          editor.replaceSelection(
+            '```tabs\n' +
+              this.settings.split +
+              this.settings.defaultTabNavItem +
+              '\n' +
+              this.settings.defaultTabContent +
+              '\n```'
+          );
+        } else if (selectedText.includes('```')) {
           // if selected text contains code block, add one more backtick
           let maxCount = 0;
           for (let i = 0, count = 0; i < selectedText.length; i++) {
-            if (selectedText[i] === "`") {
+            if (selectedText[i] === '`') {
               count++;
               maxCount = Math.max(maxCount, count);
             } else {
@@ -85,42 +92,45 @@ export default class TabsPlugin extends Plugin {
             }
           }
           if (selectedText.startsWith(this.settings.split)) {
-            editor.replaceSelection("`".repeat(maxCount + 1) + "tabs\n" +
-              selectedText + "\n" +
-              "`".repeat(maxCount + 1));
+            editor.replaceSelection(
+              '`'.repeat(maxCount + 1) + 'tabs\n' + selectedText + '\n' + '`'.repeat(maxCount + 1)
+            );
           } else {
-            editor.replaceSelection("`".repeat(maxCount + 1) + "tabs\n" +
-              this.settings.split + this.settings.defaultTabNavItem + "\n" +
-              selectedText + "\n" +
-              "`".repeat(maxCount + 1));
+            editor.replaceSelection(
+              '`'.repeat(maxCount + 1) +
+                'tabs\n' +
+                this.settings.split +
+                this.settings.defaultTabNavItem +
+                '\n' +
+                selectedText +
+                '\n' +
+                '`'.repeat(maxCount + 1)
+            );
           }
         } else {
           if (selectedText.startsWith(this.settings.split)) {
-            editor.replaceSelection("```" + "tabs\n" +
-              selectedText + "\n" +
-              "```");
+            editor.replaceSelection('```' + 'tabs\n' + selectedText + '\n' + '```');
           } else {
-            editor.replaceSelection("```tabs\n" +
-              this.settings.split + this.settings.defaultTabNavItem + "\n" +
-              selectedText + "\n" +
-              "```");
+            editor.replaceSelection(
+              '```tabs\n' + this.settings.split + this.settings.defaultTabNavItem + '\n' + selectedText + '\n' + '```'
+            );
           }
         }
-      }
-    })
+      },
+    });
 
     this.addCommand({
-      id: "refresh-all-tabs",
-      name: "Refresh all tabs in opened files",
+      id: 'refresh-all-tabs',
+      name: 'Refresh all tabs in opened files',
       callback: () => {
         this.refreshOpenViews();
-      }
+      },
     });
   }
 
   public refreshOpenViews(): boolean {
     try {
-      this.app.workspace.getLeavesOfType("markdown").forEach((leaf) => leaf.rebuildView());
+      this.app.workspace.getLeavesOfType('markdown').forEach(leaf => leaf.rebuildView());
       return true;
     } catch (e) {
       console.error(e);

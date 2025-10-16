@@ -30,28 +30,29 @@ export class TabsNav {
       this.navItems[i] = new TabNavItem(this, i, tabsNav[i]);
     }
     this.navItems[0].isActiveed = true;
-    this.navItems[0].tabitemEl.classList.add("tabs-nav-item-active");
+    this.navItems[0].tabitemEl.classList.add('tabs-nav-item-active');
 
     this.navEl = document.createElement('div');
-    this.navEl.classList.add("tabs-nav");
+    this.navEl.classList.add('tabs-nav');
     this.navWrapperEl = this.navEl.createDiv('tabs-nav-item-wrapper');
-    this.navItems.length > 0 && this.navItems.forEach(tab => {
-      this.navWrapperEl.appendChild(tab.tabitemEl);
-    });
+    this.navItems.length > 0 &&
+      this.navItems.forEach(tab => {
+        this.navWrapperEl.appendChild(tab.tabitemEl);
+      });
     this.tabsButton.buttonEl && this.navEl.appendChild(this.tabsButton.buttonEl);
   }
 
   // refresh tab nav
   refreshActiveTabNav(index: number) {
     this.navItems[this.currentTab].isActiveed = false;
-    this.navItems[this.currentTab].tabitemEl.classList.remove("tabs-nav-item-active");
+    this.navItems[this.currentTab].tabitemEl.classList.remove('tabs-nav-item-active');
     this.navItems[index].isActiveed = true;
-    this.navItems[index].tabitemEl.classList.add("tabs-nav-item-active");
+    this.navItems[index].tabitemEl.classList.add('tabs-nav-item-active');
     this.currentTab = index;
   }
 
   registerDragEvents() {
-    this.navItems.forEach((tab) => {
+    this.navItems.forEach(tab => {
       tab.registerdndEvents();
     });
   }
