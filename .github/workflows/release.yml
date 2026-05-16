@@ -1,0 +1,68 @@
+name: Release Obsidian plugin
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to upload assets to (example: 1.1.9)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build plugin
+        run: npm run build
+
+      - name: Normalize release asset paths
+        shell: bash
+        run: |
+          if [[ -f "lib/main.js" && ! -f "main.js" ]]; then cp "lib/main.js" "main.js"; fi
+          if [[ -f "lib/styles.css" && ! -f "styles.css" ]]; then cp "lib/styles.css" "styles.css"; fi
+
+      - name: Ensure release assets exist
+        shell: bash
+        run: |
+          test -f main.js
+          test -f styles.css
+          test -f manifest.json
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          files: |
+            main.js
+            styles.css
+            manifest.json
+          fail_on_unmatched_files: true
+
+      - name: Generate artifact attestations
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: |
+            main.js
+            styles.css
+            manifest.json
