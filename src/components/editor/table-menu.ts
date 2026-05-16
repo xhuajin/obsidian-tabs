@@ -1,5 +1,5 @@
 import { Menu } from 'obsidian';
-import { TabEditor } from './tabeditor';
+import { TabEditor } from './tab-editor';
 
 /**
  * From plugin: table enhancer

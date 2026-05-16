@@ -1,4 +1,4 @@
-import { TabContent } from './tabcontent';
+import { TabContent } from './tab-content';
 import TabsPlugin from '../../main';
 
 export class TabContents {

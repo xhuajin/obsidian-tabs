@@ -1,6 +1,6 @@
 import { App, EditorPosition, Modal } from 'obsidian';
 
-import { TabEditor } from './tabeditor';
+import { TabEditor } from './tab-editor';
 import { Tabs } from '../tabs/tabs';
 import TabsPlugin from '../../main';
 

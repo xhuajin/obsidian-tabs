@@ -1,8 +1,8 @@
 import { EditorPosition, MarkdownRenderChild, MarkdownRenderer, MarkdownView } from 'obsidian';
 
-import { TabContent } from './tabcontent';
+import { TabContent } from './tab-content';
 import { Tabs } from './tabs';
-import { TabsNav } from './tabsnav';
+import { TabsNav } from './tabs-nav';
 
 export class TabNavItem {
   index: number;

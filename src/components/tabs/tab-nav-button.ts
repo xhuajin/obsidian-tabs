@@ -1,6 +1,6 @@
 import { MarkdownSectionInformation, setIcon } from 'obsidian';
 
-import { TabsNav } from './tabsnav';
+import { TabsNav } from './tabs-nav';
 
 export class TabNavButton {
   tabnav: TabsNav;

@@ -3,7 +3,7 @@ import { MarkdownView, Plugin } from 'obsidian';
 
 import { TabDragger } from './types';
 import { Tabs } from './components/tabs/tabs';
-import { TabsEditorModal } from './components/editor/tabeditormodal';
+import { TabsEditorModal } from './components/editor/tab-editor-modal';
 
 declare module 'obsidian' {
   interface App {

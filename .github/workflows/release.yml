@@ -58,6 +58,7 @@ jobs:
             styles.css
             manifest.json
           fail_on_unmatched_files: true
+          overwrite: true
 
       - name: Generate artifact attestations
         uses: actions/attest-build-provenance@v2

@@ -1,8 +1,8 @@
 import { EditorPosition, MarkdownSectionInformation, MarkdownView } from 'obsidian';
 
-import { TabContent } from './tabcontent';
-import { TabNavButton } from './tabnavbutton';
-import { TabNavItem } from './tabnavitem';
+import { TabContent } from './tab-content';
+import { TabNavButton } from './tab-nav-button';
+import { TabNavItem } from './tab-nav-item';
 import { Tabs } from './tabs';
 
 export class TabsNav {

@@ -1,11 +1,11 @@
 import { Decoration, DecorationSet, EditorView, ViewPlugin, ViewUpdate, keymap } from '@codemirror/view';
 import { EditorState, Extension } from '@codemirror/state';
-import { baseHighlight, baseTheme } from './tabeditorstyle';
+import { baseHighlight, baseTheme } from './tab-editor-style';
 import { createCodeBlock, getFormattedContent } from '../../util';
 import { redo, undo } from '@codemirror/commands';
 
 import { ButtonComponent } from 'obsidian';
-import { TableMenu } from './tablemenu';
+import { TableMenu } from './table-menu';
 import TabsPlugin from '../../main';
 import { html } from '@codemirror/lang-html';
 import { markdown } from '@codemirror/lang-markdown';

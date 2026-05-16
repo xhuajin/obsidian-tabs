@@ -1,10 +1,10 @@
 import { App, MarkdownPostProcessorContext, MarkdownSectionInformation, MarkdownView, Notice } from 'obsidian';
 
-import { TabContent } from './tabcontent';
-import { TabContents } from './tabcontents';
-import { TabMenu } from './tabmenu';
-import { TabsConfig } from './tabsconfig';
-import { TabsNav } from './tabsnav';
+import { TabContent } from './tab-content';
+import { TabContents } from './tab-contents';
+import { TabMenu } from './tab-menu';
+import { TabsConfig } from './tabs-config';
+import { TabsNav } from './tabs-nav';
 import TabsPlugin from '../../main';
 
 // After editing content inside tabs, the code block will rerender. So we need to save the last active tab for the next rerender.

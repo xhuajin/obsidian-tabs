@@ -1,5 +1,5 @@
-import { TabContent } from './components/tabs/tabcontent';
-import { TabNavItem } from './components/tabs/tabnavitem';
+import { TabContent } from './components/tabs/tab-content';
+import { TabNavItem } from './components/tabs/tab-nav-item';
 import { Tabs } from './components/tabs/tabs';
 
 export interface TabDragger {
