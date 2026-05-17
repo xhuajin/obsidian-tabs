@@ -33,7 +33,7 @@ export class TabsEditorModal extends Modal {
   onOpen(): void {
     // 每秒检查一次，当用户一定时间内没有操作时，自动保存
     if (this.plugin.settings.editorAutoSaveInterval !== 0) {
-      this.timer = setInterval(() => {
+      this.timer = activeWindow.setInterval(() => {
         if (
           this.editor.docChange &&
           this.editor.lastEditTime &&
