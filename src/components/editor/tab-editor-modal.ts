@@ -47,7 +47,7 @@ export class TabsEditorModal extends Modal {
 
   onClose(): void {
     this.saveEditorData();
-    clearInterval(this.timer);
+    activeWindow.clearInterval(this.timer);
   }
 
   saveEditorData() {
