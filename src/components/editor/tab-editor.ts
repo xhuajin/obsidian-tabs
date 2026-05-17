@@ -46,12 +46,12 @@ export class TabEditor {
   }
 
   private addSplitLine() {
-    const splitLine = this.editToolbarEl.createEl('span');
+    const splitLine = this.editToolbarEl.createSpan();
     splitLine.addClass('split-line');
   }
 
   private initToolbar(containerEl: HTMLElement) {
-    this.editToolbarEl = containerEl.createEl('div');
+    this.editToolbarEl = containerEl.createDiv();
     this.editToolbarEl.addClass('toolbar');
 
     this.initHistoryTool();
@@ -70,7 +70,7 @@ export class TabEditor {
   }
 
   private initEditor(containerEl: HTMLElement, doc: string = '') {
-    this.tabseditorEl = containerEl.createEl('div');
+    this.tabseditorEl = containerEl.createDiv();
     this.tabseditorEl.addClass('tabs-editor');
     const lastTimeExtension = EditorView.updateListener.of(update => {
       if (update.docChanged) {
@@ -164,13 +164,13 @@ export class TabEditor {
     this.historyTools[0].onClick(() => {
       undo({
         state: this.view.state,
-        dispatch: this.view.dispatch,
+        dispatch: tr => this.view.dispatch(tr),
       });
     });
     this.historyTools[1].onClick(() => {
       redo({
         state: this.view.state,
-        dispatch: this.view.dispatch,
+        dispatch: tr => this.view.dispatch(tr),
       });
     });
   }
@@ -667,7 +667,6 @@ export class TabEditor {
     {
       key: 'Mod-u',
       run: editor => {
-        console.log(1);
         editor.dispatch({
           changes: {
             from: editor.state.selection.main.from,

@@ -320,16 +320,16 @@ class SampleTabs {
   }
 
   private createSampleTabNav(tabsContainerEl: HTMLElement): void {
-    this.tabsnavEl = tabsContainerEl.createEl('div');
+    this.tabsnavEl = tabsContainerEl.createDiv();
     this.tabsnavEl.className = 'tabs-nav';
 
-    const wrapper = this.tabsnavEl.createEl('div');
+    const wrapper = this.tabsnavEl.createDiv();
     wrapper.className = 'tabs-nav-item-wrapper';
 
     const navitems = ['Tabs', 'Tabs nav', 'Tabs contents', 'Lorem ipsum'];
     this.currentIndex = 0;
     navitems.forEach((tab, index) => {
-      const tabitem = wrapper.createEl('div');
+      const tabitem = wrapper.createDiv();
       tabitem.classList.add('tabs-nav-item');
       tabitem.textContent = tab;
       if (index === 0) {
@@ -345,7 +345,7 @@ class SampleTabs {
     });
 
     if (this.plugin.settings.actionButtonType !== 'action-none') {
-      const button = this.tabsnavEl.createEl('div');
+      const button = this.tabsnavEl.createDiv();
       button.className = 'tabs-nav-button';
       if (this.plugin.settings.actionButtonType === 'action-add') {
         setIcon(button, 'plus');
