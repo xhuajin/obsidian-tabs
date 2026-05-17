@@ -93,7 +93,7 @@ export class TabMenu extends Menu {
           }
         }
         if (copyIndex === -1) {
-          (!tabs.plugin.settings.ignoreNotice) {
+          if (!tabs.plugin.settings.ignoreNotice) {
             new Notice('🔴 Not a valid tab.');
           }
           return;
@@ -102,7 +102,7 @@ export class TabMenu extends Menu {
           .writeText(copyContent)
           .then(() => {
             if (!tabs.plugin.settings.ignoreNotice) {
-                new Notice('🟢 Copied to clipboard successfully.');
+              new Notice('🟢 Copied to clipboard successfully.');
             }
           })
           .catch(err => {

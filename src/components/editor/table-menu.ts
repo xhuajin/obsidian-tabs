@@ -30,12 +30,12 @@ export class TableMenu extends Menu {
         gridEl.setAttr('i', i);
         gridEl.setAttr('j', j);
         // 点击格子时，创建对应大小的表格
-        gridEl.addEventListener('click', async () => {
+        gridEl.addEventListener('click', () => {
           // i + 1 行，j + 1 列
-          await this.editor.createEmptyTable(i + 1, j + 1);
+          this.editor.createEmptyTable(i + 1, j + 1);
         });
         // 鼠标进入格子时，更新格子高亮
-        this.editor.plugin.registerDomEvent(gridEl, 'mouseenter', async () => {
+        this.editor.plugin.registerDomEvent(gridEl, 'mouseenter', () => {
           containerEl.querySelectorAll('.table-generator-grid').forEach(gridEl => {
             const i2 = parseInt(gridEl.getAttr('i')!);
             const j2 = parseInt(gridEl.getAttr('j')!);
