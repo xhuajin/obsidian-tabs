@@ -10,9 +10,6 @@
   --tabs-nav-item-active-color: var(--interactive-accent);
   --tabs-nav-item-hover-color: var(--background-modifier-border-hover);
   --p-spacing: 0.75em;
-}
-
-.tabs-container {
   display: flex;
   margin: 2px;
   flex-direction: column;
