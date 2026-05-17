@@ -850,7 +850,7 @@ export class TabEditor {
     },
     {
       key: 'Ctrl-s',
-      run: editor => {
+      run: _editor => {
         this.plugin.tabsEditorModal.saveEditorData();
         return true;
       },
