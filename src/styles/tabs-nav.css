@@ -31,7 +31,7 @@
   -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
-  border-width: 0 0 3px 0;
+  border-width: 0 0 3px;
   border-style: solid;
   border-color: transparent;
   transition: border-bottom 0.1s cubic-bezier(0.4, 0, 0.2, 1);

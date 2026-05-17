@@ -5,7 +5,7 @@
   flex-direction: column;
 }
 .tabs-container.tabs-nav-top .tabs-nav .tabs-nav-item {
-  border-width: 0 0 3px 0;
+  border-width: 0 0 3px;
 }
 .tabs-container.tabs-nav-top .tabs-nav .tabs-nav-item.tabs-nav-item-active {
   border-color: var(--tabs-nav-item-active-color);
@@ -29,7 +29,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  border-width: 0 0 3px 0;
+  border-width: 0 0 3px;
 }
 .tabs-container.tabs-nav-bottom .tabs-nav .tabs-nav-item.tabs-nav-item-active {
   border-color: var(--tabs-nav-item-active-color);
