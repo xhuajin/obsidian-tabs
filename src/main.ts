@@ -71,7 +71,7 @@ export default class TabsPlugin extends Plugin {
     this.addCommand({
       id: 'convert-to-tabs',
       name: 'Convert selected text to tabs',
-      editorCallback: (editor: any, view: any) => {
+      editorCallback: (editor, _view) => {
         const selectedText = editor.getSelection();
         if (selectedText.trim() === '') {
           editor.replaceSelection(

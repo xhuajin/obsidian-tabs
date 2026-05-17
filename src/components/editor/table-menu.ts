@@ -7,6 +7,7 @@ import { TabEditor } from './tab-editor';
  */
 
 export class TableMenu extends Menu {
+  dom?: HTMLElement;
   editor: TabEditor;
 
   constructor(editor: TabEditor) {
@@ -17,7 +18,7 @@ export class TableMenu extends Menu {
 
   onload() {
     super.onload();
-    const menuDom = (this as any).dom as HTMLElement;
+    const menuDom = this.dom!;
     const frag = activeDocument.createDocumentFragment();
     const containerEl = frag.createDiv({ cls: 'table-generator-container' });
     // 行列计数器加上 menu-item，使样式和 menu 更搭
