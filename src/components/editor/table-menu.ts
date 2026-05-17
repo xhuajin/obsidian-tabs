@@ -37,8 +37,11 @@ export class TableMenu extends Menu {
         // 鼠标进入格子时，更新格子高亮
         this.editor.plugin.registerDomEvent(gridEl, 'mouseenter', () => {
           containerEl.querySelectorAll('.table-generator-grid').forEach(gridEl => {
-            const i2 = parseInt(gridEl.getAttr('i')!);
-            const j2 = parseInt(gridEl.getAttr('j')!);
+            const i2Attr = gridEl.getAttr('i');
+            const j2Attr = gridEl.getAttr('j');
+            if (!i2Attr || !j2Attr) return;
+            const i2 = parseInt(i2Attr);
+            const j2 = parseInt(j2Attr);
             if (i2 > i || j2 > j) gridEl.removeClass('select');
             else gridEl.addClass('select');
           });
