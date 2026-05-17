@@ -12,17 +12,21 @@ export class TabMenu extends Menu {
       item.onClick(() => {
         // Add new tab to the file
         const activeView = tabs.app.workspace.getActiveViewOfType(MarkdownView);
-        const activeEditor = activeView.editor;
-        activeEditor.setLine(
-          tabs.sectionInfo.lineEnd,
-          tabs.split +
-            tabs.plugin.settings.defaultTabNavItem +
-            '\n' +
-            tabs.plugin.settings.defaultTabContent +
-            '\n' +
-            activeEditor.getLine(tabs.sectionInfo.lineEnd)
-        );
-        !tabs.plugin.settings.ignoreNotice && new Notice('🟢 Add new tab successfully');
+        const activeEditor = activeView?.editor;
+        if (activeEditor) {
+          activeEditor.setLine(
+            tabs.sectionInfo.lineEnd,
+            tabs.split +
+              tabs.plugin.settings.defaultTabNavItem +
+              '\n' +
+              tabs.plugin.settings.defaultTabContent +
+              '\n' +
+              activeEditor.getLine(tabs.sectionInfo.lineEnd)
+          );
+        }
+        if (!tabs.plugin.settings.ignoreNotice) {
+          new Notice('🟢 Add new tab successfully');
+        }
       });
     });
     this.addItem(item => {
@@ -37,7 +41,9 @@ export class TabMenu extends Menu {
           }
         }
         if (deleteIndex === -1) {
-          !tabs.plugin.settings.ignoreNotice && new Notice('🔴 Not a valid tab.');
+          if (!tabs.plugin.settings.ignoreNotice) {
+            new Notice('🔴 Not a valid tab.');
+          }
           return;
         }
         const deleteTabTitle = tabs.tabsNav.navItems[deleteIndex].title;
@@ -68,7 +74,9 @@ export class TabMenu extends Menu {
             ch: tabs.activeView?.editor.getLine(tabs.sectionInfo.lineEnd).length,
           } as EditorPosition
         );
-        !tabs.plugin.settings.ignoreNotice && new Notice('🟢 Delete ' + deleteTabTitle + ' successfully');
+        if (!tabs.plugin.settings.ignoreNotice) {
+          new Notice('🟢 Delete ' + deleteTabTitle + ' successfully');
+        }
       });
     });
     this.addItem(item => {
@@ -85,16 +93,22 @@ export class TabMenu extends Menu {
           }
         }
         if (copyIndex === -1) {
-          !tabs.plugin.settings.ignoreNotice && new Notice('🔴 Not a valid tab.');
+          (!tabs.plugin.settings.ignoreNotice) {
+            new Notice('🔴 Not a valid tab.');
+          }
           return;
         }
         navigator.clipboard
           .writeText(copyContent)
           .then(() => {
-            !tabs.plugin.settings.ignoreNotice && new Notice('🟢 Copied to clipboard successfully.');
+            if (!tabs.plugin.settings.ignoreNotice) {
+                new Notice('🟢 Copied to clipboard successfully.');
+            }
           })
           .catch(err => {
-            !tabs.plugin.settings.ignoreNotice && new Notice('🔴 Failed to copy to clipboard');
+            if (!tabs.plugin.settings.ignoreNotice) {
+              new Notice('🔴 Failed to copy to clipboard');
+            }
             console.error(err);
           });
       });
@@ -107,7 +121,9 @@ export class TabMenu extends Menu {
           .readText()
           .then(text => {
             if (!text || text.trim() === '' || text.trim() == tabs.split) {
-              !tabs.plugin.settings.ignoreNotice && new Notice('🟠 No content in clipboard.');
+              if (!tabs.plugin.settings.ignoreNotice) {
+                new Notice('🟠 No content in clipboard.');
+              }
               return;
             }
             let title = tabs.plugin.settings.defaultTabNavItem + '\n';
@@ -123,7 +139,9 @@ export class TabMenu extends Menu {
             );
           })
           .catch(err => {
-            !tabs.plugin.settings.ignoreNotice && new Notice('🔴 Failed to paste from clipboard');
+            if (!tabs.plugin.settings.ignoreNotice) {
+              new Notice('🔴 Failed to paste from clipboard');
+            }
             console.error(err);
           });
       });

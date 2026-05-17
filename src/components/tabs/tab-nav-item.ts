@@ -22,7 +22,9 @@ export class TabNavItem {
     this.tabitemEl = createDiv();
     this.tabitemEl.className = 'tabs-nav-item';
 
-    draggable && this.tabitemEl.setAttr('draggable', 'true');
+    if (draggable) {
+      this.tabitemEl.setAttr('draggable', 'true');
+    }
 
     this.tabitemMDEl = this.tabitemEl.createDiv();
     this.tabitemMDEl.className = 'tabs-nav-item-md';

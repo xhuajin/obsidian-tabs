@@ -44,7 +44,9 @@ export default class TabsPlugin extends Plugin {
 
     // refresh active markdown view onload
     this.app.workspace.onLayoutReady(() => {
-      this.settings.autorefreshMarkdownView && this.refreshActiveView();
+      if (this.settings.autorefreshMarkdownView) {
+        this.refreshActiveView();
+      }
     });
 
     // a cache to store the last active tab index of each opened file
@@ -141,7 +143,9 @@ export default class TabsPlugin extends Plugin {
   public refreshActiveView(): boolean {
     try {
       const activeView = this.app.workspace.getActiveViewOfType(MarkdownView);
-      activeView && activeView.leaf.rebuildView();
+      if (activeView) {
+        activeView.leaf.rebuildView();
+      }
       return true;
     } catch (e) {
       console.error(e);

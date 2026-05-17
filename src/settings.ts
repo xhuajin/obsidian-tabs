@@ -67,10 +67,10 @@ export class TabsSettingsTab extends PluginSettingTab {
     super(app, plugin);
     this.plugin = plugin;
     app.setting.onClose = () => {
-      this.plugin.settings.autorefreshMarkdownView &&
-        this.needRefresh &&
-        this.plugin.refreshOpenViews() &&
-        (this.needRefresh = false);
+      if (this.plugin.settings.autorefreshMarkdownView && this.needRefresh) {
+        this.plugin.refreshOpenViews();
+        this.needRefresh = false;
+      }
       app.setting.closeActiveTab();
     };
   }

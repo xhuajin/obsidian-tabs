@@ -147,8 +147,7 @@ export class Tabs {
     });
 
     // double click event
-    this.tabsType === 'outertabs' &&
-      this.plugin.settings.doubleClickToEdit &&
+    if (this.tabsType === 'outertabs' && this.plugin.settings.doubleClickToEdit) {
       this.plugin.registerDomEvent(this.tabsContents.tabcontentsEl, 'dblclick', (e: MouseEvent) => {
         e.preventDefault();
         if (!this.activeView || this.isPreviewMode()) {
@@ -156,6 +155,7 @@ export class Tabs {
         }
         this.plugin.tabsEditorModal.startEditing(this);
       });
+    }
 
     // action button click event
     switch (this.tabsConfig.actionButton) {
@@ -213,7 +213,9 @@ export class Tabs {
     }
 
     // drag and drop event
-    this.tabsType !== 'innertabs' && this.plugin.settings.dragAndDrop && this.tabsNav.registerDragEvents();
+    if (this.tabsType !== 'innertabs' && this.plugin.settings.dragAndDrop) {
+      this.tabsNav.registerDragEvents();
+    }
   }
 
   isPreviewMode() {

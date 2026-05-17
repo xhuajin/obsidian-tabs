@@ -35,11 +35,14 @@ export class TabsNav {
     this.navEl = document.createElement('div');
     this.navEl.classList.add('tabs-nav');
     this.navWrapperEl = this.navEl.createDiv('tabs-nav-item-wrapper');
-    this.navItems.length > 0 &&
+    if (this.navItems.length > 0) {
       this.navItems.forEach(tab => {
         this.navWrapperEl.appendChild(tab.tabitemEl);
       });
-    this.tabsButton.buttonEl && this.navEl.appendChild(this.tabsButton.buttonEl);
+    }
+    if (this.tabsButton.buttonEl) {
+      this.navEl.appendChild(this.tabsButton.buttonEl);
+    }
   }
 
   // refresh tab nav

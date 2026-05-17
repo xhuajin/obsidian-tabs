@@ -28,11 +28,12 @@ export class TabEditor {
   constructor(plugin: TabsPlugin, containerEl: HTMLElement, doc: string = '') {
     this.plugin = plugin;
     // Toolbar
-    plugin.settings.showToolbar && this.initToolbar(containerEl);
+    if (plugin.settings.showToolbar) {
+      this.initToolbar(containerEl);
+      this.registerToolbarEvents();
+    }
     // Editor init state
     this.initEditor(containerEl, doc);
-    // register events
-    plugin.settings.showToolbar && this.registerToolbarEvents();
   }
 
   private addButton(icon: string, tooltip: string, buttonclass: string): ButtonComponent {
