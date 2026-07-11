@@ -101,7 +101,7 @@ tab: TAB-TWO
 ~~~
 ````
 
-![tabs-6](./assets/tabs-6.png)
+![tabs-6](./docs/assets/tabs-6.png)
 
 ### 3. Customize your tabs
 
@@ -126,11 +126,11 @@ Tab content
 |      one      | Tabs nav bar can scroll with many nav items.  |
 |     multi     |    Tabs nav items will show in multi line.    |
 
-![tabs-nav-left](./assets/tabs-nav-left.png)
+![tabs-nav-left](./docs/assets/tabs-nav-left.png)
 
 You can decorate tab title too.
 
-![tabs-decorate-title](./assets/tabs-decorate-title.png)
+![tabs-decorate-title](./docs/assets/tabs-decorate-title.png)
 
 ### 4. Edit tab
 
@@ -138,17 +138,17 @@ Double click the content can rouse an editor if you turn on the setting 'Double 
 
 The editor automatically saves the edited content. You can change the interval between your last editing and editor saving in setting 'Auto saving interval'. Content will be saved when the editor is closed. You can also use the shortcut `Ctrl+S` to save the editing content.
 
-![tabs-editing](./assets/editing.png)
+![tabs-editing](./docs/assets/editing.png)
 
 If you want to delete a tab, you can right click the tab and delete it.
 
-![tabs-delete](./assets/tabs-delete.gif)
+![tabs-delete](./docs/assets/tabs-delete.gif)
 
 If you accidentally delete a tab, you can use `ctrl z` to restore it.
 
 You can quickly create a new tab using the contents of the clipboard.
 
-![tabs-paste](./assets/tabs-paste.gif)
+![tabs-paste](./docs/assets/tabs-paste.gif)
 
 tip: if tab nav is too long, try to hold `shift` and scroll.
 
@@ -158,7 +158,7 @@ Remember to click the save button after editing.
 
 Provides a command to quickly create or convert selected text to a Tabs component. Click `Cmd-p` to open the setting pannel. Search for 'Tabs'.
 
-![tabs-command](./assets/tabs-command.png)
+![tabs-command](./docs/assets/tabs-command.png)
 
 ## Showcase
 
@@ -170,21 +170,21 @@ With Dataview & Tasks
 
 From [DeusEx01](https://github.com/xhuajin/obsidian-tabs/issues/28)
 
-![showcase-DeusEx01](./assets/tabs-showcase-01-by-DeusEx01.png)
+![showcase-DeusEx01](./docs/assets/tabs-showcase-01-by-DeusEx01.png)
 
-![tabs-3](./assets/tabs-3.png)
+![tabs-3](./docs/assets/tabs-3.png)
 
 With LeetCode
 
-![tabs-7](./assets/tabs-7.png)
+![tabs-7](./docs/assets/tabs-7.png)
 
 Tab nav on the left
 
-![tabs-nav-left](./assets/tabs-nav-left.png)
+![tabs-nav-left](./docs/assets/tabs-nav-left.png)
 
 Tabs in mobile, from [DeusEx01](https://github.com/xhuajin/obsidian-tabs/issues/28)
 
-![showcase-DeusEx01](./assets/tabs-showcase-02-by-DeusEx01.png)
+![showcase-DeusEx01](./docs/assets/tabs-showcase-02-by-DeusEx01.png)
 
 > If you have a usage you'd like to share, feel free to raise an issue or pull a request. I'll add it to readme.
 
