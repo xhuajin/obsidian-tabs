@@ -1,5 +1,6 @@
 import { EditorPosition, MarkdownView, Menu, Notice } from 'obsidian';
 
+import { t } from '../../lang/helpers';
 import { Tabs } from './tabs';
 
 export class TabMenu extends Menu {
@@ -7,7 +8,7 @@ export class TabMenu extends Menu {
     super();
 
     this.addItem(item => {
-      item.setTitle('Add new tab');
+      item.setTitle(t('menu.addNewTab'));
       item.setIcon('plus');
       item.onClick(() => {
         // Add new tab to the file
@@ -25,12 +26,12 @@ export class TabMenu extends Menu {
           );
         }
         if (!tabs.plugin.settings.ignoreNotice) {
-          new Notice('🟢 Add new tab successfully');
+          new Notice(t('notice.addNewTabSuccess'));
         }
       });
     });
     this.addItem(item => {
-      item.setTitle('Delete tab');
+      item.setTitle(t('menu.deleteTab'));
       item.setIcon('trash');
       item.onClick(() => {
         let deleteIndex = -1;
@@ -42,7 +43,7 @@ export class TabMenu extends Menu {
         }
         if (deleteIndex === -1) {
           if (!tabs.plugin.settings.ignoreNotice) {
-            new Notice('🔴 Not a valid tab.');
+            new Notice(t('notice.invalidTab'));
           }
           return;
         }
@@ -75,12 +76,12 @@ export class TabMenu extends Menu {
           } as EditorPosition
         );
         if (!tabs.plugin.settings.ignoreNotice) {
-          new Notice('🟢 Delete ' + deleteTabTitle + ' successfully');
+          new Notice(t('notice.deleteTabSuccess', deleteTabTitle));
         }
       });
     });
     this.addItem(item => {
-      item.setTitle('Copy tab');
+      item.setTitle(t('menu.copyTab'));
       item.setIcon('copy');
       item.onClick(() => {
         let copyIndex = -1;
@@ -94,7 +95,7 @@ export class TabMenu extends Menu {
         }
         if (copyIndex === -1) {
           if (!tabs.plugin.settings.ignoreNotice) {
-            new Notice('🔴 Not a valid tab.');
+            new Notice(t('notice.invalidTab'));
           }
           return;
         }
@@ -102,19 +103,19 @@ export class TabMenu extends Menu {
           .writeText(copyContent)
           .then(() => {
             if (!tabs.plugin.settings.ignoreNotice) {
-              new Notice('🟢 Copied to clipboard successfully.');
+              new Notice(t('notice.copyTabSuccess'));
             }
           })
           .catch(err => {
             if (!tabs.plugin.settings.ignoreNotice) {
-              new Notice('🔴 Failed to copy to clipboard');
+              new Notice(t('notice.copyTabFailed'));
             }
             console.error(err);
           });
       });
     });
     this.addItem(item => {
-      item.setTitle('Paste tab');
+      item.setTitle(t('menu.pasteTab'));
       item.setIcon('paste');
       item.onClick(() => {
         navigator.clipboard
@@ -122,7 +123,7 @@ export class TabMenu extends Menu {
           .then(text => {
             if (!text || text.trim() === '' || text.trim() == tabs.split) {
               if (!tabs.plugin.settings.ignoreNotice) {
-                new Notice('🟠 No content in clipboard.');
+                new Notice(t('notice.noClipboardContent'));
               }
               return;
             }
@@ -140,7 +141,7 @@ export class TabMenu extends Menu {
           })
           .catch(err => {
             if (!tabs.plugin.settings.ignoreNotice) {
-              new Notice('🔴 Failed to paste from clipboard');
+              new Notice(t('notice.pasteTabFailed'));
             }
             console.error(err);
           });

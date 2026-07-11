@@ -14,9 +14,9 @@
   margin-top: 0.5em;
 }
 
-.tabs-container .tabs-contents .tabs-content p {
+/* .tabs-container .tabs-contents .tabs-content p {
   margin: 0;
-}
+} */
 
 .tabs-container .tabs-contents .tabs-content.tabs-content-active {
   display: block;

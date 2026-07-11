@@ -91,8 +91,8 @@ function toggleMenu() {
     if (buttonEl.offsetLeft + buttonEl.offsetWidth + 200 < window.innerWidth) {
       // 右侧空间充足，在右侧显示
       state.menuLeft = (buttonEl.offsetLeft + buttonEl.offsetWidth + 10).toString();
-      console.log(window.innerHeight, rect.bottom, buttonEl.offsetTop);
-      console.log(window.innerHeight - rect.bottom - buttonEl.offsetTop);
+      // console.log(window.innerHeight, rect.bottom, buttonEl.offsetTop);
+      // console.log(window.innerHeight - rect.bottom - buttonEl.offsetTop);
       if (window.innerHeight - rect.bottom - buttonEl.offsetTop > 200) {
         // 下侧空间充足
         state.menuTop = (buttonEl.clientTop).toString();

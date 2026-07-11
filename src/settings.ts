@@ -1,6 +1,7 @@
 import { App, HexString, PluginSettingTab, Setting, setIcon } from 'obsidian';
 
 import TabsPlugin from './main';
+import { t } from './lang/helpers';
 
 export interface TabsSettings {
   split: string;
@@ -60,7 +61,7 @@ export const DEFAULT_SETTINGS: TabsSettings = {
 
 export class TabsSettingsTab extends PluginSettingTab {
   plugin: TabsPlugin;
-  sampleTabs: SampleTabs;
+  sampleTabs: SampleTabs | null = null;
   needRefresh: boolean = false;
 
   constructor(app: App, plugin: TabsPlugin) {
@@ -86,8 +87,8 @@ export class TabsSettingsTab extends PluginSettingTab {
 
   displayNormalSetting(containerEl: HTMLElement): void {
     new Setting(containerEl)
-      .setName('Separator')
-      .setDesc('The symbols to split each tab')
+      .setName(t('settings.separator.name'))
+      .setDesc(t('settings.separator.desc'))
       .addText(text =>
         text
           .setValue(this.plugin.settings.split)
@@ -104,8 +105,8 @@ export class TabsSettingsTab extends PluginSettingTab {
       .then(setting => this.addResetButton(setting, 'defaultTabContent'));
 
     new Setting(containerEl)
-      .setName('Default tab title')
-      .setDesc('Default title of new tab')
+      .setName(t('settings.defaultTabTitle.name'))
+      .setDesc(t('settings.defaultTabTitle.desc'))
       .addText(text =>
         text
           .setValue(this.plugin.settings.defaultTabNavItem)
@@ -121,8 +122,8 @@ export class TabsSettingsTab extends PluginSettingTab {
       .then(setting => this.addResetButton(setting, 'defaultTabNavItem'));
 
     new Setting(containerEl)
-      .setName('Default tabs content')
-      .setDesc('Default content of new content')
+      .setName(t('settings.defaultTabsContent.name'))
+      .setDesc(t('settings.defaultTabsContent.desc'))
       .addTextArea(text =>
         text
           .setValue(this.plugin.settings.defaultTabContent)
@@ -137,27 +138,29 @@ export class TabsSettingsTab extends PluginSettingTab {
       .then(setting => this.addResetButton(setting, 'defaultTabContent'));
 
     new Setting(containerEl)
-      .setName('Action button')
-      .setDesc("Function of top right button. Select 'None' if you don't need it.")
+      .setName(t('settings.actionButton.name'))
+      .setDesc(t('settings.actionButton.desc'))
       .addDropdown(dropdown =>
         dropdown
           .addOptions({
-            'action-none': 'None',
-            'action-add': 'Add new tab',
-            'action-edit': 'Edit tab',
+            'action-none': t('settings.actionButton.optionNone'),
+            'action-add': t('settings.actionButton.optionAdd'),
+            'action-edit': t('settings.actionButton.optionEdit'),
           })
           .setValue(this.plugin.settings.actionButtonType)
-          .onChange((value: 'action-none' | 'action-add' | 'action-edit') => {
-            this.plugin.settings.actionButtonType = value;
+          .onChange((value: string) => {
+            this.plugin.settings.actionButtonType = value as 'action-none' | 'action-add' | 'action-edit';
             this.needRefresh = true;
             this.plugin.saveSettings();
-            this.sampleTabs.refresh();
+            if (this.sampleTabs) {
+              this.sampleTabs.refresh();
+            }
           })
       );
 
     new Setting(containerEl)
-      .setName('Ignore notice')
-      .setDesc('Ignore notice when adding, deleting tabs and so on.')
+      .setName(t('settings.ignoreNotice.name'))
+      .setDesc(t('settings.ignoreNotice.desc'))
       .addToggle(toggle =>
         toggle.setValue(this.plugin.settings.ignoreNotice).onChange(value => {
           this.plugin.settings.ignoreNotice = value;
@@ -166,10 +169,8 @@ export class TabsSettingsTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName('Autorefresh markdown view')
-      .setDesc(
-        'When enabled, after you modify the settings of the tabs, all markdown files that opened will automatically refresh when you close the settings panel. If disabled, the changes will not take effect immediately on the Tabs in opened markdown file, and you will need to re-render them matually.'
-      )
+      .setName(t('settings.autorefreshMarkdownView.name'))
+      .setDesc(t('settings.autorefreshMarkdownView.desc'))
       .addToggle(toggle =>
         toggle.setValue(this.plugin.settings.autorefreshMarkdownView).onChange(value => {
           this.plugin.settings.autorefreshMarkdownView = value;
@@ -179,8 +180,8 @@ export class TabsSettingsTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName('Drag and drop')
-      .setDesc('You can drag and drop tabs to reorder them in the same file.')
+      .setName(t('settings.dragAndDrop.name'))
+      .setDesc(t('settings.dragAndDrop.desc'))
       .addToggle(toggle =>
         toggle.setValue(this.plugin.settings.dragAndDrop).onChange(value => {
           this.plugin.settings.dragAndDrop = value;
@@ -191,11 +192,11 @@ export class TabsSettingsTab extends PluginSettingTab {
   }
 
   displayEditorSetting(containerEl: HTMLElement): void {
-    new Setting(containerEl).setName('Editor').setHeading();
+    new Setting(containerEl).setName(t('settings.editor.heading')).setHeading();
 
     new Setting(containerEl)
-      .setName('Double click to edit')
-      .setDesc('Double click tab content to edit')
+      .setName(t('settings.doubleClickToEdit.name'))
+      .setDesc(t('settings.doubleClickToEdit.desc'))
       .addToggle(toggle =>
         toggle.setValue(this.plugin.settings.doubleClickToEdit).onChange(value => {
           this.plugin.settings.doubleClickToEdit = value;
@@ -205,8 +206,8 @@ export class TabsSettingsTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName('Show toolbar')
-      .setDesc('Show toolbar in tabs editor')
+      .setName(t('settings.showToolbar.name'))
+      .setDesc(t('settings.showToolbar.desc'))
       .addToggle(toggle =>
         toggle.setValue(this.plugin.settings.showToolbar).onChange(value => {
           this.plugin.settings.showToolbar = value;
@@ -216,8 +217,8 @@ export class TabsSettingsTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName('Tab size')
-      .setDesc('Tab size in tabs editor')
+      .setName(t('settings.tabSize.name'))
+      .setDesc(t('settings.tabSize.desc'))
       .addSlider(slider => {
         slider.setLimits(1, 8, 1);
         slider.setValue(this.plugin.settings.tabSize);
@@ -231,10 +232,8 @@ export class TabsSettingsTab extends PluginSettingTab {
       .then(setting => this.addResetButton(setting, 'defaultTabContent'));
 
     new Setting(containerEl)
-      .setName('Auto save interval')
-      .setDesc(
-        'Set the duration of inactivity after which the editor will automatically save your work. (default: 5000ms, 0 means only save on exit)'
-      )
+      .setName(t('settings.autoSaveInterval.name'))
+      .setDesc(t('settings.autoSaveInterval.desc'))
       .addText(text =>
         text
           .setValue(this.plugin.settings.editorAutoSaveInterval.toString())
@@ -253,17 +252,17 @@ export class TabsSettingsTab extends PluginSettingTab {
   }
 
   displayAppearanceSetting(containerEl: HTMLElement): void {
-    new Setting(containerEl).setName('Appearance').setHeading();
+    new Setting(containerEl).setName(t('settings.appearance.heading')).setHeading();
     this.sampleTabs = new SampleTabs(this.plugin, this, containerEl.createDiv());
   }
 
-  addResetButton(settingElement: Setting, settingKey: string, refreshView: boolean = true) {
+  addResetButton(settingElement: Setting, settingKey: keyof TabsSettings, refreshView: boolean = true) {
     settingElement.addExtraButton(button =>
       button
         .setIcon('reset')
-        .setTooltip('Reset to default')
+        .setTooltip(t('settings.resetToDefault'))
         .onClick(() => {
-          this.plugin.settings[settingKey] = DEFAULT_SETTINGS[settingKey];
+          (this.plugin.settings[settingKey] as any) = DEFAULT_SETTINGS[settingKey];
           this.needRefresh = true;
           this.plugin.saveSettings();
           if (refreshView) {
@@ -283,21 +282,24 @@ class SampleTabs {
   tabsnavItems: HTMLElement[] = [];
   tabscontentsEl: HTMLElement;
   tabscontentsItems: HTMLElement[] = [];
-  currentIndex: number;
+  currentIndex: number = 0;
 
   constructor(plugin: TabsPlugin, settingsTab: TabsSettingsTab, containerEl: HTMLElement) {
     this.plugin = plugin;
     this.settingsTab = settingsTab;
     this.containerEl = containerEl;
+    // 初始化
+    this.tabscontainerEl = this.containerEl.createDiv('tabs-container');
+    this.tabsnavEl = this.tabscontainerEl.createDiv();
+    this.tabscontentsEl = this.tabscontainerEl.createDiv('tabs-contents');
+    // 创建示例 tabs
     this.createTabsContainer();
-    this.createSampleTabNav(this.tabscontainerEl);
-    this.createSampleTabContent(this.tabscontainerEl);
+    this.createSampleTabNav();
+    this.createSampleTabContent();
   }
 
   private createTabsContainer(): void {
     this.containerEl.addClass('sample-tabs-container');
-    this.tabscontainerEl = this.containerEl.createDiv('tabs-container');
-
     // tabs
     this.tabscontainerEl.classList.add('tabs-' + this.plugin.settings.defaultTabsBorder);
     this.tabscontainerEl.style.setProperty('--tabs-border-color', this.plugin.settings.defaultTabsBorderColor);
@@ -319,8 +321,7 @@ class SampleTabs {
     setIcon(codeblockEditButton, 'lucide-code-2');
   }
 
-  private createSampleTabNav(tabsContainerEl: HTMLElement): void {
-    this.tabsnavEl = tabsContainerEl.createDiv();
+  private createSampleTabNav(): void {
     this.tabsnavEl.className = 'tabs-nav';
 
     const wrapper = this.tabsnavEl.createDiv();
@@ -355,9 +356,7 @@ class SampleTabs {
     }
   }
 
-  private createSampleTabContent(tabsContainerEl: HTMLElement): void {
-    this.tabscontentsEl = tabsContainerEl.createDiv('tabs-contents');
-
+  private createSampleTabContent(): void {
     const TABS_Tabs = this.tabscontentsEl.createDiv('tabs-content');
     this.generateTabsStyleSettings(TABS_Tabs);
     TABS_Tabs.classList.add('tabs-content-active');
@@ -380,22 +379,22 @@ class SampleTabs {
   private generateTabsStyleSettings(containerEl: HTMLElement): void {
     // 边框：无边框、悬停显示、始终显示
     new Setting(containerEl)
-      .setName('Tabs border')
-      .setDesc('Show tabs border when hover or always.')
+      .setName(t('settings.tabsBorder.name'))
+      .setDesc(t('settings.tabsBorder.desc'))
       .addDropdown(dropdown =>
         dropdown
           .addOptions({
-            'border-none': 'None',
-            'border-hover': 'Hover',
-            'border-always': 'Always',
+            'border-none': t('settings.tabsBorder.optionNone'),
+            'border-hover': t('settings.tabsBorder.optionHover'),
+            'border-always': t('settings.tabsBorder.optionAlways'),
           })
           .setValue(this.plugin.settings.defaultTabsBorder)
-          .onChange((value: 'border-none' | 'border-hover' | 'border-always') => {
+          .onChange((value: string) => {
             if (value === this.plugin.settings.defaultTabsBorder) {
               return;
             }
             this.tabscontainerEl.removeClass('tabs-' + this.plugin.settings.defaultTabsBorder);
-            this.plugin.settings.defaultTabsBorder = value;
+            this.plugin.settings.defaultTabsBorder = value as 'border-none' | 'border-hover' | 'border-always';
             this.settingsTab.needRefresh = true;
             this.tabscontainerEl.addClass('tabs-' + value);
             this.plugin.saveSettings();
@@ -404,8 +403,8 @@ class SampleTabs {
 
     // 边框的颜色
     new Setting(containerEl)
-      .setName('Tabs border color')
-      .setDesc("Takes effect when 'Tabs border' set 'Hover' or 'Always")
+      .setName(t('settings.tabsBorderColor.name'))
+      .setDesc(t('settings.tabsBorderColor.desc'))
       .addColorPicker(colorPicker =>
         colorPicker.setValue(this.plugin.settings.defaultTabsBorderColor).onChange((value: HexString) => {
           this.tabscontainerEl.style.setProperty('--tabs-border-color', value);
@@ -418,10 +417,8 @@ class SampleTabs {
 
     // Tabs 代码块右上角的编辑按钮
     new Setting(containerEl)
-      .setName('Hide tabs code block edit block button')
-      .setDesc(
-        "It's just a decorative setting. If you turn on it, you can still control the cursor into tabs to edit the source code."
-      )
+      .setName(t('settings.hideTabsEditBlockButton.name'))
+      .setDesc(t('settings.hideTabsEditBlockButton.desc'))
       .addToggle(toggel =>
         toggel.setValue(this.plugin.settings.hideTabsEditBlockButton).onChange(value => {
           if (value) {
@@ -437,33 +434,33 @@ class SampleTabs {
 
   private generateTabsNavStyleSettings(containerEl: HTMLElement): void {
     new Setting(containerEl)
-      .setName('Tabs nav default posi tion')
-      .setDesc('Show tabs nav at the top, bottom, left or right.')
+      .setName(t('settings.tabsNavPosition.name'))
+      .setDesc(t('settings.tabsNavPosition.desc'))
       .addDropdown(dropdown =>
         dropdown
           .addOptions({
-            top: 'Top',
-            bottom: 'Bottom',
-            left: 'Left',
-            right: 'Right',
+            top: t('settings.tabsNavPosition.optionTop'),
+            bottom: t('settings.tabsNavPosition.optionBottom'),
+            left: t('settings.tabsNavPosition.optionLeft'),
+            right: t('settings.tabsNavPosition.optionRight'),
           })
           .setValue(this.plugin.settings.defaultTitlePosition)
-          .onChange((value: 'top' | 'bottom' | 'left' | 'right') => {
+          .onChange((value: string) => {
             this.refreshNavPosition(this.plugin.settings.defaultTitlePosition, value);
-            this.plugin.settings.defaultTitlePosition = value;
+            this.plugin.settings.defaultTitlePosition = value as 'top' | 'bottom' | 'left' | 'right';
             this.settingsTab.needRefresh = true;
             this.plugin.saveSettings();
           })
       );
 
     new Setting(containerEl)
-      .setName('Tabs nav line clamp')
-      .setDesc("Show tabs nav in one line or multiple lines. Only works when the position is 'top' or 'bottom'")
+      .setName(t('settings.tabsNavLineClamp.name'))
+      .setDesc(t('settings.tabsNavLineClamp.desc'))
       .addDropdown(dropdown =>
         dropdown
           .addOptions({
-            one: 'One line',
-            multi: 'Multiple lines',
+            one: t('settings.tabsNavLineClamp.optionOne'),
+            multi: t('settings.tabsNavLineClamp.optionMulti'),
           })
           .setValue(
             this.plugin.settings.defaultTitleLineClamp === 'one' ||
@@ -471,18 +468,16 @@ class SampleTabs {
               ? this.plugin.settings.defaultTitleLineClamp
               : 'one'
           )
-          .onChange((value: 'one' | 'multi') => {
-            this.plugin.settings.defaultTitleLineClamp = value;
+          .onChange((value: string) => {
+            this.plugin.settings.defaultTitleLineClamp = value as 'one' | 'multi';
             this.settingsTab.needRefresh = true;
             this.plugin.saveSettings();
           })
       );
 
     new Setting(containerEl)
-      .setName('Limit tab title width')
-      .setDesc(
-        'If set true, tab title will be limited to the width of the tab. Otherwise, the tab title will be displayed the full width.'
-      )
+      .setName(t('settings.limitTabTitleWidth.name'))
+      .setDesc(t('settings.limitTabTitleWidth.desc'))
       .addToggle(toggle =>
         toggle.setValue(this.plugin.settings.defaultTitleLimited).onChange(value => {
           if (value) {
@@ -500,10 +495,8 @@ class SampleTabs {
   private generateTabsContentStyleSettings(containerEl: HTMLElement): void {
     // Tabs contents 的 padding
     new Setting(containerEl)
-      .setName('Tabs contents padding')
-      .setDesc(
-        'The padding of tabs contents. You can set one to four values(same as css padding). For example, "0" means no padding. "10px" means 10 pixels on all sides. "10px 20px" means 10 pixels on top and bottom, 20 pixels on left and right.Not only "px" but also "em", "rem" and other units are supported.'
-      )
+      .setName(t('settings.tabsContentsPadding.name'))
+      .setDesc(t('settings.tabsContentsPadding.desc'))
       .addText(text =>
         text
           .setValue(this.plugin.settings.defaultTabsContentsPadding)
@@ -519,10 +512,8 @@ class SampleTabs {
 
     // 是否限制 Tabs contents 的高度，例如 250px, 20em 等（取值为 0 时不限制）
     new Setting(containerEl)
-      .setName('Tabs contents max height')
-      .setDesc(
-        'If a feasible CSS size is set (for example, 250px, 15em, 50vh, etc.), then when the height of the tabs reaches this size, the excess part can be scrolled. Note that the value should not be set too small, otherwise the tabs will not display properly.'
-      )
+      .setName(t('settings.tabsContentsMaxHeight.name'))
+      .setDesc(t('settings.tabsContentsMaxHeight.desc'))
       .addText(text =>
         text
           .setValue(this.plugin.settings.defaultTabsContentsMaxHeight)
@@ -540,7 +531,7 @@ class SampleTabs {
             this.plugin.saveSettings();
           })
       )
-      .then(setting => this.settingsTab.addResetButton(setting, 'defaultTabsMaxHeight'));
+      .then(setting => this.settingsTab.addResetButton(setting, 'defaultTabsContentsMaxHeight'));
   }
 
   refreshNavPosition(originPosition: string, newPositon: string): void {
@@ -552,12 +543,19 @@ class SampleTabs {
 
   refresh(): void {
     this.clear();
+    // 初始化
+    this.tabscontainerEl = this.containerEl.createDiv('tabs-container');
+    this.tabsnavEl = this.tabscontainerEl.createDiv();
+    this.tabscontentsEl = this.tabscontainerEl.createDiv('tabs-contents');
     this.createTabsContainer();
-    this.createSampleTabNav(this.tabscontainerEl);
-    this.createSampleTabContent(this.tabscontainerEl);
+    this.createSampleTabNav();
+    this.createSampleTabContent();
   }
 
   clear(): void {
     this.containerEl.empty();
+    this.tabscontainerEl.empty();
+    this.tabsnavEl.empty();
+    this.tabscontentsEl.empty();
   }
 }

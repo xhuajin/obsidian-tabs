@@ -6,6 +6,7 @@ import { TabMenu } from './tab-menu';
 import { TabsConfig } from './tabs-config';
 import { TabsNav } from './tabs-nav';
 import TabsPlugin from '../../main';
+import { t } from '../../lang/helpers';
 
 // After editing content inside tabs, the code block will rerender. So we need to save the last active tab for the next rerender.
 // export let lastActiveTabIndex: number = 0;
@@ -200,7 +201,7 @@ export class Tabs {
       default:
         this.plugin.settings.actionButtonType = 'action-none';
         this.plugin.saveSettings();
-        new Notice("Invalid action button type. Set to 'None'.");
+        new Notice(t('notice.invalidActionButtonType'));
     }
 
     // right click menu event

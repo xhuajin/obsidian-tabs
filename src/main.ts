@@ -4,6 +4,7 @@ import { MarkdownView, Plugin } from 'obsidian';
 import { TabDragger } from './types';
 import { Tabs } from './components/tabs/tabs';
 import { TabsEditorModal } from './components/editor/tab-editor-modal';
+import { t } from './lang/helpers';
 
 declare module 'obsidian' {
   interface App {
@@ -20,11 +21,11 @@ declare module 'obsidian' {
 }
 
 export default class TabsPlugin extends Plugin {
-  settings: TabsSettings;
-  tabsEditorModal: TabsEditorModal;
-  tabsStyleSheet: HTMLStyleElement;
-  lastTabsCache: Map<string, number>; // sourcePath + Linestart -> lastActiveTabIndex
-  tabDragger: TabDragger;
+  settings!: TabsSettings;
+  tabsEditorModal!: TabsEditorModal;
+  tabsStyleSheet!: HTMLStyleElement;
+  lastTabsCache!: Map<string, number>; // sourcePath + Linestart -> lastActiveTabIndex
+  tabDragger!: TabDragger;
 
   async onload() {
     await this.loadSettings();
@@ -70,7 +71,7 @@ export default class TabsPlugin extends Plugin {
     // Convert selected text to tabs
     this.addCommand({
       id: 'convert-to-tabs',
-      name: 'Convert selected text to tabs',
+      name: t('commands.convertToTabs'),
       editorCallback: (editor, _view) => {
         const selectedText = editor.getSelection();
         if (selectedText.trim() === '') {
@@ -123,7 +124,7 @@ export default class TabsPlugin extends Plugin {
 
     this.addCommand({
       id: 'refresh-all-tabs',
-      name: 'Refresh all tabs in opened files',
+      name: t('commands.refreshAllTabs'),
       callback: () => {
         this.refreshOpenViews();
       },
