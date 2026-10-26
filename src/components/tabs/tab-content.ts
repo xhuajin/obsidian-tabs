@@ -18,6 +18,7 @@ export class TabContent {
     this.contentEl = createDiv();
     this.contentEl.className = 'tabs-content';
     const tabComponent = new MarkdownRenderChild(this.contentEl);
+    context?.addChild(tabComponent);
     MarkdownRenderer.render(app, content, this.contentEl, context?.sourcePath, tabComponent);
   }
 }
