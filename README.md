@@ -192,3 +192,28 @@ Tabs in mobile, from [DeusEx01](https://github.com/xhuajin/obsidian-tabs/issues/
 
 - Tabs drag and drop in different files.
 - Obsidian native editor (Live preview mode)
+
+## Development
+
+This project is developed with npm. The development workflow relies on `obsidian-plugin-cli@0.8.3`, which must be installed globally.
+
+### Prerequisites
+
+Install the required CLI globally:
+
+```bash
+npm install -g obsidian-plugin-cli@0.8.3
+```
+
+Then install the project dependencies:
+
+```bash
+npm install
+```
+
+### Available Commands
+
+| Command         | Description                             |
+| --------------- | --------------------------------------- |
+| `npm run dev`   | Start development mode with hot reload. |
+| `npm run build` | Build the production bundle.            |
