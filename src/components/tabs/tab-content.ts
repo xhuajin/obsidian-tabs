@@ -33,11 +33,10 @@ export class TabContent {
     this.renderPending = true;
 
     const doRender = () => {
-      this.renderPending = false;
       if (this.isRendered || !this.isActiveed) {
+        this.renderPending = false;
         return;
       }
-      this.isRendered = true;
       this.tabComponent = new MarkdownRenderChild(this.contentEl);
       this.context?.addChild(this.tabComponent);
 
@@ -47,9 +46,14 @@ export class TabContent {
         this.contentEl,
         this.context?.sourcePath ?? '',
         this.tabComponent
-      ).then(() => {
-        this.triggerResize();
-      });
+      )
+        .then(() => {
+          this.isRendered = true;
+          this.triggerResize();
+        })
+        .finally(() => {
+          this.renderPending = false;
+        });
     };
 
     const waitForConnected = (attemptsLeft: number) => {
