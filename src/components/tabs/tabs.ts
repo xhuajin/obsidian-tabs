@@ -56,19 +56,20 @@ export class Tabs {
     );
     this.tabsConfig = new TabsConfig(tabcontent[0], this.tabsEl, this.plugin.settings);
 
+    const tabTitles = tabnavitemtitle.slice(1);
+    const tabBodies = tabcontent.slice(1);
+
     this.tabsNav = new TabsNav(
       this,
-      tabnavitemtitle.slice(1),
+      tabTitles,
       this.tabsType === 'innertabs' ? 'action-none' : this.tabsConfig.actionButton,
       this.sectionInfo
     );
     this.tabsContents = new TabContents(
       plugin,
-      tabcontent
-        .map((content, index) => {
-          return new TabContent(index, tabnavitemtitle[index], content, app, context);
-        })
-        .slice(1)
+      tabBodies.map((content, index) => {
+        return new TabContent(index, tabTitles[index], content, app, context);
+      })
     );
 
     this.registerEventHandlers();
@@ -85,8 +86,10 @@ export class Tabs {
     if (!this.plugin.lastTabsCache.has(this.tabsId)) {
       this.plugin.lastTabsCache.set(this.tabsId, 0);
     }
-    // lastActiveTabIndex = lastActiveTabIndex >= this.tabsNav.navItems.length ? 0 : lastActiveTabIndex;
     this.currentIndex = this.plugin.lastTabsCache.get(this.tabsId);
+    if (this.currentIndex >= this.tabsNav.navItems.length) {
+      this.currentIndex = 0;
+    }
     this.tabsNav.refreshActiveTabNav(this.currentIndex);
     this.tabsContents.refreshActiveTabContent(this.currentIndex);
   }
