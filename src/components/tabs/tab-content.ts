@@ -10,7 +10,6 @@ export class TabContent {
   private renderPending: boolean = false;
   private app: App;
   private context: MarkdownPostProcessorContext;
-  private tabComponent: MarkdownRenderChild | null = null;
 
   constructor(index: number, title: string, content: string, app: App, context: MarkdownPostProcessorContext) {
     this.index = index;
@@ -33,21 +32,25 @@ export class TabContent {
     this.renderPending = true;
 
     const doRender = () => {
-      if (this.isRendered || !this.isActiveed) {
+      if (this.isRendered || !this.isActiveed || !this.contentEl.isConnected) {
         this.renderPending = false;
         return;
       }
-      this.tabComponent = new MarkdownRenderChild(this.contentEl);
-      this.context?.addChild(this.tabComponent);
+      this.contentEl.empty();
+      const tabComponent = new MarkdownRenderChild(this.contentEl);
+      this.context?.addChild(tabComponent);
 
       MarkdownRenderer.render(
         this.app,
         this.content,
         this.contentEl,
         this.context?.sourcePath ?? '',
-        this.tabComponent
+        tabComponent
       )
         .then(() => {
+          if (!this.contentEl.isConnected) {
+            return;
+          }
           this.isRendered = true;
           this.triggerResize();
         })
@@ -61,8 +64,10 @@ export class TabContent {
         this.renderPending = false;
         return;
       }
-      if (this.contentEl.isConnected || attemptsLeft <= 0) {
+      if (this.contentEl.isConnected) {
         doRender();
+      } else if (attemptsLeft <= 0) {
+        this.renderPending = false;
       } else {
         requestAnimationFrame(() => {
           waitForConnected(attemptsLeft - 1);
@@ -77,7 +82,6 @@ export class TabContent {
     requestAnimationFrame(() => {
       if (this.isActiveed && this.contentEl.isConnected) {
         this.app.workspace.trigger('resize');
-        activeWindow.dispatchEvent(new Event('resize'));
       }
     });
   }
