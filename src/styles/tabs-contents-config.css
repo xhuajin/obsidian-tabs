@@ -1,4 +1,8 @@
 /* ----------------------------- Tabs contents config ----------------------------- */
 .tabs-container > .tabs-contents {
-  max-height: var(--tabs-max-height, 100%);
+  max-height: var(--tabs-max-height, none);
+}
+
+.tabs-container.tabs-height-limited > .tabs-contents {
+  overflow: auto;
 }

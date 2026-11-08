@@ -3,7 +3,7 @@
 .tabs-container .tabs-contents {
   width: 100%;
   padding: var(--tabs-contents-padding, 0.25em 2em);
-  overflow: auto;
+  overflow: visible;
 }
 
 .tabs-container .tabs-contents .tabs-content {
