@@ -78,6 +78,11 @@ export class TabsConfig {
     tabsEl.classList.add('tabs-' + this.tabsborder);
     tabsEl.style.setProperty('--tabs-border-color', this.tabsBorderColor);
     tabsEl.style.setProperty('--tabs-max-height', this.tabsMaxHeight);
+    if (this.tabsMaxHeight && this.tabsMaxHeight !== 'none' && this.tabsMaxHeight !== '0') {
+      tabsEl.classList.add('tabs-height-limited');
+    } else {
+      tabsEl.classList.remove('tabs-height-limited');
+    }
 
     if (this.hideTabsEditBlockButton) {
       document.body.classList.add('hide-tabs-edit-block-button');

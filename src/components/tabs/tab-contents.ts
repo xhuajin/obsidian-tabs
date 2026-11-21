@@ -31,5 +31,6 @@ export class TabContents {
     this.tabcontents[index].isActiveed = true;
     this.tabcontents[index].contentEl.classList.add('tabs-content-active');
     this.currentTab = index;
+    this.tabcontents[index].ensureRendered();
   }
 }
