@@ -54,6 +54,7 @@ export class TabContent {
           this.isRendered = true;
           this.triggerResize();
         })
+        .catch(err => console.error(err))
         .finally(() => {
           this.renderPending = false;
         });

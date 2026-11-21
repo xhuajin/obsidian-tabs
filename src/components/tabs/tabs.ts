@@ -186,8 +186,10 @@ export class Tabs {
         ) {
           this.plugin.registerDomEvent(this.tabsNav.tabsButton.buttonEl, 'click', () => {
             // lastActiveTabIndex = this.tabsNav.navItems.length;
-            this.plugin.lastTabsCache[this.context.sourcePath + this.sectionInfo.lineStart] =
-              this.tabsNav.navItems.length;
+            this.plugin.lastTabsCache.set(
+              this.context.sourcePath + this.sectionInfo.lineStart,
+              this.tabsNav.navItems.length
+            );
             const activeEditor = this.activeView?.editor;
             activeEditor.setLine(
               this.sectionInfo.lineEnd,
